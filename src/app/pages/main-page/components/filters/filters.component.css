@@ -1,0 +1,30 @@
+.filter-name{
+  margin-top: 52px;
+}
+
+.filter {
+  display: flex;
+  flex-direction: row;
+}
+
+.mat-form-field {
+  width: 290px;
+  height: 56px;
+}
+
+.filter__startDate mat-label{
+  display: block;
+}
+
+.filter__endDate mat-label{
+  display: block;
+}
+
+.filter__activities-types {
+  display: flex;
+  align-items: flex-end;
+}
+
+.filter__activities-types mat-checkbox {
+  padding-bottom: 17.5px;
+}

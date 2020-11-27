@@ -1,0 +1,57 @@
+<p class="filter-name">Фильтры</p>
+<div class="filter">
+  <!--  <p *ngIf="activeScreen!=='settings'" class="subtitle-2 text-high-clr vert-space-32">Показать за время</p>-->
+  <div>
+  <div class="filter__startDate">
+    <mat-label>Допустимое время начала</mat-label>
+    <mat-form-field class="startDate__dp">
+      <mat-label>Начало интервала</mat-label>
+      <input matInput readonly [(ngModel)]="filters.startDate" [matDatepicker]="startDatedp"
+             (dateChange)="changeDate()">
+      <mat-datepicker-toggle matSuffix [for]="startDatedp"></mat-datepicker-toggle>
+      <mat-datepicker #startDatedp></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="startDate__dp">
+      <mat-label>Конец интервала</mat-label>
+      <input matInput readonly [(ngModel)]="filters.endDate" [matDatepicker]="endDatedp"
+             (dateChange)="changeDate()">
+      <mat-datepicker-toggle matSuffix [for]="endDatedp"></mat-datepicker-toggle>
+      <mat-datepicker #endDatedp></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="filter__endDate">
+    <mat-label>Допустимое время конца</mat-label>
+    <mat-form-field>
+      <mat-label>Начало интервала</mat-label>
+      <input matInput readonly [(ngModel)]="filters.startDate2" [matDatepicker]="startDatedp2"
+             (dateChange)="changeDate()">
+      <mat-datepicker-toggle matSuffix [for]="startDatedp2"></mat-datepicker-toggle>
+      <mat-datepicker #startDatedp2></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Конец интервала</mat-label>
+      <input matInput readonly [(ngModel)]="filters.endDate2" [matDatepicker]="endDatedp2"
+             (dateChange)="changeDate()">
+      <mat-datepicker-toggle matSuffix [for]="endDatedp2"></mat-datepicker-toggle>
+      <mat-datepicker #endDatedp2></mat-datepicker>
+    </mat-form-field>
+  </div>
+  </div>
+
+  <div class="filter__activities-types">
+  <mat-form-field>
+    <mat-label class="">Тип активности</mat-label>
+    <mat-select [(ngModel)]="filters.activityType">
+      <mat-option *ngFor="let type of activities" [value]="type">{{type}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-checkbox [(ngModel)]="filters.isOffline" labelPosition='before'>
+    Только очные
+  </mat-checkbox>
+  </div>
+
+</div>
+

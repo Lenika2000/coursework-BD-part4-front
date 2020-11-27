@@ -1,0 +1,9 @@
+.activity-content {
+  justify-content: center;
+  flex-direction: row;
+}
+
+mat-table {
+  display: block;
+  min-width: 800px;
+}

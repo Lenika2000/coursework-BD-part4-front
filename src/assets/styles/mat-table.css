@@ -1,0 +1,34 @@
+.mat-table-container{
+  width: 100%;
+  height: 729px;
+  overflow: auto;
+  margin: 10px 0;
+  box-shadow: 0 24px 38px rgba(0, 0, 0, 0.14),
+  0 9px 46px rgba(0, 0, 0, 0.12),
+  0 11px 15px rgba(0, 0, 0, 0.2);
+}
+
+.mat-table-style {
+  margin-top: 52px;
+}
+
+.mat-table-style th {
+  border-bottom-color: rgba(0, 0, 0, 0.13) !important;
+  padding: 0 16px !important;
+  text-align: left !important;
+  vertical-align: middle;
+  transition: 1s;
+  background: #2a5885;
+}
+
+.mat-table-style td {
+  border-bottom-color: rgba(0, 0, 0, 0.13) !important;
+  padding: 0 16px !important;
+  text-align: left !important;
+  vertical-align: middle;
+}
+
+.mat-header-cell{
+  color: #FFFFFF !important;
+}
+
