@@ -8,7 +8,8 @@
 }
 
 .mat-form-field {
-  width: 290px;
+  margin-right: 28px;
+  width: 250px;
   height: 56px;
 }
 
@@ -27,4 +28,20 @@
 
 .filter__activities-types mat-checkbox {
   padding-bottom: 17.5px;
+}
+
+.activities-types_isOffline {
+  margin-bottom: -3px;
+}
+
+.filter__add-button {
+  display: flex;
+  align-items: flex-end;
+  width: 122px;
+  height: 26px;
+  line-height: 26px;
+  margin-bottom: 15px;
+  margin-left: 20px;
+  color: #FFFFFF;
+  background: #2a5885;
 }

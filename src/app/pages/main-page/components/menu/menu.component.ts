@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+
 
 @Component({
   selector: 'app-menu',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
+  @Input() activeScreen: AppScreen = 'activities';
+  @Output() activeScreenChanged: EventEmitter<AppScreen> = new EventEmitter<AppScreen>();
+
+  constructor() {}
 
   ngOnInit(): void {
   }
 
+  setActiveAction(action: AppScreen): void {
+    this.activeScreen = action;
+    this.activeScreenChanged.emit(this.activeScreen);
+  }
+
 }
+
+export type AppScreen = 'home-page' | 'activities' | 'transport' | 'finance' | 'products' ;

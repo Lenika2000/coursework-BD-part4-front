@@ -14,3 +14,17 @@ h1, h2, h3, h4, p, span, label, div, tr, td, input, ::placeholder {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-button-focus-overlay {
+  display: none;
+}
+
+.cursor.pointer {
+  cursor: pointer;
+}
+
+.mat-form-field {
+  width: 328px;
+  height: 56px;
+}
+

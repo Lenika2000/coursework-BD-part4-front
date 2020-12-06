@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
-import {ActivityType} from '../activities/activities.component';
+import { EventEmitter } from '@angular/core';
+import {ActivityType} from '../../../../models/activity.model';
 
 @Component({
   selector: 'app-filters',
@@ -17,6 +18,7 @@ export class FiltersComponent implements OnInit {
   @Input() public endDate2: Date;
   @Input() public isOffline: boolean;
   @Input() public activityType: ActivityType;
+  @Output() public addRowEvent = new EventEmitter();
   // @Input() activeScreen: AppScreen;
   // @Output() filtersChange = new EventEmitter<Filters>();
   // @Output() filtersChangeDate = new EventEmitter<Filters>();
@@ -50,6 +52,10 @@ export class FiltersComponent implements OnInit {
   //   this.filtersChange.emit(this.filters);
   //   // console.log(this.filters);
   // }
+
+  addRow(): void {
+    this.addRowEvent.emit();
+  }
 
 }
 

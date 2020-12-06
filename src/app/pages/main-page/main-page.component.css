@@ -12,3 +12,11 @@ app-activities {
   justify-content: center;
   width: 100%;
 }
+
+.main-container__logout-btn{
+  position: sticky;
+  left: 98%;
+  margin-top: 16px;
+  background: #FFFFFF;
+  color: #2a5885;
+}

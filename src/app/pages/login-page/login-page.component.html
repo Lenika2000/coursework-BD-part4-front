@@ -1,0 +1,20 @@
+<div class="login-page">
+  <mat-card class="login-page__form-container">
+    <p class="login-page__title">Вход</p>
+    <form [formGroup]="loginForm" novalidate class="form-container__login-form">
+      <mat-form-field appearance="fill">
+        <mat-label>Имя</mat-label>
+        <input matInput formControlName="firstName">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="login-form__lastName">
+        <mat-label>Фамилия</mat-label>
+        <input matInput formControlName="lastName">
+      </mat-form-field>
+      <button mat-button (click)="authenticate()" class="login-form__login-button">
+        Войти
+      </button>
+      <button class="login-page__registration-button cursor pointer" (click)="registration()">Зарегистрироваться!</button>
+    </form>
+  </mat-card>
+</div>
+

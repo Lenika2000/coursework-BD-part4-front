@@ -1,7 +1,9 @@
 <div class="main-container">
-  <app-menu></app-menu>
+  <app-menu (activeScreenChanged)="activeScreen = $event" [activeScreen]="activeScreen"></app-menu>
   <div class="content-container">
-    <app-activities></app-activities>
+    <mat-icon class="main-container__logout-btn cursor pointer" (click)="logout()">exit_to_app</mat-icon>
+    <app-activities *ngIf="activeScreen=='activities'"></app-activities>
+    <app-home-page *ngIf="activeScreen=='home-page'"></app-home-page>
   </div>
 </div>
 

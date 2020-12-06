@@ -1,0 +1,91 @@
+<form [formGroup]="addForm" novalidate>
+  <p class="subtitle-1">Новая активность</p>
+
+  <mat-form-field>
+    <mat-label>Допустимое время начала</mat-label>
+    <input matInput readonly formControlName="startTime" [matDatepicker]="startDatedp">
+    <mat-datepicker-toggle matSuffix [for]="startDatedp"></mat-datepicker-toggle>
+    <mat-datepicker #startDatedp></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Допустимое время конца</mat-label>
+    <input matInput readonly formControlName="endTime" [matDatepicker]="endDatedp">
+    <mat-datepicker-toggle matSuffix [for]="endDatedp"></mat-datepicker-toggle>
+    <mat-datepicker #endDatedp></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label class="">Продолжительность</mat-label>
+    <input matInput formControlName="interval">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label class="">Периодичность</mat-label>
+    <input matInput formControlName="periodicity">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Формат</mat-label>
+    <mat-select formControlName="format">
+      <mat-option *ngFor="let type of activitiesFormat" [value]="type">{{type}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Влияние на уровень стресса</mat-label>
+    <input matInput formControlName="impactOnStressLevel">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Локация</mat-label>
+    <input matInput formControlName="location">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Тип активности</mat-label>
+    <mat-select formControlName="activityType">
+      <mat-option *ngFor="let type of activities" [value]="type">{{type}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="isLesson">
+    <mat-label>Аудитория</mat-label>
+    <input matInput formControlName="room">
+  </mat-form-field>
+
+  <mat-form-field *ngIf="isLesson">
+    <mat-label>Преподаватель</mat-label>
+    <input matInput formControlName="teacher">
+  </mat-form-field>
+
+  <mat-form-field *ngIf="isLesson">
+    <mat-label>Тип учебного занятия</mat-label>
+    <mat-select formControlName="lessonType">
+      <mat-option *ngFor="let type of lessonsType" [value]="type">{{type}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="isSport">
+    <mat-label>Тип спортивного занятия</mat-label>
+    <input matInput formControlName="sportType">
+  </mat-form-field>
+
+  <mat-form-field *ngIf="isOther">
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="description">
+  </mat-form-field>
+
+  <mat-checkbox formControlName="isDone" labelPosition='before' class="dialog-checkbox">
+    Готовность
+  </mat-checkbox>
+
+  <div class="dialog__actions">
+    <button mat-button (click)="closeDialog()">Отмена</button>
+    <button mat-button [disabled]="addForm.invalid">
+      Добавить
+    </button>
+  </div>
+</form>
+
+

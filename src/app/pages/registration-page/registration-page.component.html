@@ -1,0 +1,20 @@
+<div class="registration-page">
+  <mat-card class="registration-page__form-container">
+    <p class="registration-page__title">Регистрация</p>
+    <form [formGroup]="registrationForm" novalidate class="form-container__registration-form">
+      <mat-form-field appearance="fill">
+        <mat-label>Имя</mat-label>
+        <input matInput formControlName="firstName">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="form-container__lastName">
+        <mat-label>Фамилия</mat-label>
+        <input matInput formControlName="lastName">
+      </mat-form-field>
+      <button mat-button (click)="registration()" class="form-container__registration-button">
+        Создать аккаунт
+      </button>
+      <button class="registration-page__back-to-login-button cursor pointer" (click)="registration()">Уже есть аккаунт? Войти</button>
+    </form>
+  </mat-card>
+</div>
+

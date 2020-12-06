@@ -1,0 +1,75 @@
+.registration-page {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  position: fixed;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  background: #2a5885;
+  background-size: cover;
+}
+
+.registration-page__title{
+  font-size: xx-large;
+  text-transform: uppercase;
+  margin-bottom: 52px;
+  color: #2a5885;
+}
+
+.registration-page__form-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  width: 610px;
+  height: 520px;
+  background: #DFDFDF;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.33), 0px 4px 12px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  z-index: 10;
+  margin-bottom: 8%;
+  margin-top: 116px;
+}
+
+.form-container__registration-form{
+  width: 329px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-container__registration-button{
+  width: 160px;
+  height: 36px;
+  color: #FFFFFF;
+  background: #2a5885;
+  line-height: 26px;
+  margin-top: 75px !important;
+}
+
+.mat-form-field {
+  width: 328px;
+  height: 56px;
+}
+
+.form-container__lastName {
+  margin-top: 52px;
+}
+
+.registration-page__back-to-login-button{
+  margin-top: 32px;
+  font-size: larger;
+  background: #DFDFDF;
+  border: none;
+  color: #2a5885;
+}
+
+.registration-page__back-to-login-button:focus {
+  outline: none;
+}

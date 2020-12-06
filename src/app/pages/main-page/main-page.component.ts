@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AppScreen} from './components/menu/menu.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-main-page',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainPageComponent implements OnInit {
 
-  constructor() { }
+  activeScreen: AppScreen = 'activities';
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
+  logout(): void {
+    this.router.navigateByUrl('login');
+  }
 }

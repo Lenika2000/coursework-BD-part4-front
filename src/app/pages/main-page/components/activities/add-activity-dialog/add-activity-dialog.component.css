@@ -1,0 +1,32 @@
+.mat-dialog-container{
+  position: relative;
+  background: #FFFFFF;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.14), 0 3px 3px rgba(0, 0, 0, 0.12),
+  0 1px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.dialog__actions {
+  margin-left: 50%;
+}
+
+.mat-form-field {
+  display: block;
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-top: 8px;
+}
+
+.mat-input-element, .mat-select {
+  padding: 2px 16px 5px 16px !important;
+}
+
+.mat-datepicker-content .mat-calendar {
+  zoom: 0.85;
+}
+
+.dialog-checkbox {
+  margin-left: 67%;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}

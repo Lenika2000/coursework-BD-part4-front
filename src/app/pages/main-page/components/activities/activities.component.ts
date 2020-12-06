@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {AddActivityDialogComponent} from './add-activity-dialog/add-activity-dialog.component';
+import {Activity} from '../../../../models/activity.model';
 
 @Component({
   selector: 'app-activities',
@@ -20,6 +23,7 @@ export class ActivitiesComponent implements OnInit {
     impactOnStressLevel: 50,
     location: 'Ломо',
     activityType: 'учеба',
+    isDone: false
   },
     {
       startTime: new Date(),
@@ -30,27 +34,21 @@ export class ActivitiesComponent implements OnInit {
       impactOnStressLevel: 50,
       location: 'Ломо',
       activityType: 'встреча',
+      isDone: false
     }];
 
-  constructor() { }
+  constructor( private dialog: MatDialog) { }
 
   public ngOnInit(): void {
   }
 
+  openAddDialog(): void {
+    const addDialogConfig = new MatDialogConfig();
+    // addDialogConfig.width = '400px';
+    const dialogRef = this.dialog.open(AddActivityDialogComponent, addDialogConfig);
+
+    dialogRef.componentInstance.logbookRowAdd.subscribe((newRow) => {
+    });
+  }
 }
 
-export interface Activity {
-  activityId?: number;
-  startTime: Date;
-  endTime: Date;
-  periodicity: string;
-  interval: string;
-  format: FormatType;
-  impactOnStressLevel: number;
-  location: string;
-  activityType: ActivityType;
-}
-
-export type FormatType = 'очный' | 'дистанционный';
-export type ActivityType = 'учеба' | 'работа' | 'спорт' |
-   'магазин' | 'встреча' | 'перемещение' | 'другое' ;
