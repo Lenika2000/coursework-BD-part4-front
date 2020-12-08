@@ -53,12 +53,16 @@
   margin-top: 75px !important;
 }
 
+.mat-button-disabled{
+  background: rgba(195, 202, 206, 0.7);
+}
+
 .mat-form-field {
   width: 328px;
   height: 56px;
 }
 
-.login-form__lastName {
+.login-form__password {
   margin-top: 52px;
 }
 

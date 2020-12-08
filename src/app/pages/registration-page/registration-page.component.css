@@ -70,6 +70,10 @@
   color: #2a5885;
 }
 
+.mat-button-disabled{
+  background: rgba(195, 202, 206, 0.7);
+}
+
 .registration-page__back-to-login-button:focus {
   outline: none;
 }

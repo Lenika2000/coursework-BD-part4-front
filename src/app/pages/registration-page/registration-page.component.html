@@ -3,14 +3,26 @@
     <p class="registration-page__title">Регистрация</p>
     <form [formGroup]="registrationForm" novalidate class="form-container__registration-form">
       <mat-form-field appearance="fill">
-        <mat-label>Имя</mat-label>
-        <input matInput formControlName="firstName">
+        <mat-label>Логин</mat-label>
+        <input matInput formControlName="login">
+        <mat-error *ngIf="registrationForm.get('login').hasError('required')">
+          Поле обязательно для заполнения
+        </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill" class="form-container__lastName">
-        <mat-label>Фамилия</mat-label>
-        <input matInput formControlName="lastName">
+        <mat-label>Пароль</mat-label>
+        <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="registrationForm.get('password').hasError('required')">
+          Поле обязательно для заполнения
+        </mat-error>
       </mat-form-field>
-      <button mat-button (click)="registration()" class="form-container__registration-button">
+      <mat-error *ngIf="errorMessage">
+        {{errorMessage}}
+      </mat-error>
+      <button mat-button (click)="registration()" [disabled]="registrationForm.invalid" class="form-container__registration-button">
         Создать аккаунт
       </button>
       <button class="registration-page__back-to-login-button cursor pointer" (click)="registration()">Уже есть аккаунт? Войти</button>
