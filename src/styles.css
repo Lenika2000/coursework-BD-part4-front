@@ -1,4 +1,5 @@
 @import 'assets/styles/mat-table.css';
+@import 'assets/styles/scrollbar.css';
 
 body {
   margin: 0;
@@ -26,5 +27,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-form-field {
   width: 328px;
   height: 56px;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 

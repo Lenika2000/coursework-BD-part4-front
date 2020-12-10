@@ -6,13 +6,14 @@ import {User} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
-  selector: 'app-registration-page',
-  templateUrl: './registration-page.component.html',
-  styleUrls: ['./registration-page.component.css']
+  selector: 'app-auth-page',
+  templateUrl: './auth-page.component.html',
+  styleUrls: ['./auth-page.component.css']
 })
-export class RegistrationPageComponent implements OnInit {
+export class AuthPageComponent implements OnInit {
 
-  registrationForm: FormGroup;
+  authForm: FormGroup;
+  isLoginPage = true;
   errorMessage: string;
   hide = true;
 
@@ -21,20 +22,39 @@ export class RegistrationPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.registrationForm = this.formBuilder.group({
+    this.authForm = this.formBuilder.group({
       login: ['', {validators: [Validators.required]}],
       password: ['', {validators: [Validators.required]}],
     });
   }
 
+
+  authenticate(): void {
+    const user: User = {
+      phone: this.authForm.get('login').value,
+      password: this.authForm.get('password').value
+    };
+    // this.authService.logIn(user).subscribe(() => {
+    //     console.log('успех');
+    this.router.navigateByUrl('schedule');
+    //   }, (error) => {
+    //     console.log('невозможно осуществить вход');
+    //   }
+    // );
+  }
+
+  goToRegistration(): void {
+    this.isLoginPage = false;
+  }
+
   registration(): void {
     const user: User = {
-      phone: this.registrationForm.get('login').value,
-      password: this.registrationForm.get('password').value
+      phone: this.authForm.get('login').value,
+      password: this.authForm.get('password').value
     };
     this.authService.createAccount(user).subscribe(() => {
       this.errorMessage = '';
-      this.router.navigateByUrl('login');
+      this.goToLogIn();
     }, (err: HttpErrorResponse) => {
       console.log(err);
       switch (err.status) {
@@ -48,5 +68,9 @@ export class RegistrationPageComponent implements OnInit {
           this.errorMessage = 'Неизвестная ошибка ' + err.status;
       }
     });
+  }
+
+  goToLogIn(): void {
+    this.isLoginPage = true;
   }
 }

@@ -18,13 +18,12 @@ import { MainPageComponent } from './pages/main-page/main-page.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {CommonModule} from '@angular/common';
 import {HomePageComponent} from './pages/main-page/components/home-page/home-page.component';
-import {LoginPageComponent} from './pages/login-page/login-page.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
-import {RegistrationPageComponent} from './pages/registration-page/registration-page.component';
 import {AddActivityDialogComponent} from './pages/main-page/components/activities/add-activity-dialog/add-activity-dialog.component';
 import {HttpClientModule} from '@angular/common/http';
+import {AuthPageComponent} from './pages/auth-page/auth-page.component';
 
 
 @NgModule({
@@ -35,9 +34,8 @@ import {HttpClientModule} from '@angular/common/http';
     ActivitiesComponent,
     FiltersComponent,
     HomePageComponent,
-    LoginPageComponent,
-    RegistrationPageComponent,
-    AddActivityDialogComponent
+    AddActivityDialogComponent,
+    AuthPageComponent
 ],
   imports: [
     BrowserModule,

@@ -1,0 +1,41 @@
+<div class="auth-page">
+  <mat-card class="auth-page__form-container">
+    <p class="auth-page__title">{{(isLoginPage)?'Вход'
+      :'Регистрация'}}</p>
+    <form [formGroup]="authForm" novalidate class="form-container__auth-form">
+      <mat-form-field appearance="fill">
+        <mat-label>Логин</mat-label>
+        <input matInput formControlName="login">
+        <mat-error *ngIf="authForm.get('login').hasError('required')">
+          Поле обязательно для заполнения
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="auth-form__password">
+        <mat-label>Пароль</mat-label>
+        <input matInput formControlName="password"  [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="authForm.get('password').hasError('required')">
+          Поле обязательно для заполнения
+        </mat-error>
+      </mat-form-field>
+      <button mat-button *ngIf="isLoginPage" (click)="authenticate()" [disabled]="authForm.invalid" class="auth-form__login-button">
+        Войти
+      </button>
+      <button *ngIf="isLoginPage" (click)="goToRegistration()"
+              class="auth-page__go-to-registration-button cursor pointer">
+        Зарегистрироваться!
+      </button>
+      <button mat-button *ngIf="!isLoginPage" (click)="registration()" [disabled]="authForm.invalid" class="auth-form__registration-button">
+        Создать аккаунт
+      </button>
+      <button *ngIf="!isLoginPage"  (click)="goToLogIn()"
+              class="auth-page__back-to-login-button cursor pointer">
+        Уже есть аккаунт? Войти
+      </button>
+    </form>
+  </mat-card>
+</div>
+
+
