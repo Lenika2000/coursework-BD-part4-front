@@ -1,0 +1,50 @@
+<div class="product-lists">
+  <div class="product-lists-content">
+    <table mat-table #table [dataSource]="selectedShoppingList.products"
+           class="mat-table-style">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="name">Наименование</th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef class="price">Стоимость</th>
+        <td mat-cell *matCellDef="let element" class="price">{{element.price + ' Р'}}  </td>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef class="quantity">Количество</th>
+        <td mat-cell *matCellDef="let element" class="quantity">{{element.quantity}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="urgency">
+        <th mat-header-cell *matHeaderCellDef class="urgency">Срочность</th>
+        <td mat-cell *matCellDef="let element" class="urgency">{{element.urgency.toLocaleDateString()}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="isConfirm">
+        <th mat-header-cell *matHeaderCellDef class="isConfirm">Подтверждение</th>
+        <td mat-cell *matCellDef="let element" class="isConfirm"> {{element.isConfirm}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="update">
+        <th mat-header-cell *matHeaderCellDef class="update"></th>
+        <td mat-cell *matCellDef="let element" class="update cursor pointer">
+          <mat-icon (click)="openUpdateDialog(element)" class="cursor pointer">create</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef class="delete"></th>
+        <td mat-cell *matCellDef="let element" class="delete cursor pointer">
+          <mat-icon (click)="openDeleteDialog(element)">delete</mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <app-product-lists-filter class="product-lists__filter"></app-product-lists-filter>
+</div>

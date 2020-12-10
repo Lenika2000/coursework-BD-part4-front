@@ -1,5 +1,7 @@
 @import 'assets/styles/mat-table.css';
 @import 'assets/styles/scrollbar.css';
+@import 'assets/styles/mat-dialog.css';
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 body {
   margin: 0;

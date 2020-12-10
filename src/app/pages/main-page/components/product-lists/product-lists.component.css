@@ -1,0 +1,22 @@
+.product-lists {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.product-lists-content {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  min-width: 800px;
+  padding-left: calc((45% - 307px)/2);
+  padding-right: calc((45% - 307px)/2);
+}
+
+.product-lists__filter{
+  height: 92vh;
+  border-left: 5px double rgba(33, 33, 33, 0.08);
+  padding-left: 17px;
+  margin-left: 15px;
+  margin-bottom: 16px;
+}

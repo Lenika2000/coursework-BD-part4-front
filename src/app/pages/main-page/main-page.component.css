@@ -13,6 +13,10 @@ app-activities {
   width: 100%;
 }
 
+app-product-lists{
+  width: 100%;
+}
+
 .main-container__logout-btn{
   position: sticky;
   left: 98%;

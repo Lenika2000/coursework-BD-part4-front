@@ -24,6 +24,9 @@ import {MatCardModule} from '@angular/material/card';
 import {AddActivityDialogComponent} from './pages/main-page/components/activities/add-activity-dialog/add-activity-dialog.component';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthPageComponent} from './pages/auth-page/auth-page.component';
+import {ProductListsComponent} from './pages/main-page/components/product-lists/product-lists.component';
+import {ProductListsFilterComponent} from './pages/main-page/components/product-lists/product-lists-filter/product-lists-filter.component';
+import {DeleteProductDialogComponent} from './pages/main-page/components/product-lists/delete-proguct-dialog/delete-product-dialog.component';
 
 
 @NgModule({
@@ -35,7 +38,10 @@ import {AuthPageComponent} from './pages/auth-page/auth-page.component';
     FiltersComponent,
     HomePageComponent,
     AddActivityDialogComponent,
-    AuthPageComponent
+    AuthPageComponent,
+    ProductListsComponent,
+    ProductListsFilterComponent,
+    DeleteProductDialogComponent
 ],
   imports: [
     BrowserModule,
@@ -63,6 +69,9 @@ import {AuthPageComponent} from './pages/auth-page/auth-page.component';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
-  entryComponents: [AddActivityDialogComponent]
+  entryComponents: [
+    AddActivityDialogComponent,
+    DeleteProductDialogComponent
+  ]
 })
 export class AppModule { }

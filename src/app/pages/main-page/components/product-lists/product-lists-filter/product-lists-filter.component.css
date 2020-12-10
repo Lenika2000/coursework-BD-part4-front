@@ -1,0 +1,13 @@
+.filter {
+  min-width: 307px;
+  max-width: 307px;
+}
+
+.mat-form-field {
+  width: 290px;
+  height: 56px;
+}
+
+.filter-checkbox {
+  margin-top: 32px;
+}

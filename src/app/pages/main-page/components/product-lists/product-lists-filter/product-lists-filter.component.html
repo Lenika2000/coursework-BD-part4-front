@@ -1,0 +1,16 @@
+<div class="filter">
+  <p class="headline-6 text-high-clr">Фильтры</p>
+
+  <mat-form-field>
+    <mat-label>Название списка</mat-label>
+    <mat-select [(ngModel)]="listName" (selectionChange)="changeListName()">
+      <mat-option *ngFor="let name of shoppingListNames" [value]="name">{{name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-checkbox [(ngModel)]="isConfirm" labelPosition='before'
+                class="filter-checkbox">
+    Только неподтвержденные
+  </mat-checkbox>
+
+</div>
