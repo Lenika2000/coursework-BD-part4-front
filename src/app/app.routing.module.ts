@@ -10,6 +10,13 @@ const routes: Routes = [
   {path: '**', redirectTo: '/login', pathMatch: 'full'}
 ];
 
+// const routes: Routes = [
+//   {path: '', redirectTo: '/login', pathMatch: 'full', canActivate: [UrlPermission]},
+//   {path: 'login', component: AuthPageComponent, canActivate: [UrlPermission]},
+//   {path: 'schedule', component: MainPageComponent, canActivate: [UrlPermission]},
+//   {path: '**', redirectTo: '/login', pathMatch: 'full', canActivate: [UrlPermission]}
+// ];
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
