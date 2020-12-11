@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit, Output} from '@angular/core';
-import {EventEmitter} from 'events';
+import {EventEmitter} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Product} from '../../../../../models/shopping.model';
 

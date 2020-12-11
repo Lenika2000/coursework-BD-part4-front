@@ -1,0 +1,54 @@
+<form [formGroup]="updateForm" novalidate>
+  <p>Редактирование записи</p>
+  <mat-icon (click)="closeDialog()" class="dialog__close-icon cursor pointer">clear</mat-icon>
+  <mat-form-field>
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="name">
+    <mat-error *ngIf="updateForm.get('name').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Стоимость</mat-label>
+    <input matInput formControlName="price">
+    <mat-error *ngIf="updateForm.get('price').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+    <mat-error class="error-message" *ngIf="updateForm.get('price').hasError('pattern')
+    && (updateForm.get('price').dirty || updateForm.get('price').touched)">
+      Для ввода стоимости используйте только числа
+    </mat-error>
+    <mat-error class="error-message" *ngIf="updateForm.get('price').hasError('min')
+    && (updateForm.get('price').dirty || updateForm.get('price').touched)">
+      Цена не может быть меньше 1
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Количество</mat-label>
+    <input matInput formControlName="quantity">
+    <mat-error *ngIf="updateForm.get('quantity').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+    <mat-error class="error-message" *ngIf="updateForm.get('quantity').hasError('pattern')
+    && (updateForm.get('quantity').dirty || updateForm.get('quantity').touched)">
+      Для ввода количества используйте только целые числа
+    </mat-error>
+    <mat-error class="error-message" *ngIf="updateForm.get('quantity').hasError('min')
+    && (updateForm.get('quantity').dirty || updateForm.get('quantity').touched)">
+      Количество не может быть меньше 1
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Срочность</mat-label>
+    <input  matInput readonly formControlName="urgency" [matDatepicker]="dp" [min]="minDate">
+    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
+  </mat-form-field>
+  <mat-checkbox formControlName="isConfirm" labelPosition='before'
+                class="dialog-checkbox">
+    Подтверждение
+  </mat-checkbox>
+  <div class="dialog__actions">
+    <button [disabled]="updateForm.invalid" (click)="onProductUpdate()" class="dialog-btn cursor pointer">Сохранить</button>
+  </div>
+</form>

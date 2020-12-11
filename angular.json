@@ -89,8 +89,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css",
-              "node_modules/semantic-ui-css/semantic.css"
+              "src/styles.css"
             ],
             "scripts": []
           }

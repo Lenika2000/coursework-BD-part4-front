@@ -1,4 +1,5 @@
 <div class="product-lists">
+<!--  <p class="product-list__shop-name">{{'Список: ' + selectedShoppingList.name }}</p>-->
   <div class="product-lists-content">
     <table mat-table #table [dataSource]="selectedShoppingList.products"
            class="mat-table-style">
@@ -46,5 +47,8 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
-  <app-product-lists-filter class="product-lists__filter"></app-product-lists-filter>
+  <app-product-lists-filter
+    [listName]="selectedShoppingList.name"
+    [shopNamesList]="shopNamesList"
+    class="product-lists__filter"></app-product-lists-filter>
 </div>

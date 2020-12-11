@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Product, ShoppingList} from '../../../../models/shopping.model';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {DeleteProductDialogComponent} from './delete-proguct-dialog/delete-product-dialog.component';
+import {UpdateProductDialogComponent} from './update-product-dialog/update-product-dialog.component';
+import {MatTable} from '@angular/material/table';
 
 @Component({
   selector: 'app-product-lists',
@@ -12,8 +14,12 @@ export class ProductListsComponent implements OnInit {
 
   public displayedColumns = ['name', 'price', 'quantity', 'urgency', 'isConfirm',
     'update', 'delete'];
+  public shopNamesList: string[] = [];
   selectedShoppingList: ShoppingList;
+  selectedProduct: Product;
   shoppingList: ShoppingList[];
+  @ViewChild('table', {static: false}) table: MatTable<Product>;
+
   constructor(private dialog: MatDialog) { }
 
   public lentaProducts: Product[] = [
@@ -59,30 +65,46 @@ export class ProductListsComponent implements OnInit {
         products: this.lentaProducts
       }
     ];
+    this.shoppingList.map( (shop: ShoppingList) => {
+      this.shopNamesList.push(shop.name);
+    });
     this.selectedShoppingList = this.shoppingList[0];
   }
 
   openUpdateDialog(product: Product): void {
+    const updateDialogConfig = new MatDialogConfig();
+    updateDialogConfig.height = '450px';
+    updateDialogConfig.width = '376px';
+    updateDialogConfig.data = product;
+    this.selectedProduct = product;
 
+    const dialogConfirmConfigRef = this.dialog.open( UpdateProductDialogComponent, updateDialogConfig);
+
+    dialogConfirmConfigRef.componentInstance.productUpdate.subscribe((updatedProduct: Product) => {
+      this.selectedProduct.name = updatedProduct.name;
+      this.selectedProduct.price = updatedProduct.price;
+      this.selectedProduct.quantity = updatedProduct.quantity;
+      this.selectedProduct.urgency = updatedProduct.urgency;
+      this.selectedProduct.isConfirm = updatedProduct.isConfirm;
+      this.table.renderRows();
+      // todo сервер
+    });
   }
 
 
   openDeleteDialog(product: Product): void {
-    const confirmDialogConfig = new MatDialogConfig();
-    confirmDialogConfig.height = '170px';
-    confirmDialogConfig.width = '280px';
-    confirmDialogConfig.data = product;
+    const deleteDialogConfig = new MatDialogConfig();
+    deleteDialogConfig.height = '170px';
+    deleteDialogConfig.width = '280px';
+    deleteDialogConfig.data = product;
 
-    const dialogConfirmConfigRef = this.dialog.open(DeleteProductDialogComponent, confirmDialogConfig);
+    const dialogConfirmConfigRef = this.dialog.open(DeleteProductDialogComponent, deleteDialogConfig);
 
     dialogConfirmConfigRef.componentInstance.productDelete.subscribe(() => {
-      // const deletedElemIndex = this.tableData.findIndex((d) => d === selectedRow);
-      // this.changeHours(this.selectedElem.startTime, deletedElemIndex + 1, -2);
-      // this.tableData.splice(deletedElemIndex, 1);
-      // this.saveLoading = true;
-      // this.groupData();
-      // this.table.renderRows();
-      // this.deleteRow.emit(this.selectedElem);
+      const deletedElemIndex = this.selectedShoppingList.products.findIndex((d) => d === product);
+      this.selectedShoppingList.products.splice(deletedElemIndex, 1);
+      this.table.renderRows();
+      // todo сервер
     });
   }
 

@@ -9,7 +9,7 @@ export class ProductListsFilterComponent implements OnInit {
 
   @Input() listName;
   @Input() isConfirm;
-  @Input() shoppingListNames;
+  @Input() shopNamesList;
 
   constructor() { }
 
