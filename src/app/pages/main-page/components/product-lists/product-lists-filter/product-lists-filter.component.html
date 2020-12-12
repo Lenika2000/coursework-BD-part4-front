@@ -8,9 +8,9 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-checkbox [(ngModel)]="isConfirm" labelPosition='before'
+  <mat-checkbox [(ngModel)]="isConfirm" labelPosition='before' (change)="onConfirmFilterChange()"
                 class="filter-checkbox">
-    Только неподтвержденные
+    Только подтвержденные
   </mat-checkbox>
 
 </div>

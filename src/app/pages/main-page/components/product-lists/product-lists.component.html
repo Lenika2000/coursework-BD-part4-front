@@ -54,5 +54,7 @@
   <app-product-lists-filter
     [listName]="selectedShoppingList.name"
     [shopNamesList]="shopNamesList"
+    (changeShopName)="changeShopName($event)"
+    (changeConfirmFilter)="filterByConfirmation($event)"
     class="product-lists__filter"></app-product-lists-filter>
 </div>

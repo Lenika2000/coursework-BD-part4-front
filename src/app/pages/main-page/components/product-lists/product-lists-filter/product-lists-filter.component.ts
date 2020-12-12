@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'app-product-lists-filter',
@@ -8,8 +8,10 @@ import {Component, Input, OnInit} from '@angular/core';
 export class ProductListsFilterComponent implements OnInit {
 
   @Input() listName;
-  @Input() isConfirm;
+  isConfirm;
   @Input() shopNamesList;
+  @Output() changeShopName = new EventEmitter<string>();
+  @Output() changeConfirmFilter = new EventEmitter<boolean>();
 
   constructor() { }
 
@@ -17,7 +19,12 @@ export class ProductListsFilterComponent implements OnInit {
   }
 
   changeListName(): void {
+    this.changeShopName.emit(this.listName);
+    this.changeConfirmFilter.emit(this.isConfirm);
+  }
 
+  onConfirmFilterChange(): void {
+    this.changeConfirmFilter.emit(this.isConfirm);
   }
 
 }

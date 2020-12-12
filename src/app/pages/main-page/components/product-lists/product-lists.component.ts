@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Product, ShoppingList} from '../../../../models/shopping.model';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {DeleteProductDialogComponent} from './delete-proguct-dialog/delete-product-dialog.component';
@@ -18,9 +18,11 @@ export class ProductListsComponent implements OnInit {
   selectedShoppingList: ShoppingList;
   selectedProduct: Product;
   shoppingList: ShoppingList[];
+  isConfirmFilter = false;
   @ViewChild('table', {static: false}) table: MatTable<Product>;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog) {
+  }
 
   public lentaProducts: Product[] = [
     {
@@ -65,7 +67,7 @@ export class ProductListsComponent implements OnInit {
         products: this.lentaProducts
       }
     ];
-    this.shoppingList.map( (shop: ShoppingList) => {
+    this.shoppingList.map((shop: ShoppingList) => {
       this.shopNamesList.push(shop.name);
     });
     this.selectedShoppingList = this.shoppingList[0];
@@ -78,7 +80,7 @@ export class ProductListsComponent implements OnInit {
     updateDialogConfig.data = product;
     this.selectedProduct = product;
 
-    const dialogConfirmConfigRef = this.dialog.open( UpdateProductDialogComponent, updateDialogConfig);
+    const dialogConfirmConfigRef = this.dialog.open(UpdateProductDialogComponent, updateDialogConfig);
 
     dialogConfirmConfigRef.componentInstance.productUpdate.subscribe((updatedProduct: Product) => {
       this.selectedProduct.name = updatedProduct.name;
@@ -106,6 +108,28 @@ export class ProductListsComponent implements OnInit {
       this.table.renderRows();
       // todo сервер
     });
+  }
+
+  changeShopName(newShopListName: string): void {
+    this.selectedShoppingList = this.shoppingList.filter((shoppingList: ShoppingList) => {
+      return shoppingList.name === newShopListName;
+    })[0];
+  }
+
+  filterByConfirmation(isConfirmFilter: boolean): void {
+    this.isConfirmFilter = isConfirmFilter;
+    if (isConfirmFilter) {
+      this.selectedShoppingList = {
+        name: this.selectedShoppingList.name,
+        products: this.selectedShoppingList.products.filter((product: Product) => {
+          return product.isConfirm === this.isConfirmFilter;
+        })
+      };
+    } else {
+      this.selectedShoppingList = this.shoppingList.filter((shoppingList: ShoppingList) => {
+        return shoppingList.name === this.selectedShoppingList.name;
+      })[0];
+    }
   }
 
 }
