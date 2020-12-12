@@ -26,7 +26,11 @@
 
       <ng-container matColumnDef="isConfirm">
         <th mat-header-cell *matHeaderCellDef class="isConfirm">Подтверждение</th>
-        <td mat-cell *matCellDef="let element" class="isConfirm"> {{element.isConfirm}} </td>
+        <td mat-cell *matCellDef="let element" class="isConfirm">
+          <mat-checkbox [(ngModel)]="element.isConfirm" labelPosition='before'
+                        class="dialog-checkbox">
+          </mat-checkbox>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="update">
