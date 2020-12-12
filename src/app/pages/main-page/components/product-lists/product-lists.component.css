@@ -36,3 +36,21 @@
 .isConfirm {
   text-align: center !important;
 }
+
+.product-lists__add-product-button, .product-lists__add-shop-list-button {
+  width: 177px;
+  height: 36px;
+  margin-left: 114px;
+  color: #FFFFFF;
+  background: #2a5885;
+  font-weight: 400 !important;
+  line-height: 26px;
+}
+
+.product-lists__add-product-button {
+  margin-top: 8%;
+}
+
+.product-lists__add-shop-list-button {
+  margin-top: 175%;
+}

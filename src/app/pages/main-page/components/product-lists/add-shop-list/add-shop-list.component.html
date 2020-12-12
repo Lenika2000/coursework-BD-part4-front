@@ -1,0 +1,20 @@
+<form [formGroup]="addShopNameForm" novalidate>
+  <p>Новый список покупок</p>
+  <mat-icon (click)="closeDialog()" class="dialog__close-icon cursor pointer">clear</mat-icon>
+  <mat-form-field>
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="name">
+    <mat-hint align="start">Для добавления товаров в список необходимо выбрать его на панели
+      Фильтры в поле Название Списка</mat-hint>
+    <mat-error *ngIf="addShopNameForm.get('name').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+    <mat-error *ngIf="addShopNameForm.get('name').getError('validateShopName')">
+      Список с таким именем уже существует
+    </mat-error>
+  </mat-form-field>
+  <div class="dialog__actions">
+    <button [disabled]="addShopNameForm.invalid" (click)="onShopNameCreate()" class="dialog-btn cursor pointer">Добавить</button>
+  </div>
+</form>
+

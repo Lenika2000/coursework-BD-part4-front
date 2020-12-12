@@ -1,0 +1,11 @@
+.dialog__actions {
+  position: absolute;
+  top: 165px;
+  right: 17px;
+}
+
+.dialog__close-icon {
+  position: absolute;
+  top: 19px;
+  right: 17px;
+}

@@ -28,6 +28,7 @@ import {ProductListsComponent} from './pages/main-page/components/product-lists/
 import {ProductListsFilterComponent} from './pages/main-page/components/product-lists/product-lists-filter/product-lists-filter.component';
 import {DeleteProductDialogComponent} from './pages/main-page/components/product-lists/delete-proguct-dialog/delete-product-dialog.component';
 import {UpdateProductDialogComponent} from './pages/main-page/components/product-lists/update-product-dialog/update-product-dialog.component';
+import {AddShopListComponent} from './pages/main-page/components/product-lists/add-shop-list/add-shop-list.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import {UpdateProductDialogComponent} from './pages/main-page/components/product
     ProductListsComponent,
     ProductListsFilterComponent,
     DeleteProductDialogComponent,
-    UpdateProductDialogComponent
+    UpdateProductDialogComponent,
+    AddShopListComponent
 ],
   imports: [
     BrowserModule,
@@ -74,7 +76,8 @@ import {UpdateProductDialogComponent} from './pages/main-page/components/product
   entryComponents: [
     AddActivityDialogComponent,
     DeleteProductDialogComponent,
-    UpdateProductDialogComponent
+    UpdateProductDialogComponent,
+    AddShopListComponent
   ]
 })
 export class AppModule { }

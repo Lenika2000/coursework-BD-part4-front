@@ -1,5 +1,5 @@
 <div class="product-lists">
-<!--  <p class="product-list__shop-name">{{'Список: ' + selectedShoppingList.name }}</p>-->
+  <!--  <p class="product-list__shop-name">{{'Список: ' + selectedShoppingList.name }}</p>-->
   <div class="product-lists-content">
     <table mat-table #table [dataSource]="selectedShoppingList.products"
            class="mat-table-style">
@@ -51,10 +51,18 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
-  <app-product-lists-filter
-    [listName]="selectedShoppingList.name"
-    [shopNamesList]="shopNamesList"
-    (changeShopName)="changeShopName($event)"
-    (changeConfirmFilter)="filterByConfirmation($event)"
-    class="product-lists__filter"></app-product-lists-filter>
+  <div class="product-lists__filter">
+    <app-product-lists-filter
+      [listName]="selectedShoppingList.name"
+      [shopNamesList]="shopNamesList"
+      (changeShopName)="changeShopName($event)"
+      (changeConfirmFilter)="filterByConfirmation($event)"
+    ></app-product-lists-filter>
+    <button mat-button (click)="addShopList()" class="product-lists__add-shop-list-button">
+      Новый список
+    </button>
+    <button mat-button (click)="addProduct()" class="product-lists__add-product-button">
+      Добавить товар
+    </button>
+  </div>
 </div>

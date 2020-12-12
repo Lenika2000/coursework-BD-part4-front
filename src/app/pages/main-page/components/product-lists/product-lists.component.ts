@@ -1,9 +1,10 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Product, ShoppingList} from '../../../../models/shopping.model';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {DeleteProductDialogComponent} from './delete-proguct-dialog/delete-product-dialog.component';
 import {UpdateProductDialogComponent} from './update-product-dialog/update-product-dialog.component';
 import {MatTable} from '@angular/material/table';
+import {AddShopListComponent} from './add-shop-list/add-shop-list.component';
 
 @Component({
   selector: 'app-product-lists',
@@ -17,7 +18,7 @@ export class ProductListsComponent implements OnInit {
   public shopNamesList: string[] = [];
   selectedShoppingList: ShoppingList;
   selectedProduct: Product;
-  shoppingList: ShoppingList[];
+  shoppingLists: ShoppingList[];
   isConfirmFilter = false;
   @ViewChild('table', {static: false}) table: MatTable<Product>;
 
@@ -57,7 +58,7 @@ export class ProductListsComponent implements OnInit {
     }];
 
   ngOnInit(): void {
-    this.shoppingList = [
+    this.shoppingLists = [
       {
         name: 'Магнит',
         products: this.magnitProducts
@@ -67,10 +68,14 @@ export class ProductListsComponent implements OnInit {
         products: this.lentaProducts
       }
     ];
-    this.shoppingList.map((shop: ShoppingList) => {
+    this.generateShopNamesList();
+    this.selectedShoppingList = this.shoppingLists[0];
+  }
+
+  generateShopNamesList(): void {
+    this.shoppingLists.map((shop: ShoppingList) => {
       this.shopNamesList.push(shop.name);
     });
-    this.selectedShoppingList = this.shoppingList[0];
   }
 
   openUpdateDialog(product: Product): void {
@@ -111,7 +116,7 @@ export class ProductListsComponent implements OnInit {
   }
 
   changeShopName(newShopListName: string): void {
-    this.selectedShoppingList = this.shoppingList.filter((shoppingList: ShoppingList) => {
+    this.selectedShoppingList = this.shoppingLists.filter((shoppingList: ShoppingList) => {
       return shoppingList.name === newShopListName;
     })[0];
   }
@@ -126,10 +131,33 @@ export class ProductListsComponent implements OnInit {
         })
       };
     } else {
-      this.selectedShoppingList = this.shoppingList.filter((shoppingList: ShoppingList) => {
+      this.selectedShoppingList = this.shoppingLists.filter((shoppingList: ShoppingList) => {
         return shoppingList.name === this.selectedShoppingList.name;
       })[0];
     }
+  }
+
+  addProduct(): void {
+
+  }
+
+  addShopList(): void {
+    const addShopListDialogConfig = new MatDialogConfig();
+    addShopListDialogConfig.height = '200px';
+    addShopListDialogConfig.width = '376px';
+    addShopListDialogConfig.data = this.shopNamesList;
+
+    const dialogConfirmConfigRef = this.dialog.open(AddShopListComponent, addShopListDialogConfig);
+
+    dialogConfirmConfigRef.componentInstance.shopNameCreate.subscribe((newShopListName: string) => {
+      const newShopList: ShoppingList = {
+        name: newShopListName,
+        products: []
+      };
+      this.shoppingLists.push(newShopList);
+      this.shopNamesList.push(newShopListName);
+      // todo сервер
+    });
   }
 
 }
