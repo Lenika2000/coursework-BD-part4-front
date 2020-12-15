@@ -77,3 +77,7 @@
 .auth-page__go-to-registration-button:focus, .auth-page__back-to-login-button:focus {
   outline: none;
 }
+
+.form-container__auth-form_error{
+  color: red;
+}
