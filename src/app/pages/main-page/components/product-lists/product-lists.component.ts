@@ -1,10 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Product, ShoppingList} from '../../../../models/shopping.model';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {DeleteProductDialogComponent} from './delete-proguct-dialog/delete-product-dialog.component';
-import {UpdateProductDialogComponent} from './update-product-dialog/update-product-dialog.component';
+import {AddUpdateProductDialogComponent} from './add-update-product-dialog/add-update-product-dialog.component';
 import {MatTable} from '@angular/material/table';
 import {AddShopListComponent} from './add-shop-list/add-shop-list.component';
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {MyErrorStateMatcher} from '../../../auth-page/auth-page.component';
 
 @Component({
   selector: 'app-product-lists',
@@ -20,9 +22,13 @@ export class ProductListsComponent implements OnInit {
   selectedProduct: Product;
   shoppingLists: ShoppingList[];
   isConfirmFilter = false;
+  isListNameUpdating = false;
+  updateShopNameForm: FormGroup;
+  matcher = new MyErrorStateMatcher();
+
   @ViewChild('table', {static: false}) table: MatTable<Product>;
 
-  constructor(private dialog: MatDialog) {
+  constructor(private formBuilder: FormBuilder, private dialog: MatDialog) {
   }
 
   public lentaProducts: Product[] = [
@@ -70,23 +76,35 @@ export class ProductListsComponent implements OnInit {
     ];
     this.generateShopNamesList();
     this.selectedShoppingList = this.shoppingLists[0];
+    this.updateShopNameForm = this.formBuilder.group({
+      name:  new FormControl('', [Validators.required, this.validateShopName.bind(this)]),
+    });
+    this.updateShopNameForm.get('name').setValue(this.selectedShoppingList.name);
   }
 
   generateShopNamesList(): void {
+    this.shopNamesList = [];
     this.shoppingLists.map((shop: ShoppingList) => {
       this.shopNamesList.push(shop.name);
     });
   }
 
-  openUpdateDialog(product: Product): void {
-    const updateDialogConfig = new MatDialogConfig();
-    updateDialogConfig.height = '450px';
-    updateDialogConfig.width = '376px';
-    updateDialogConfig.data = product;
-    this.selectedProduct = product;
+  openAddUpdateDialog(isAddOperation: boolean, product: Product): MatDialogRef<AddUpdateProductDialogComponent, any>  {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.height = '450px';
+    dialogConfig.width = '376px';
+    dialogConfig.data = {
+      product,
+      isAddOperation
+    };
+    if (!isAddOperation) {
+      this.selectedProduct = product;
+    }
+    return this.dialog.open(AddUpdateProductDialogComponent, dialogConfig);
+  }
 
-    const dialogConfirmConfigRef = this.dialog.open(UpdateProductDialogComponent, updateDialogConfig);
-
+  updateProduct(product: Product): void {
+    const dialogConfirmConfigRef = this.openAddUpdateDialog(false, product);
     dialogConfirmConfigRef.componentInstance.productUpdate.subscribe((updatedProduct: Product) => {
       this.selectedProduct.name = updatedProduct.name;
       this.selectedProduct.price = updatedProduct.price;
@@ -98,6 +116,23 @@ export class ProductListsComponent implements OnInit {
     });
   }
 
+
+  addProduct(): void {
+    const product = {
+      name: 'Карусель',
+      price: 100,
+      quantity: 1,
+      urgency: new Date(),
+      isConfirm: false
+    };
+    const dialogConfirmConfigRef = this.openAddUpdateDialog(true, product);
+    dialogConfirmConfigRef.componentInstance.productAdd.subscribe((addedProduct: Product) => {
+      console.log(addedProduct);
+      this.selectedShoppingList.products.push(addedProduct);
+      this.table.renderRows();
+      // todo сервер
+    });
+  }
 
   openDeleteDialog(product: Product): void {
     const deleteDialogConfig = new MatDialogConfig();
@@ -115,10 +150,24 @@ export class ProductListsComponent implements OnInit {
     });
   }
 
+  deleteSelectedShopList(): void {
+    this.shoppingLists = this.shoppingLists.filter((shoppingList: ShoppingList) => {
+      return !(shoppingList.name === this.selectedShoppingList.name);
+    });
+    this.selectedShoppingList = this.shoppingLists[0];
+    this.updateShopNameForm.get('name').setValue(this.selectedShoppingList.name);
+    this.generateShopNamesList();
+  }
+
+  cleanSelectedShopList(): void {
+    this.selectedShoppingList.products = [];
+  }
+
   changeShopName(newShopListName: string): void {
     this.selectedShoppingList = this.shoppingLists.filter((shoppingList: ShoppingList) => {
       return shoppingList.name === newShopListName;
     })[0];
+    this.updateShopNameForm.get('name').setValue(this.selectedShoppingList.name);
   }
 
   filterByConfirmation(isConfirmFilter: boolean): void {
@@ -137,8 +186,29 @@ export class ProductListsComponent implements OnInit {
     }
   }
 
-  addProduct(): void {
+  showListNameInput(): void {
+    this.isListNameUpdating = true;
+  }
 
+  updateListName(): void {
+    this.selectedShoppingList.name = this.updateShopNameForm.get('name').value;
+    this.generateShopNamesList();
+    this.isListNameUpdating = false;
+  }
+
+  validateShopName(c: FormControl): ValidationErrors {
+    const isValid = this.shopNamesList.filter((name: string) => {
+      if (name !== this.selectedShoppingList.name) {
+        return name === c.value.trim();
+      } else {
+        return false;
+      }
+    }).length === 0;
+    return isValid ? null : {
+      validateShopName: {
+        valid: false
+      }
+    };
   }
 
   addShopList(): void {
@@ -159,5 +229,6 @@ export class ProductListsComponent implements OnInit {
       // todo сервер
     });
   }
+
 
 }

@@ -27,8 +27,9 @@ import {AuthPageComponent} from './pages/auth-page/auth-page.component';
 import {ProductListsComponent} from './pages/main-page/components/product-lists/product-lists.component';
 import {ProductListsFilterComponent} from './pages/main-page/components/product-lists/product-lists-filter/product-lists-filter.component';
 import {DeleteProductDialogComponent} from './pages/main-page/components/product-lists/delete-proguct-dialog/delete-product-dialog.component';
-import {UpdateProductDialogComponent} from './pages/main-page/components/product-lists/update-product-dialog/update-product-dialog.component';
+import {AddUpdateProductDialogComponent} from './pages/main-page/components/product-lists/add-update-product-dialog/add-update-product-dialog.component';
 import {AddShopListComponent} from './pages/main-page/components/product-lists/add-shop-list/add-shop-list.component';
+import {NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule} from '@angular-material-components/datetime-picker';
 
 
 @NgModule({
@@ -44,9 +45,9 @@ import {AddShopListComponent} from './pages/main-page/components/product-lists/a
     ProductListsComponent,
     ProductListsFilterComponent,
     DeleteProductDialogComponent,
-    UpdateProductDialogComponent,
+    AddUpdateProductDialogComponent,
     AddShopListComponent
-],
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -66,6 +67,9 @@ import {AddShopListComponent} from './pages/main-page/components/product-lists/a
     MatButtonModule,
     MatIconModule,
     MatCardModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE,
@@ -76,7 +80,7 @@ import {AddShopListComponent} from './pages/main-page/components/product-lists/a
   entryComponents: [
     AddActivityDialogComponent,
     DeleteProductDialogComponent,
-    UpdateProductDialogComponent,
+    AddUpdateProductDialogComponent,
     AddShopListComponent
   ]
 })

@@ -3,16 +3,22 @@
 
   <mat-form-field>
     <mat-label>Допустимое время начала</mat-label>
-    <input matInput readonly formControlName="startTime" [matDatepicker]="startDatedp">
-    <mat-datepicker-toggle matSuffix [for]="startDatedp"></mat-datepicker-toggle>
-    <mat-datepicker #startDatedp></mat-datepicker>
+    <input matInput readonly [ngxMatDatetimePicker]="pickerStartDate" formControlName="startTime"
+           [min]="minDate">
+    <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
+    <ngx-mat-datetime-picker #pickerStartDate [defaultTime]=[8,0]
+                             [stepHour]=1 [stepMinute]=10>
+    </ngx-mat-datetime-picker>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Допустимое время конца</mat-label>
-    <input matInput readonly formControlName="endTime" [matDatepicker]="endDatedp">
-    <mat-datepicker-toggle matSuffix [for]="endDatedp"></mat-datepicker-toggle>
-    <mat-datepicker #endDatedp></mat-datepicker>
+    <input matInput readonly [ngxMatDatetimePicker]="pickerEndDate" formControlName="endTime"
+           [min]="minDate">
+    <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
+    <ngx-mat-datetime-picker #pickerEndDate [defaultTime]=[8,0]
+                             [stepHour]=1 [stepMinute]=10>
+    </ngx-mat-datetime-picker>
   </mat-form-field>
 
   <mat-form-field>

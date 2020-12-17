@@ -1,0 +1,56 @@
+<form [formGroup]="productForm" novalidate>
+  <p>{{(data.isAddOperation)?'Добавление товара'
+    :'Редактирование товара'}}</p>
+  <mat-icon (click)="closeDialog()" class="dialog__close-icon cursor pointer">clear</mat-icon>
+  <mat-form-field>
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="name" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="productForm.get('name').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Стоимость</mat-label>
+    <input matInput formControlName="price" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="productForm.get('price').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+    <mat-error class="error-message" *ngIf="productForm.get('price').hasError('pattern')
+    && (productForm.get('price').dirty || productForm.get('price').touched)">
+      Для ввода стоимости используйте только числа
+    </mat-error>
+    <mat-error class="error-message" *ngIf="productForm.get('price').hasError('min')
+    && (productForm.get('price').dirty || productForm.get('price').touched)">
+      Цена не может быть меньше 1
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Количество</mat-label>
+    <input matInput formControlName="quantity" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="productForm.get('quantity').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+    <mat-error class="error-message" *ngIf="productForm.get('quantity').hasError('pattern')
+    && (productForm.get('quantity').dirty || productForm.get('quantity').touched)">
+      Для ввода количества используйте только целые числа
+    </mat-error>
+    <mat-error class="error-message" *ngIf="productForm.get('quantity').hasError('min')
+    && (productForm.get('quantity').dirty || productForm.get('quantity').touched)">
+      Количество не может быть меньше 1
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Срочность</mat-label>
+    <input  matInput readonly formControlName="urgency" [matDatepicker]="dp" [min]="minDate">
+    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
+  </mat-form-field>
+  <mat-checkbox formControlName="isConfirm" labelPosition='before'
+                class="dialog-checkbox">
+    Подтверждение
+  </mat-checkbox>
+  <div class="dialog__actions">
+    <button *ngIf="!data.isAddOperation" [disabled]="productForm.invalid" (click)="onProductUpdate()" class="dialog-btn cursor pointer">Сохранить</button>
+    <button *ngIf="data.isAddOperation" [disabled]="productForm.invalid" (click)="onProductAdd()" class="dialog-btn cursor pointer">Добавить</button>
+  </div>
+</form>

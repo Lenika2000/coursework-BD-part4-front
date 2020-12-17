@@ -17,7 +17,7 @@
 }
 
 .product-lists-content {
-  display: flex;
+  display: block;
   justify-content: center;
   flex-direction: row;
   min-width: 800px;
@@ -37,10 +37,12 @@
   text-align: center !important;
 }
 
-.product-lists__add-product-button, .product-lists__add-shop-list-button {
-  width: 177px;
+.product-lists__add-product-button,
+.product-lists__add-shop-list-button,
+.product-lists__delete-shop-list-button {
+  width: 200px;
   height: 36px;
-  margin-left: 114px;
+  margin-left: 94px;
   color: #FFFFFF;
   background: #2a5885;
   font-weight: 400 !important;
@@ -48,9 +50,18 @@
 }
 
 .product-lists__add-product-button {
-  margin-top: 8%;
+  margin-top: 160%;
 }
 
 .product-lists__add-shop-list-button {
-  margin-top: 175%;
+  margin-top: 8%;
+}
+
+.product-lists__delete-shop-list-button{
+  background: red;
+  margin-top: 8%;
+}
+
+.product-lists__delete-all {
+  text-align: end;
 }

@@ -11,7 +11,7 @@ import {Activity} from '../../../../models/activity.model';
 export class ActivitiesComponent implements OnInit {
 
   public displayedColumns = ['startTime', 'endTime', 'periodicity', 'interval',
-    'format', 'impactOnStressLevel', 'location'];
+    'format', 'activityType', 'impactOnStressLevel', 'location'];
 
   public activities: Activity[] = [
   {

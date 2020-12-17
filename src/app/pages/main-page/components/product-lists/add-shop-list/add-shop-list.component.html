@@ -3,7 +3,7 @@
   <mat-icon (click)="closeDialog()" class="dialog__close-icon cursor pointer">clear</mat-icon>
   <mat-form-field>
     <mat-label>Название</mat-label>
-    <input matInput formControlName="name">
+    <input matInput formControlName="name" [errorStateMatcher]="matcher">
     <mat-hint align="start">Для добавления товаров в список необходимо выбрать его на панели
       Фильтры в поле Название Списка</mat-hint>
     <mat-error *ngIf="addShopNameForm.get('name').hasError('required')">

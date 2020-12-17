@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MyErrorStateMatcher} from '../../../../auth-page/auth-page.component';
 
 @Component({
   selector: 'app-add-shop-list',
@@ -11,6 +12,7 @@ export class AddShopListComponent implements OnInit {
 
   @Output() shopNameCreate = new EventEmitter<string>();
   addShopNameForm: FormGroup;
+  matcher = new MyErrorStateMatcher();
 
   constructor( private dialogRef: MatDialogRef<AddShopListComponent>,
                private formBuilder: FormBuilder,
@@ -34,7 +36,7 @@ export class AddShopListComponent implements OnInit {
 
   validateShopName(c: FormControl): ValidationErrors {
     const isValid = this.shopNamesList.filter((name: string) => {
-      return name === c.value;
+      return name === c.value.trim();
     }).length === 0;
     return isValid ? null : {
       validateShopName: {

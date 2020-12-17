@@ -17,6 +17,7 @@ export class AddActivityDialogComponent implements OnInit {
     'поход_в_магазин' , 'встреча' , 'другое' ];
   public activitiesFormat: FormatType[] = [ 'очный' , 'дистанционный'];
   public lessonsType: LessonType[] = [ 'лекция' , 'практика'];
+  minDate = new Date();
   isLesson = false;
   // isWork = false;
   isSport = false;
@@ -28,6 +29,7 @@ export class AddActivityDialogComponent implements OnInit {
                private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.minDate.setHours(12, 23);
     this.addForm = this.formBuilder.group({
       startTime: [],
       endTime: [],

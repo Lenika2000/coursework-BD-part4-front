@@ -20,7 +20,12 @@ body {
   height: 56px;
 }
 
+.ngx-mat-timepicker .mat-input-element {
+  padding: 0 !important;
+}
+
 *, *:before, *:after {
   box-sizing: inherit;
 }
+
 
