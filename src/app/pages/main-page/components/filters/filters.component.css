@@ -26,6 +26,10 @@
   align-items: flex-end;
 }
 
+.filter__activities-types .mat-select{
+  margin-bottom: -5px !important;
+}
+
 .filter__activities-types mat-checkbox {
   padding-bottom: 17.5px;
 }
@@ -45,3 +49,4 @@
   color: #FFFFFF;
   background: #2a5885;
 }
+

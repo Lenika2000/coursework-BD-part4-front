@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import {ActivityType} from '../../../../models/activity.model';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-filters',
@@ -9,8 +10,6 @@ import {ActivityType} from '../../../../models/activity.model';
 })
 export class FiltersComponent implements OnInit {
 
-  constructor() {
-  }
 
   @Input() public startDate: Date;
   @Input() public endDate: Date;
@@ -26,6 +25,26 @@ export class FiltersComponent implements OnInit {
   public filters: Filters;
   public activities = [ 'учебное_занятие' , 'рабочая_смена', 'спортивное_занятие' ,
     'поход_в_магазин' , 'встреча' , 'перемещение' , 'другое' ];
+
+
+  campaignStartDate: FormGroup;
+  campaignEndDate: FormGroup;
+
+  constructor() {
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+
+    this.campaignStartDate = new FormGroup({
+      start: new FormControl(new Date(year, month, 13)),
+      end: new FormControl(new Date(year, month, 16))
+    });
+
+    this.campaignEndDate = new FormGroup({
+      start: new FormControl(new Date(year, month, 15)),
+      end: new FormControl(new Date(year, month, 19))
+    });
+  }
 
   public ngOnInit(): void {
     this.filters = {
