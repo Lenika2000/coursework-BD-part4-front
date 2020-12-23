@@ -28,4 +28,8 @@ body {
   box-sizing: inherit;
 }
 
+.timepicker-overlay, .timepicker {
+  z-index: 1001 !important;
+}
+
 

@@ -6,8 +6,11 @@
   border-radius: 4px;
 }
 
-.dialog__actions {
-  margin-left: 50%;
+.activities-dialog__actions {
+  position: absolute;
+  margin-left: 45%;
+  margin-bottom: 10px !important;
+  bottom: -8px;
 }
 
 .mat-form-field {

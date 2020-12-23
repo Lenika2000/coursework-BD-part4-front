@@ -23,8 +23,8 @@ export class FiltersComponent implements OnInit {
   // @Output() filtersChangeDate = new EventEmitter<Filters>();
 
   public filters: Filters;
-  public activities = [ 'учебное_занятие' , 'рабочая_смена', 'спортивное_занятие' ,
-    'поход_в_магазин' , 'встреча' , 'перемещение' , 'другое' ];
+  public activities: ActivityType[] = [ 'Учеба' , 'Работа' , 'Спорт' ,
+  'Поход в магазин' , 'Встреча' , 'Перемещение' , 'Другое'];
 
 
   campaignStartDate: FormGroup;

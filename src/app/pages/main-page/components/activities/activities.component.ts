@@ -11,29 +11,29 @@ import {Activity} from '../../../../models/activity.model';
 export class ActivitiesComponent implements OnInit {
 
   public displayedColumns = ['startTime', 'endTime', 'periodicity', 'interval',
-    'format', 'activityType', 'impactOnStressLevel', 'location'];
+    'format', 'activityType', 'impactOnStressLevel', 'location', 'update', 'delete'];
 
   public activities: Activity[] = [
   {
     startTime: new Date(),
     endTime: new Date(),
     periodicity: 'каждый вторник',
-    interval: '1 час',
-    format: 'очный',
+    interval: '1:10',
+    format: 'Очный',
     impactOnStressLevel: 50,
     location: 'Ломо',
-    activityType: 'учеба',
+    activityType: 'Учеба',
     isDone: false
   },
     {
       startTime: new Date(),
       endTime: new Date(),
       periodicity: 'каждый понедельник',
-      interval: '3 часа',
-      format: 'дистанционный',
+      interval: '1:10',
+      format: 'Дистанционный',
       impactOnStressLevel: 50,
       location: 'Ломо',
-      activityType: 'встреча',
+      activityType: 'Встреча',
       isDone: false
     }];
 
@@ -50,5 +50,15 @@ export class ActivitiesComponent implements OnInit {
     dialogRef.componentInstance.logbookRowAdd.subscribe((newRow) => {
     });
   }
+
+  updateActivity(activity: Activity): void {
+
+  }
+
+  openDeleteDialog(activity: Activity): void {
+
+  }
+
+
 }
 

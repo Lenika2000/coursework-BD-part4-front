@@ -3,8 +3,7 @@
 
   <mat-form-field>
     <mat-label>Допустимое время начала</mat-label>
-    <input matInput readonly [ngxMatDatetimePicker]="pickerStartDate" formControlName="startTime"
-           [min]="minDate">
+    <input matInput readonly [ngxMatDatetimePicker]="pickerStartDate" formControlName="startTime">
     <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
     <ngx-mat-datetime-picker #pickerStartDate [defaultTime]=[8,0]
                              [stepHour]=1 [stepMinute]=10>
@@ -13,8 +12,7 @@
 
   <mat-form-field>
     <mat-label>Допустимое время конца</mat-label>
-    <input matInput readonly [ngxMatDatetimePicker]="pickerEndDate" formControlName="endTime"
-           [min]="minDate">
+    <input matInput readonly [ngxMatDatetimePicker]="pickerEndDate" formControlName="endTime">
     <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
     <ngx-mat-datetime-picker #pickerEndDate [defaultTime]=[8,0]
                              [stepHour]=1 [stepMinute]=10>
@@ -23,12 +21,18 @@
 
   <mat-form-field>
     <mat-label class="">Продолжительность</mat-label>
-    <input matInput formControlName="interval">
+    <input matInput formControlName="interval" [ngxTimepicker]="interval"  [format]="24" readonly>
+    <ngx-material-timepicker #interval  [enableKeyboardInput]="true" [theme]="theme"></ngx-material-timepicker>
+    <mat-error *ngIf="addForm.get('interval').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label class="">Периодичность</mat-label>
-    <input matInput formControlName="periodicity">
+    <mat-select formControlName="periodicity">
+      <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity">{{periodicity}}</mat-option>
+    </mat-select>
   </mat-form-field>
 
   <mat-form-field>
@@ -41,8 +45,12 @@
   <mat-form-field>
     <mat-label>Влияние на уровень стресса</mat-label>
     <input matInput formControlName="impactOnStressLevel">
+    <mat-error *ngIf="addForm.get('impactOnStressLevel').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
   </mat-form-field>
 
+<!--  локации будут в отдельном документе для конкретного человека-->
   <mat-form-field>
     <mat-label>Локация</mat-label>
     <input matInput formControlName="location">
@@ -53,16 +61,25 @@
     <mat-select formControlName="activityType">
       <mat-option *ngFor="let type of activities" [value]="type">{{type}}</mat-option>
     </mat-select>
+    <mat-error *ngIf="addForm.get('activityType').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field *ngIf="isLesson">
     <mat-label>Аудитория</mat-label>
     <input matInput formControlName="room">
+    <mat-error *ngIf="addForm.get('room').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field *ngIf="isLesson">
     <mat-label>Преподаватель</mat-label>
     <input matInput formControlName="teacher">
+    <mat-error *ngIf="addForm.get('teacher').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field *ngIf="isLesson">
@@ -75,18 +92,24 @@
   <mat-form-field *ngIf="isSport">
     <mat-label>Тип спортивного занятия</mat-label>
     <input matInput formControlName="sportType">
+    <mat-error *ngIf="addForm.get('sportType').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field *ngIf="isOther">
     <mat-label>Описание</mat-label>
     <input matInput formControlName="description">
+    <mat-error *ngIf="addForm.get('description').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
   </mat-form-field>
 
-  <mat-checkbox formControlName="isDone" labelPosition='before' class="dialog-checkbox">
-    Готовность
-  </mat-checkbox>
+<!--  <mat-checkbox formControlName="isDone" labelPosition='before' class="dialog-checkbox">-->
+<!--    Готовность-->
+<!--  </mat-checkbox>-->
 
-  <div class="dialog__actions">
+  <div class="activities-dialog__actions">
     <button mat-button (click)="closeDialog()">Отмена</button>
     <button mat-button [disabled]="addForm.invalid">
       Добавить
