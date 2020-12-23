@@ -59,7 +59,10 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr #tooltip="matTooltip"
+        [matTooltip]="getAdditionalInfo(index)"
+        matTooltipPosition="left"
+        mat-row *matRowDef="let index=index; let row; columns: displayedColumns;"></tr>
   </table>
 </div>
 

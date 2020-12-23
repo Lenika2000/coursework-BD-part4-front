@@ -32,6 +32,7 @@ import {AddShopListComponent} from './pages/main-page/components/product-lists/a
 import {NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule} from '@angular-material-components/datetime-picker';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {DeleteActivityDialogComponent} from './pages/main-page/components/activities/delete-activity-dialog/delete-activity-dialog.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import {DeleteActivityDialogComponent} from './pages/main-page/components/activi
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatTooltipModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE,

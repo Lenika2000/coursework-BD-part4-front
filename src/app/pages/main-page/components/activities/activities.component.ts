@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {AddActivityDialogComponent} from './add-activity-dialog/add-activity-dialog.component';
 import {Activity} from '../../../../models/activity.model';
-import {DeleteProductDialogComponent} from '../product-lists/delete-proguct-dialog/delete-product-dialog.component';
 import {DeleteActivityDialogComponent} from './delete-activity-dialog/delete-activity-dialog.component';
 import {MatTable} from '@angular/material/table';
 import {Product} from '../../../../models/shopping.model';
@@ -17,7 +16,7 @@ export class ActivitiesComponent implements OnInit {
   public displayedColumns = ['startTime', 'endTime', 'periodicity', 'interval',
     'format', 'activityType', 'impactOnStressLevel', 'location', 'update', 'delete'];
   @ViewChild('table', {static: false}) table: MatTable<Product>;
-  public activities: Activity[] = [
+  public activities: any = [
   {
     startTime: new Date(),
     endTime: new Date(),
@@ -27,7 +26,10 @@ export class ActivitiesComponent implements OnInit {
     impactOnStressLevel: 50,
     location: 'Ломо',
     activityType: 'Учеба',
-    isDone: false
+    isDone: false,
+    room: 223,
+    teacher: 'Клименков',
+    type: 'Лекция',
   },
     {
       startTime: new Date(),
@@ -38,7 +40,8 @@ export class ActivitiesComponent implements OnInit {
       impactOnStressLevel: 50,
       location: 'Ломо',
       activityType: 'Встреча',
-      isDone: false
+      isDone: false,
+      human: 'Женя'
     }];
 
   constructor( private dialog: MatDialog) { }
@@ -73,6 +76,22 @@ export class ActivitiesComponent implements OnInit {
       this.table.renderRows();
       // todo сервер
     });
+  }
+
+  getAdditionalInfo(index: number): string {
+    const hoverActivity = this.activities[index];
+    switch (hoverActivity.activityType) {
+      case 'Встреча':
+        return `Встреча с ${hoverActivity.human}`;
+      case 'Учеба':
+        return `Аудитория - ${hoverActivity.room}\nПреподаватель - ${hoverActivity.teacher}\nТип - ${hoverActivity.type}`;
+      case 'Спорт':
+        return `Тип занятия - ${hoverActivity.sportType}`;
+      case 'Другое':
+        return `Описание - ${hoverActivity.description}`;
+      case 'Поход в магазин':
+        return `Название списка покупок - ${hoverActivity.shopListName}`;
+    }
   }
 
 
