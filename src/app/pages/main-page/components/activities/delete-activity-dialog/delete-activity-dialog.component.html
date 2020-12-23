@@ -1,0 +1,10 @@
+<p>Удалить запись?</p>
+<div>{{'Тип активности - ' + activity.activityType}}</div>
+<div>{{'Периодичность - ' + activity.periodicity}}</div>
+<div>{{'Продолжительность - ' + activity.interval}}</div>
+<div>{{'Локация - ' + activity.location}}</div>
+<div mat-dialog-actions class="delete-dialog__actions">
+  <button class="btn-text dialog-btn cursor pointer" (click)="closeDialog()">Отмена</button>
+  <button class="btn-text dialog-btn cursor pointer" (click)="onActivityDelete()">Удалить</button>
+</div>
+

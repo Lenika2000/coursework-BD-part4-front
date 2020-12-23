@@ -31,6 +31,7 @@ import {AddUpdateProductDialogComponent} from './pages/main-page/components/prod
 import {AddShopListComponent} from './pages/main-page/components/product-lists/add-shop-list/add-shop-list.component';
 import {NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule} from '@angular-material-components/datetime-picker';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import {DeleteActivityDialogComponent} from './pages/main-page/components/activities/delete-activity-dialog/delete-activity-dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     ProductListsFilterComponent,
     DeleteProductDialogComponent,
     AddUpdateProductDialogComponent,
-    AddShopListComponent
+    AddShopListComponent,
+    DeleteActivityDialogComponent
   ],
   imports: [
     BrowserModule,
