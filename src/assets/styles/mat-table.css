@@ -32,3 +32,7 @@
   color: #FFFFFF !important;
 }
 
+.mat-table_group-header {
+  background: #dbdfe3;
+  padding-left: 10% !important;
+}

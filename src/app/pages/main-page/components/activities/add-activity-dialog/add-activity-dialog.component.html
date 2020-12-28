@@ -21,8 +21,8 @@
 
   <mat-form-field>
     <mat-label class="">Продолжительность</mat-label>
-    <input matInput formControlName="interval" [ngxTimepicker]="interval"  [format]="24" readonly>
-    <ngx-material-timepicker #interval  [enableKeyboardInput]="true" [theme]="theme"></ngx-material-timepicker>
+    <input matInput formControlName="interval" [ngxTimepicker]="interval" [format]="24" [errorStateMatcher]="matcher" readonly>
+    <ngx-material-timepicker #interval [enableKeyboardInput]="true" [theme]="theme"></ngx-material-timepicker>
     <mat-error *ngIf="addForm.get('interval').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
@@ -44,21 +44,27 @@
 
   <mat-form-field>
     <mat-label>Влияние на уровень стресса</mat-label>
-    <input matInput formControlName="impactOnStressLevel">
+    <input matInput formControlName="impactOnStressLevel" [errorStateMatcher]="matcher">
     <mat-error *ngIf="addForm.get('impactOnStressLevel').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
+    <mat-error *ngIf="addForm.get('impactOnStressLevel').hasError('pattern')
+       && (addForm.get('impactOnStressLevel').dirty || addForm.get('impactOnStressLevel').touched)">
+      Доступен только ввод целых чисел со знаком +/-
+    </mat-error>
   </mat-form-field>
 
-<!--  локации будут в отдельном документе для конкретного человека-->
+  <!--  локации будут в отдельном документе для конкретного человека-->
   <mat-form-field>
     <mat-label>Локация</mat-label>
-    <input matInput formControlName="location">
+    <mat-select formControlName="location">
+      <mat-option *ngFor="let location of locations" [value]="location">{{location}}</mat-option>
+    </mat-select>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Тип активности</mat-label>
-    <mat-select formControlName="activityType">
+    <mat-select formControlName="activityType" [errorStateMatcher]="matcher">
       <mat-option *ngFor="let type of activities" [value]="type">{{type}}</mat-option>
     </mat-select>
     <mat-error *ngIf="addForm.get('activityType').hasError('required')">
@@ -68,10 +74,14 @@
 
   <mat-form-field *ngIf="isLesson">
     <mat-label>Аудитория</mat-label>
-    <input matInput formControlName="room">
+    <input matInput formControlName="room" [errorStateMatcher]="matcher">
     <mat-error *ngIf="addForm.get('room').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
+<!--    <mat-error *ngIf="addForm.get('room').hasError('pattern')-->
+<!--       && (addForm.get('room').dirty || addForm.get('room').touched)">-->
+<!--      Доступен только ввод целых чисел и латинских букв-->
+<!--    </mat-error>-->
   </mat-form-field>
 
   <mat-form-field *ngIf="isLesson">
@@ -80,6 +90,10 @@
     <mat-error *ngIf="addForm.get('teacher').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
+<!--    <mat-error *ngIf="addForm.get('teacher').hasError('pattern')-->
+<!--       && (addForm.get('teacher').dirty || addForm.get('teacher').touched)">-->
+<!--      Для ввода Преподавателя используйте только русские или латинские буквы-->
+<!--    </mat-error>-->
   </mat-form-field>
 
   <mat-form-field *ngIf="isLesson">
@@ -105,9 +119,24 @@
     </mat-error>
   </mat-form-field>
 
-<!--  <mat-checkbox formControlName="isDone" labelPosition='before' class="dialog-checkbox">-->
-<!--    Готовность-->
-<!--  </mat-checkbox>-->
+
+  <mat-form-field *ngIf="isMeeting">
+    <mat-label>Собеседник</mat-label>
+    <input matInput formControlName="humanName">
+    <mat-error *ngIf="addForm.get('humanName').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="isShopping">
+    <mat-label>Название списка покупок</mat-label>
+    <mat-select formControlName="shoppingListName">
+      <mat-option *ngFor="let name of shoppingListNames" [value]="name">{{name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <!--  <mat-checkbox formControlName="isDone" labelPosition='before' class="dialog-checkbox">-->
+  <!--    Готовность-->
+  <!--  </mat-checkbox>-->
 
   <div class="activities-dialog__actions">
     <button mat-button (click)="closeDialog()">Отмена</button>

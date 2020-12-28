@@ -4,6 +4,7 @@ import { EventEmitter } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivityType, FormatType, LessonType, Periodicity} from '../../../../../models/activity.model';
 import {NgxMaterialTimepickerTheme} from 'ngx-material-timepicker';
+import {MyErrorStateMatcher} from '../../../../auth-page/auth-page.component';
 
 @Component({
   selector: 'app-add-activity-dialog',
@@ -20,12 +21,15 @@ export class AddActivityDialogComponent implements OnInit {
     'Через месяц', 'Через год', 'Без повтора'];
   public activitiesFormat: FormatType[] = [ 'Очный' , 'Дистанционный'];
   public lessonsType: LessonType[] = [ 'Лекция' , 'Практика'];
+  // todo запрашивать с сервера
+  public shoppingListNames: string[] = [];
+  // todo запрашивать с сервера
+  public locations: string[] = [];
   minDate = new Date();
   isLesson = false;
-  // isWork = false;
   isSport = false;
-  // isShopping = false;
-  // isMeting = false;
+  isShopping = false;
+  isMeeting = false;
   isOther = false;
   theme: NgxMaterialTimepickerTheme = {
     container: {
@@ -41,7 +45,7 @@ export class AddActivityDialogComponent implements OnInit {
       clockFaceTimeInactiveColor: '#fff'
     }
   };
-
+  matcher = new MyErrorStateMatcher();
   constructor( public confirmDialogRef: MatDialogRef<AddActivityDialogComponent>,
                private formBuilder: FormBuilder) { }
 
@@ -53,15 +57,17 @@ export class AddActivityDialogComponent implements OnInit {
       interval: [new Date(), {validators: [Validators.required]}],
       periodicity: ['Каждый день'],
       format: ['Очный'],
-      impactOnStressLevel: ['', {validators: [Validators.required]}],
+      impactOnStressLevel: ['', {validators: [Validators.required, Validators.pattern('^(-|\\+)?(0|[1-9]\\d*)')]}],
       location: [''],
       isDone: [],
       activityType: ['',  {validators: [Validators.required]}],
-      room: ['',  {validators: [Validators.required]}],
-      teacher: ['',  {validators: [Validators.required]}],
+      room: ['',  {validators: [Validators.required , Validators.pattern('[^A-Za-z0-9]')]}],
+      teacher: ['',  {validators: [Validators.required, Validators.pattern('[^A-Za-z-А-Яа-я ]')]}],
       lessonType: ['Практика'],
       sportType: ['',  {validators: [Validators.required]}],
       description: ['',  {validators: [Validators.required]}],
+      humanName: ['',  {validators: [Validators.required]}],
+      shoppingListName: [''],
     });
     this.addForm.get('startTime').value.setHours(8, 0, 0);
     this.addForm.get('endTime').value.setHours(15, 0, 0);
@@ -76,6 +82,8 @@ export class AddActivityDialogComponent implements OnInit {
     this.isLesson = false;
     this.isOther = false;
     this.isSport = false;
+    this.isMeeting = false;
+    this.isShopping = false;
   }
 
   onChangeActivityType(): void {
@@ -92,6 +100,14 @@ export class AddActivityDialogComponent implements OnInit {
           }
           case 'Другое' : {
             this.isOther = true;
+            break;
+          }
+          case 'Поход в магазин' : {
+            this.isShopping = true;
+            break;
+          }
+          case 'Встреча' : {
+            this.isMeeting = true;
             break;
           }
         }

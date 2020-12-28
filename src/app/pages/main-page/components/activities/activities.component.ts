@@ -65,7 +65,7 @@ export class ActivitiesComponent implements OnInit {
   openDeleteDialog(activity: Activity): void {
     const deleteDialogConfig = new MatDialogConfig();
     deleteDialogConfig.height = '180px';
-    deleteDialogConfig.width = '280px';
+    deleteDialogConfig.width = '300px';
     deleteDialogConfig.data = activity;
 
     const dialogConfirmConfigRef = this.dialog.open(DeleteActivityDialogComponent, deleteDialogConfig);
@@ -78,22 +78,23 @@ export class ActivitiesComponent implements OnInit {
     });
   }
 
-  getAdditionalInfo(index: number): string {
-    const hoverActivity = this.activities[index];
-    switch (hoverActivity.activityType) {
-      case 'Встреча':
-        return `Встреча с ${hoverActivity.human}`;
-      case 'Учеба':
-        return `Аудитория - ${hoverActivity.room}\nПреподаватель - ${hoverActivity.teacher}\nТип - ${hoverActivity.type}`;
-      case 'Спорт':
-        return `Тип занятия - ${hoverActivity.sportType}`;
-      case 'Другое':
-        return `Описание - ${hoverActivity.description}`;
-      case 'Поход в магазин':
-        return `Название списка покупок - ${hoverActivity.shopListName}`;
-    }
+  getAdditionalInfo(index): string {
+    return getAdditionalInfo(index, this.activities);
   }
-
-
 }
 
+export function getAdditionalInfo(index: number, activities: any[]): string {
+  const hoverActivity = activities[index];
+  switch (hoverActivity.activityType) {
+    case 'Встреча':
+      return `Встреча с ${hoverActivity.human}`;
+    case 'Учеба':
+      return `Аудитория - ${hoverActivity.room}\nПреподаватель - ${hoverActivity.teacher}\nТип - ${hoverActivity.type}`;
+    case 'Спорт':
+      return `Тип занятия - ${hoverActivity.sportType}`;
+    case 'Другое':
+      return `Описание - ${hoverActivity.description}`;
+    case 'Поход в магазин':
+      return `Название списка покупок - ${hoverActivity.shopListName}`;
+  }
+}

@@ -24,7 +24,7 @@ export class FiltersComponent implements OnInit {
 
   public filters: Filters;
   public activities: ActivityType[] = [ 'Учеба' , 'Работа' , 'Спорт' ,
-  'Поход в магазин' , 'Встреча' , 'Перемещение' , 'Другое'];
+  'Поход в магазин' , 'Встреча' , 'Другое'];
 
 
   campaignStartDate: FormGroup;

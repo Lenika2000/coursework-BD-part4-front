@@ -23,4 +23,4 @@ export class MenuComponent implements OnInit {
 
 }
 
-export type AppScreen = 'home-page' | 'activities' | 'transport' | 'finance' | 'product-lists' ;
+export type AppScreen = 'schedule' | 'activities' | 'transport' | 'finance' | 'product-lists' ;

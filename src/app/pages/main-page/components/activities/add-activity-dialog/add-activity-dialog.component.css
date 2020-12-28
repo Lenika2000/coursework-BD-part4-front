@@ -7,10 +7,8 @@
 }
 
 .activities-dialog__actions {
-  position: absolute;
-  margin-left: 45%;
-  margin-bottom: 10px !important;
-  bottom: -8px;
+  margin-left: 50%;
+  margin-top: 12px;
 }
 
 .mat-form-field {

@@ -43,3 +43,8 @@ export type ActivityType = 'Учеба' | 'Работа' | 'Спорт' |
 
 export type Periodicity = 'Каждый день' | 'Каждую неделю' | 'Каждый месяц' | 'Каждый год' |
   'Через день' | 'Через неделю' | 'Через месяц' | 'Через год' | 'Без повтора' ;
+
+export class GroupByData {
+  constructor(private date: string, private  isGroupBy: boolean) {
+  }
+}
