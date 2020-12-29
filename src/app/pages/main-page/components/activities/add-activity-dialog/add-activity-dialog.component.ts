@@ -46,6 +46,7 @@ export class AddActivityDialogComponent implements OnInit {
     }
   };
   matcher = new MyErrorStateMatcher();
+
   constructor( public confirmDialogRef: MatDialogRef<AddActivityDialogComponent>,
                private formBuilder: FormBuilder) { }
 
@@ -71,6 +72,7 @@ export class AddActivityDialogComponent implements OnInit {
     });
     this.addForm.get('startTime').value.setHours(8, 0, 0);
     this.addForm.get('endTime').value.setHours(15, 0, 0);
+    this.locations = JSON.parse(localStorage.getItem('part4.locations'));
     this.onChangeActivityType();
   }
 

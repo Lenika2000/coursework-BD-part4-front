@@ -1,5 +1,10 @@
 .filter-name{
-  margin-top: 52px;
+  /*margin-top: 52px;*/
+  display: block;
+  font-size: larger;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: rgb(42, 88, 133);
 }
 
 .filter {

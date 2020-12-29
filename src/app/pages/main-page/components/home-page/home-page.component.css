@@ -7,6 +7,14 @@
   padding-right: calc((45% - 307px)/2);
 }
 
+.schedule-content__label{
+  display: block;
+  font-size: larger;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: rgb(42, 88, 133);
+  margin-bottom: 49px;
+}
 
 ::ng-deep .mat-tooltip  {
   white-space: pre-line !important;
