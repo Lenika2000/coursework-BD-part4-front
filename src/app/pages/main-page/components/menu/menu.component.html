@@ -9,19 +9,19 @@
   </div>
   <div class="menu-actions_container">
     <div class="menu-action" (click)="setActiveAction('schedule')">
-      <span>Мое расписание</span>
+      <span [class.activeScreen]="activeScreen=='schedule'">Мое расписание</span>
       <div class="menu-action_end"></div>
     </div>
     <div class="menu-action" (click)="setActiveAction('activities')">
-      <span>Активности</span>
+      <span [class.activeScreen]="activeScreen=='activities'">Активности</span>
       <div class="menu-action_end"></div>
     </div>
     <div class="menu-action" (click)="setActiveAction('finance')">
-      <span>Финансы</span>
+      <span [class.activeScreen]="activeScreen=='finance'">Финансы</span>
       <div class="menu-action_end"></div>
     </div>
     <div class="menu-action" (click)="setActiveAction('product-lists')">
-      <span>Мои товары</span>
+      <span [class.activeScreen]="activeScreen=='product-lists'">Мои товары</span>
       <div class="menu-action_end"></div>
     </div>
   </div>
