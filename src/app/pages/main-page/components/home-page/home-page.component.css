@@ -1,9 +1,12 @@
 .schedule-content {
+  display: block;
   justify-content: center;
   flex-direction: row;
-  margin-left: 100px;
-  margin-right: 100px;
+  min-width: 800px;
+  padding-left: calc((45% - 307px)/2);
+  padding-right: calc((45% - 307px)/2);
 }
+
 
 ::ng-deep .mat-tooltip  {
   white-space: pre-line !important;
@@ -13,7 +16,6 @@
   border: 2px solid #00bfff !important;
 }
 
-mat-table {
-  display: block;
+.mat-table {
   width: 100%;
 }

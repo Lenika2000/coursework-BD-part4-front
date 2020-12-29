@@ -1,0 +1,43 @@
+.mat-table {
+  width: 100%;
+  table-layout: fixed;
+}
+.name {
+  width: 20%;
+}
+
+.address {
+  width: 70%;
+}
+
+.delete, .update {
+  width: 5%;
+}
+
+.setting-content {
+  display: block;
+  justify-content: center;
+  flex-direction: row;
+  min-width: 800px;
+  padding-left: calc((45% - 307px)/2);
+  padding-right: calc((45% - 307px)/2);
+}
+
+.setting-content__label{
+  display: block;
+  font-size: larger;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: rgb(42, 88, 133);
+}
+
+.setting-content__add-btn {
+  width: 94px;
+  height: 27px;
+  margin-bottom: 10px;
+  color: #FFFFFF;
+  background: #2a5885;
+  font-weight: 400 !important;
+  line-height: 26px;
+  text-align: end;
+}

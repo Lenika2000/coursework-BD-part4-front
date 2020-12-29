@@ -5,6 +5,7 @@
       <span>Маньшина</span>
       <span>Елена</span>
     </div>
+    <mat-icon class="user-info_settings cursor pointer" [class.active]="activeScreen=='settings'" (click)="setActiveAction('settings')">settings</mat-icon>
   </div>
   <div class="menu-actions_container">
     <div class="menu-action" (click)="setActiveAction('schedule')">

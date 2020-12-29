@@ -36,6 +36,11 @@ export interface Meeting extends Activity{
   human?: string;
 }
 
+export interface Location {
+  name: string;
+  address: string;
+}
+
 export type LessonType = 'Лекция' | 'Практика';
 export type FormatType = 'Очный' | 'Дистанционный';
 export type ActivityType = 'Учеба' | 'Работа' | 'Спорт' |

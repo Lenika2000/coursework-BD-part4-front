@@ -33,6 +33,9 @@ import {NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModu
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {DeleteActivityDialogComponent} from './pages/main-page/components/activities/delete-activity-dialog/delete-activity-dialog.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {SettingsComponent} from './pages/main-page/components/settings/settings.component';
+import {AddUpdateLocationComponent} from './pages/main-page/components/settings/add-update-location/add-update-location.component';
+import { NgxDadataModule } from '@kolkov/ngx-dadata';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     DeleteProductDialogComponent,
     AddUpdateProductDialogComponent,
     AddShopListComponent,
-    DeleteActivityDialogComponent
+    DeleteActivityDialogComponent,
+    SettingsComponent,
+    AddUpdateLocationComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +79,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
     NgxMaterialTimepickerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    NgxDadataModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE,
@@ -86,7 +92,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     AddActivityDialogComponent,
     DeleteProductDialogComponent,
     AddUpdateProductDialogComponent,
-    AddShopListComponent
+    AddShopListComponent,
+    AddUpdateLocationComponent
   ]
 })
 export class AppModule { }
