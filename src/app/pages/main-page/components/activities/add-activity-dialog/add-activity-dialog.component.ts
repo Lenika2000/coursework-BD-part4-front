@@ -86,6 +86,11 @@ export class AddActivityDialogComponent implements OnInit {
     this.isSport = false;
     this.isMeeting = false;
     this.isShopping = false;
+    this.addForm.controls.room.disable();
+    this.addForm.controls.teacher.disable();
+    this.addForm.controls.sportType.disable();
+    this.addForm.controls.description.disable();
+    this.addForm.controls.humanName.disable();
   }
 
   onChangeActivityType(): void {
@@ -94,14 +99,18 @@ export class AddActivityDialogComponent implements OnInit {
       switch (selectedActivityType) {
           case 'Учеба': {
             this.isLesson = true;
+            this.addForm.controls.room.enable();
+            this.addForm.controls.teacher.enable();
             break;
           }
           case 'Спорт' : {
             this.isSport = true;
+            this.addForm.controls.sportType.enable();
             break;
           }
           case 'Другое' : {
             this.isOther = true;
+            this.addForm.controls.description.enable();
             break;
           }
           case 'Поход в магазин' : {
@@ -110,11 +119,17 @@ export class AddActivityDialogComponent implements OnInit {
           }
           case 'Встреча' : {
             this.isMeeting = true;
+            this.addForm.controls.humanName.enable();
             break;
           }
         }
     });
   }
 
+  addAction(): void{
+    this.addForm.value.interval = this.addForm.value.interval.toLocaleTimeString().slice(0, -3);
+    this.logbookRowAdd.emit(this.addForm.value);
+    this.closeDialog();
+  }
 
 }

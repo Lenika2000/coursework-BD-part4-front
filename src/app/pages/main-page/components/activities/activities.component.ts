@@ -55,6 +55,9 @@ export class ActivitiesComponent implements OnInit {
     const dialogRef = this.dialog.open(AddActivityDialogComponent, addDialogConfig);
 
     dialogRef.componentInstance.logbookRowAdd.subscribe((newRow) => {
+      this.activities.push(newRow);
+      this.table.renderRows();
+      // todo сервер
     });
   }
 

@@ -134,13 +134,10 @@
       <mat-option *ngFor="let name of shoppingListNames" [value]="name">{{name}}</mat-option>
     </mat-select>
   </mat-form-field>
-  <!--  <mat-checkbox formControlName="isDone" labelPosition='before' class="dialog-checkbox">-->
-  <!--    Готовность-->
-  <!--  </mat-checkbox>-->
 
   <div class="activities-dialog__actions">
     <button mat-button (click)="closeDialog()">Отмена</button>
-    <button mat-button [disabled]="addForm.invalid">
+    <button mat-button (click)="addAction()" [disabled]="addForm.invalid">
       Добавить
     </button>
   </div>
