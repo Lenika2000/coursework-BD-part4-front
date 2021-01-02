@@ -1,5 +1,6 @@
-<form [formGroup]="addForm" novalidate>
-  <p class="subtitle-1">Новая активность</p>
+<form [formGroup]="addUpdateForm" novalidate>
+  <p>{{(data.isAddOperation)?'Добавление активности'
+    :'Редактирование активности'}}</p>
 
   <mat-form-field>
     <mat-label>Допустимое время начала</mat-label>
@@ -23,7 +24,7 @@
     <mat-label class="">Продолжительность</mat-label>
     <input matInput formControlName="interval" [ngxTimepicker]="interval" [format]="24" [errorStateMatcher]="matcher" readonly>
     <ngx-material-timepicker #interval [enableKeyboardInput]="true" [theme]="theme"></ngx-material-timepicker>
-    <mat-error *ngIf="addForm.get('interval').hasError('required')">
+    <mat-error *ngIf="addUpdateForm.get('interval').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
   </mat-form-field>
@@ -45,21 +46,23 @@
   <mat-form-field>
     <mat-label>Влияние на уровень стресса</mat-label>
     <input matInput formControlName="impactOnStressLevel" [errorStateMatcher]="matcher">
-    <mat-error *ngIf="addForm.get('impactOnStressLevel').hasError('required')">
+    <mat-error *ngIf="addUpdateForm.get('impactOnStressLevel').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
-    <mat-error *ngIf="addForm.get('impactOnStressLevel').hasError('pattern')
-       && (addForm.get('impactOnStressLevel').dirty || addForm.get('impactOnStressLevel').touched)">
+    <mat-error *ngIf="addUpdateForm.get('impactOnStressLevel').hasError('pattern')
+       && (addUpdateForm.get('impactOnStressLevel').dirty || addUpdateForm.get('impactOnStressLevel').touched)">
       Доступен только ввод целых чисел со знаком +/-
     </mat-error>
   </mat-form-field>
 
-  <!--  локации будут в отдельном документе для конкретного человека-->
   <mat-form-field>
     <mat-label>Локация</mat-label>
     <mat-select formControlName="location">
       <mat-option *ngFor="let location of locations" [value]="location">{{location}}</mat-option>
     </mat-select>
+    <mat-error *ngIf="addUpdateForm.get('location').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field>
@@ -67,7 +70,7 @@
     <mat-select formControlName="activityType" [errorStateMatcher]="matcher">
       <mat-option *ngFor="let type of activities" [value]="type">{{type}}</mat-option>
     </mat-select>
-    <mat-error *ngIf="addForm.get('activityType').hasError('required')">
+    <mat-error *ngIf="addUpdateForm.get('activityType').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
   </mat-form-field>
@@ -75,25 +78,17 @@
   <mat-form-field *ngIf="isLesson">
     <mat-label>Аудитория</mat-label>
     <input matInput formControlName="room" [errorStateMatcher]="matcher">
-    <mat-error *ngIf="addForm.get('room').hasError('required')">
+    <mat-error *ngIf="addUpdateForm.get('room').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
-<!--    <mat-error *ngIf="addForm.get('room').hasError('pattern')-->
-<!--       && (addForm.get('room').dirty || addForm.get('room').touched)">-->
-<!--      Доступен только ввод целых чисел и латинских букв-->
-<!--    </mat-error>-->
   </mat-form-field>
 
   <mat-form-field *ngIf="isLesson">
     <mat-label>Преподаватель</mat-label>
     <input matInput formControlName="teacher">
-    <mat-error *ngIf="addForm.get('teacher').hasError('required')">
+    <mat-error *ngIf="addUpdateForm.get('teacher').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
-<!--    <mat-error *ngIf="addForm.get('teacher').hasError('pattern')-->
-<!--       && (addForm.get('teacher').dirty || addForm.get('teacher').touched)">-->
-<!--      Для ввода Преподавателя используйте только русские или латинские буквы-->
-<!--    </mat-error>-->
   </mat-form-field>
 
   <mat-form-field *ngIf="isLesson">
@@ -101,12 +96,15 @@
     <mat-select formControlName="lessonType">
       <mat-option *ngFor="let type of lessonsType" [value]="type">{{type}}</mat-option>
     </mat-select>
+    <mat-error *ngIf="addUpdateForm.get('lessonType').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field *ngIf="isSport">
     <mat-label>Тип спортивного занятия</mat-label>
     <input matInput formControlName="sportType">
-    <mat-error *ngIf="addForm.get('sportType').hasError('required')">
+    <mat-error *ngIf="addUpdateForm.get('sportType').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
   </mat-form-field>
@@ -114,7 +112,7 @@
   <mat-form-field *ngIf="isOther">
     <mat-label>Описание</mat-label>
     <input matInput formControlName="description">
-    <mat-error *ngIf="addForm.get('description').hasError('required')">
+    <mat-error *ngIf="addUpdateForm.get('description').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
   </mat-form-field>
@@ -123,7 +121,7 @@
   <mat-form-field *ngIf="isMeeting">
     <mat-label>Собеседник</mat-label>
     <input matInput formControlName="humanName">
-    <mat-error *ngIf="addForm.get('humanName').hasError('required')">
+    <mat-error *ngIf="addUpdateForm.get('humanName').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
   </mat-form-field>
@@ -133,11 +131,17 @@
     <mat-select formControlName="shoppingListName">
       <mat-option *ngFor="let name of shoppingListNames" [value]="name">{{name}}</mat-option>
     </mat-select>
+    <mat-error *ngIf="addUpdateForm.get('shoppingListName').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
   </mat-form-field>
 
   <div class="activities-dialog__actions">
-    <button mat-button (click)="closeDialog()">Отмена</button>
-    <button mat-button (click)="addAction()" [disabled]="addForm.invalid">
+    <button mat-button (click)="closeDialog()" class="dialog-btn cursor pointer">Отмена</button>
+    <button mat-button *ngIf="!data.isAddOperation" [disabled]="addUpdateForm.invalid" (click)="updateAction()" class="dialog-btn cursor pointer">
+      Сохранить
+    </button>
+    <button mat-button *ngIf="data.isAddOperation" mat-button (click)="addAction()" [disabled]="addUpdateForm.invalid" class="dialog-btn cursor pointer">
       Добавить
     </button>
   </div>

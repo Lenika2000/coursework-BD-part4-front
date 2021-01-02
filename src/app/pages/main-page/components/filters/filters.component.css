@@ -46,8 +46,9 @@
 .filter__add-button {
   display: flex;
   align-items: flex-end;
+  font-weight: 400 !important;
   width: 122px;
-  height: 26px;
+  height: 27px;
   line-height: 26px;
   margin-bottom: 15px;
   margin-left: 20px;

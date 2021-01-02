@@ -21,7 +21,7 @@ import {HomePageComponent} from './pages/main-page/components/home-page/home-pag
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
-import {AddActivityDialogComponent} from './pages/main-page/components/activities/add-activity-dialog/add-activity-dialog.component';
+import {AddUpdateActivityDialogComponent} from './pages/main-page/components/activities/add-activity-dialog/add-update-activity-dialog.component';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthPageComponent} from './pages/auth-page/auth-page.component';
 import {ProductListsComponent} from './pages/main-page/components/product-lists/product-lists.component';
@@ -45,7 +45,7 @@ import { NgxDadataModule } from '@kolkov/ngx-dadata';
     ActivitiesComponent,
     FiltersComponent,
     HomePageComponent,
-    AddActivityDialogComponent,
+    AddUpdateActivityDialogComponent,
     AuthPageComponent,
     ProductListsComponent,
     ProductListsFilterComponent,
@@ -89,7 +89,7 @@ import { NgxDadataModule } from '@kolkov/ngx-dadata';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
   entryComponents: [
-    AddActivityDialogComponent,
+    AddUpdateActivityDialogComponent,
     DeleteProductDialogComponent,
     AddUpdateProductDialogComponent,
     AddShopListComponent,
