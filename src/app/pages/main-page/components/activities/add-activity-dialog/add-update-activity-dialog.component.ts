@@ -2,11 +2,9 @@ import {Component, Inject, OnInit, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { EventEmitter } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Activity, ActivityType, FormatType, LessonType, Periodicity} from '../../../../../models/activity.model';
+import {ActivityType, FormatType, LessonType, Periodicity} from '../../../../../models/activity.model';
 import {NgxMaterialTimepickerTheme} from 'ngx-material-timepicker';
 import {MyErrorStateMatcher} from '../../../../auth-page/auth-page.component';
-import {ProductWithOperationType} from '../../product-lists/add-update-product-dialog/add-update-product-dialog.component';
-import {Product} from '../../../../../models/shopping.model';
 
 @Component({
   selector: 'app-add-activity-dialog',
@@ -55,7 +53,6 @@ export class AddUpdateActivityDialogComponent implements OnInit {
                @Inject(MAT_DIALOG_DATA) public data: ActivityWithOperationType) { }
 
   ngOnInit(): void {
-    this.minDate.setHours(12, 23);
     this.addUpdateForm = this.formBuilder.group({
       startTime: [ this.data.activity.startTime],
       endTime: [this.data.activity.endTime],
@@ -76,6 +73,10 @@ export class AddUpdateActivityDialogComponent implements OnInit {
     });
     this.locations = JSON.parse(localStorage.getItem('part4.locations'));
     this.onChangeActivityType();
+    if (!this.data.isAddOperation) {
+      this.cleanVariables();
+      this.setActivityTypeSettings(this.addUpdateForm.get('activityType').value);
+    }
   }
 
   closeDialog(): void {
@@ -90,48 +91,54 @@ export class AddUpdateActivityDialogComponent implements OnInit {
     this.isShopping = false;
     this.addUpdateForm.controls.room.disable();
     this.addUpdateForm.controls.teacher.disable();
+    this.addUpdateForm.controls.lessonType.disable();
     this.addUpdateForm.controls.sportType.disable();
     this.addUpdateForm.controls.description.disable();
     this.addUpdateForm.controls.humanName.disable();
     this.addUpdateForm.controls.shoppingListName.disable();
   }
 
+  setActivityTypeSettings(selectedActivityType: string): void {
+    console.log(this.addUpdateForm)
+    switch (selectedActivityType) {
+      case 'Учеба': {
+        this.isLesson = true;
+        this.addUpdateForm.controls.lessonType.enable();
+        this.addUpdateForm.controls.room.enable();
+        this.addUpdateForm.controls.teacher.enable();
+        break;
+      }
+      case 'Спорт' : {
+        this.isSport = true;
+        this.addUpdateForm.controls.sportType.enable();
+        break;
+      }
+      case 'Другое' : {
+        this.isOther = true;
+        this.addUpdateForm.controls.description.enable();
+        break;
+      }
+      case 'Поход в магазин' : {
+        this.isShopping = true;
+        this.addUpdateForm.controls.shoppingListName.enable();
+        break;
+      }
+      case 'Встреча' : {
+        this.isMeeting = true;
+        this.addUpdateForm.controls.humanName.enable();
+        break;
+      }
+    }
+  }
+
   onChangeActivityType(): void {
     this.addUpdateForm.get('activityType').valueChanges.subscribe(selectedActivityType => {
       this.cleanVariables();
-      switch (selectedActivityType) {
-          case 'Учеба': {
-            this.isLesson = true;
-            this.addUpdateForm.controls.room.enable();
-            this.addUpdateForm.controls.teacher.enable();
-            break;
-          }
-          case 'Спорт' : {
-            this.isSport = true;
-            this.addUpdateForm.controls.sportType.enable();
-            break;
-          }
-          case 'Другое' : {
-            this.isOther = true;
-            this.addUpdateForm.controls.description.enable();
-            break;
-          }
-          case 'Поход в магазин' : {
-            this.isShopping = true;
-            this.addUpdateForm.controls.shoppingListName.enable();
-            break;
-          }
-          case 'Встреча' : {
-            this.isMeeting = true;
-            this.addUpdateForm.controls.humanName.enable();
-            break;
-          }
-        }
+      this.setActivityTypeSettings(selectedActivityType);
     });
   }
 
   addAction(): void{
-    this.addUpdateForm.value.interval = this.addUpdateForm.value.interval.toLocaleTimeString().slice(0, -3);
     this.activityAdd.emit(this.addUpdateForm.value);
     this.closeDialog();
   }

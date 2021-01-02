@@ -5,6 +5,7 @@ import {Activity} from '../../../../models/activity.model';
 import {DeleteActivityDialogComponent} from './delete-activity-dialog/delete-activity-dialog.component';
 import {MatTable} from '@angular/material/table';
 import {Product} from '../../../../models/shopping.model';
+import {Filters} from '../filters/filters.component';
 
 @Component({
   selector: 'app-activities',
@@ -17,6 +18,7 @@ export class ActivitiesComponent implements OnInit {
     'format', 'activityType', 'impactOnStressLevel', 'location', 'update', 'delete'];
   @ViewChild('table', {static: false}) table: MatTable<Product>;
   selectedActivity: any;
+  filteredTableData: any[];
   public activities: any = [
   {
     startTime: new Date(),
@@ -42,12 +44,13 @@ export class ActivitiesComponent implements OnInit {
       location: 'Магнит',
       activityType: 'Встреча',
       isDone: false,
-      human: 'Женя'
+      humanName: 'Женя'
     }];
 
   constructor( private dialog: MatDialog) { }
 
   public ngOnInit(): void {
+    this.filteredTableData = this.activities;
   }
 
   openAddUpdateDialog(isAddOperation: boolean, activity: any): MatDialogRef<AddUpdateActivityDialogComponent, any>  {
@@ -145,6 +148,30 @@ export class ActivitiesComponent implements OnInit {
 
   getAdditionalInfo(index): string {
     return getAdditionalInfo(index, this.activities);
+  }
+
+
+  applyDateFilters(filters: Filters): void {
+    this.filteredTableData = this.activities;
+    // todo запрос на сервер
+    // this.filteredTableData = this.filteredTableData.filter((row) => {
+    //   return row.startTime < filters.endDate && row.startTime> === 'Дистанционный';
+    // });
+  }
+
+
+  filterTableData(filters: Filters): void {
+    this.filteredTableData = this.activities;
+    if (filters.isOffline) {
+      this.filteredTableData = this.filteredTableData.filter((row) => {
+        return row.format === 'Очный';
+      });
+    }
+    if (filters.activityType !== undefined) {
+      this.filteredTableData = this.filteredTableData.filter((row) => {
+        return row.activityType === filters.activityType;
+      });
+    }
   }
 }
 

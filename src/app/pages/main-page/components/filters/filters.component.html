@@ -19,14 +19,14 @@
 <!--        <mat-datepicker #endDatedp></mat-datepicker>-->
 <!--      </mat-form-field>-->
       <mat-form-field class="startDate__dp">
-        <mat-label>Допустимое время начала</mat-label>
+        <mat-label>Допустимая дата начала</mat-label>
       <mat-date-range-input
         [formGroup]="campaignStartDate"
         [rangePicker]="campaignStartDatePicker"
         [comparisonStart]="campaignStartDate.value.start"
         [comparisonEnd]="campaignStartDate.value.end">
-        <input readonly matStartDate formControlName="start">
-        <input readonly matEndDate formControlName="end">
+        <input readonly matStartDate formControlName="start" (dateChange)="changeDate()">
+        <input readonly matEndDate formControlName="end" (dateChange)="changeDate()">
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="campaignStartDatePicker"></mat-datepicker-toggle>
       <mat-date-range-picker #campaignStartDatePicker></mat-date-range-picker>
@@ -51,14 +51,14 @@
 <!--      </mat-form-field>-->
 
       <mat-form-field class="endDate__dp">
-        <mat-label>Допустимое время конца</mat-label>
+        <mat-label>Допустимая дата конца</mat-label>
         <mat-date-range-input
           [formGroup]="campaignEndDate"
           [rangePicker]="campaignEndDatePicker"
           [comparisonStart]="campaignEndDate.value.start"
           [comparisonEnd]="campaignEndDate.value.end">
-          <input readonly matStartDate formControlName="start">
-          <input readonly matEndDate formControlName="end">
+          <input readonly matStartDate formControlName="start" (dateChange)="changeDate()">
+          <input readonly matEndDate formControlName="end" (dateChange)="changeDate()">
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="campaignEndDatePicker"></mat-datepicker-toggle>
         <mat-date-range-picker #campaignEndDatePicker></mat-date-range-picker>
@@ -70,12 +70,12 @@
   <div class="filter__activities-types">
     <mat-form-field>
       <mat-label class="">Тип активности</mat-label>
-      <mat-select [(ngModel)]="filters.activityType">
+      <mat-select [(ngModel)]="filters.activityType" (selectionChange)="change()">
         <mat-option *ngFor="let type of activities" [value]="type">{{type}}</mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-checkbox [(ngModel)]="filters.isOffline" labelPosition='before' class="activities-types_isOffline">
+    <mat-checkbox [(ngModel)]="filters.isOffline" labelPosition='before' (change)="change()" class="activities-types_isOffline">
       Только очные
     </mat-checkbox>
     <button mat-button (click)="addRow()" class="filter__add-button">

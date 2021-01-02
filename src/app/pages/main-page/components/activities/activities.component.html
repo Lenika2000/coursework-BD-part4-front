@@ -1,7 +1,9 @@
 <div class="activity-content">
   <app-filters (addRowEvent)="addActivity()"
+               (filtersChangeDate)="applyDateFilters($event)"
+               (filtersChange)="filterTableData($event)"
   ></app-filters>
-  <table mat-table  #table [dataSource]="activities"
+  <table mat-table  #table [dataSource]="filteredTableData"
          class="mat-table-style">
 
     <ng-container matColumnDef="startTime">

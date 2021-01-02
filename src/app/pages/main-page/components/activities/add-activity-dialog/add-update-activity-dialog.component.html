@@ -141,7 +141,7 @@
     <button mat-button *ngIf="!data.isAddOperation" [disabled]="addUpdateForm.invalid" (click)="updateAction()" class="dialog-btn cursor pointer">
       Сохранить
     </button>
-    <button mat-button *ngIf="data.isAddOperation" mat-button (click)="addAction()" [disabled]="addUpdateForm.invalid" class="dialog-btn cursor pointer">
+    <button *ngIf="data.isAddOperation" mat-button (click)="addAction()" [disabled]="addUpdateForm.invalid" class="dialog-btn cursor pointer">
       Добавить
     </button>
   </div>

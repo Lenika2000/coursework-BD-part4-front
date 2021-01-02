@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import {ActivityType} from '../../../../models/activity.model';
 import {FormControl, FormGroup} from '@angular/forms';
@@ -11,21 +11,20 @@ import {FormControl, FormGroup} from '@angular/forms';
 export class FiltersComponent implements OnInit {
 
 
-  @Input() public startDate: Date;
-  @Input() public endDate: Date;
-  @Input() public startDate2: Date;
-  @Input() public endDate2: Date;
-  @Input() public isOffline: boolean;
-  @Input() public activityType: ActivityType;
+  public startDate: Date;
+  public endDate: Date;
+  public startDate2: Date;
+  public endDate2: Date;
+  public isOffline: boolean;
+  public activityType: ActivityType;
   @Output() public addRowEvent = new EventEmitter();
-  // @Input() activeScreen: AppScreen;
-  // @Output() filtersChange = new EventEmitter<Filters>();
-  // @Output() filtersChangeDate = new EventEmitter<Filters>();
+
+  @Output() filtersChange = new EventEmitter<Filters>();
+  @Output() filtersChangeDate = new EventEmitter<Filters>();
 
   public filters: Filters;
   public activities: ActivityType[] = [ 'Учеба' , 'Работа' , 'Спорт' ,
   'Поход в магазин' , 'Встреча' , 'Другое'];
-
 
   campaignStartDate: FormGroup;
   campaignEndDate: FormGroup;
@@ -57,20 +56,13 @@ export class FiltersComponent implements OnInit {
     };
   }
 
-  // changeRollingStockTypeName() {
-  //   this.filters.rollingStockNumber = 'Все';
-  //   this.filters.rollingStockNumbersList = selectFilterRollingStockNumbersList(this.filters.rollingStockTypeName);
-  //   this.change();
-  // }
-  //
   public changeDate(): void {
-    // this.filtersChangeDate.emit(this.filters);
+    this.filtersChangeDate.emit(this.filters);
   }
-  //
-  // change() {
-  //   this.filtersChange.emit(this.filters);
-  //   // console.log(this.filters);
-  // }
+
+  change(): void {
+    this.filtersChange.emit(this.filters);
+  }
 
   addRow(): void {
     this.addRowEvent.emit();
