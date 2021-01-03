@@ -179,7 +179,7 @@ export function getAdditionalInfo(index: number, activities: any[]): string {
   const hoverActivity = activities[index];
   switch (hoverActivity.activityType) {
     case 'Встреча':
-      return `Встреча с ${hoverActivity.human}`;
+      return `Встреча с ${hoverActivity.humanName}`;
     case 'Учеба':
       return `Аудитория - ${hoverActivity.room}\nПреподаватель - ${hoverActivity.teacher}\nТип - ${hoverActivity.type}`;
     case 'Спорт':

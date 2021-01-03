@@ -10,13 +10,6 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class FiltersComponent implements OnInit {
 
-
-  public startDate: Date;
-  public endDate: Date;
-  public startDate2: Date;
-  public endDate2: Date;
-  public isOffline: boolean;
-  public activityType: ActivityType;
   @Output() public addRowEvent = new EventEmitter();
 
   @Output() filtersChange = new EventEmitter<Filters>();
@@ -47,12 +40,12 @@ export class FiltersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.filters = {
-      startDate: this.startDate,
-      endDate: this.endDate,
-      startDate2: this.startDate2,
-      endDate2: this.endDate2,
-      isOffline: this.isOffline,
-      activityType: this.activityType,
+      startDate: this.campaignStartDate.get('start').value,
+      endDate: this.campaignStartDate.get('end').value,
+      startDate2: this.campaignEndDate.get('start').value,
+      endDate2: this.campaignEndDate.get('end').value,
+      isOffline: false,
+      activityType: undefined,
     };
   }
 
