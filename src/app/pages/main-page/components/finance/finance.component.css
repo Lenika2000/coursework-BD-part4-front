@@ -1,0 +1,52 @@
+.finance-content {
+  display: block;
+  justify-content: center;
+  flex-direction: row;
+  min-width: 800px;
+  padding-left: calc((45% - 307px)/2);
+  padding-right: calc((45% - 307px)/2);
+}
+
+mat-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.type {
+  width: 10%;
+}
+
+.sum {
+  width: 10%;
+}
+
+.income {
+  color: green;
+  font-size: larger;
+}
+
+.expenses {
+  color: red;
+  font-size: larger;
+}
+
+.description {
+  width: 50%;
+}
+
+.date {
+  width: 20%;
+}
+
+.delete, .update {
+  width: 5%;
+}
+
+.finance-content__label{
+  display: block;
+  font-size: larger;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: rgb(42, 88, 133);
+  margin-bottom: 49px;
+}

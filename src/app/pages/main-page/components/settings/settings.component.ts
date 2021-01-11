@@ -80,7 +80,7 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  openDeleteDialog(location: Location): void {
+  deleteLocation(location: Location): void {
     const deletedElemIndex = this.locations.findIndex((d) => d === location);
     this.locations.splice(deletedElemIndex, 1);
     this.updateLocationNames();

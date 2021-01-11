@@ -36,6 +36,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {SettingsComponent} from './pages/main-page/components/settings/settings.component';
 import {AddUpdateLocationComponent} from './pages/main-page/components/settings/add-update-location/add-update-location.component';
 import { NgxDadataModule } from '@kolkov/ngx-dadata';
+import {FinanceComponent} from './pages/main-page/components/finance/finance.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { NgxDadataModule } from '@kolkov/ngx-dadata';
     AddShopListComponent,
     DeleteActivityDialogComponent,
     SettingsComponent,
-    AddUpdateLocationComponent
+    AddUpdateLocationComponent,
+    FinanceComponent
   ],
   imports: [
     BrowserModule,
