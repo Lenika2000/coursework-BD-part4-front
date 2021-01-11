@@ -12,7 +12,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
 import {ActivitiesComponent} from './pages/main-page/components/activities/activities.component';
-import {FiltersComponent} from './pages/main-page/components/filters/filters.component';
+import {FiltersComponent} from './pages/main-page/components/activities/filters/filters.component';
 import { MenuComponent } from './pages/main-page/components/menu/menu.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';

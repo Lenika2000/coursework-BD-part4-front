@@ -1,7 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FinanceElem} from '../../../../models/finance.model';
+import {FinanceElem, FinanceFilter} from '../../../../models/finance.model';
 import {MatTable} from '@angular/material/table';
 import {Location} from '../../../../models/activity.model';
+import {Filters} from '../activities/filters/filters.component';
 
 @Component({
   selector: 'app-finance',
@@ -13,6 +14,7 @@ export class FinanceComponent implements OnInit {
   public displayedColumns = ['type', 'sum', 'description', 'date',
     'update', 'delete'];
   @ViewChild('table', {static: false}) table: MatTable<Location>;
+  filteredTableData: FinanceElem[];
   finance: FinanceElem[] = [
     {
       type: 'Доход',
@@ -27,17 +29,45 @@ export class FinanceComponent implements OnInit {
       date: new Date()
     }
   ];
+  filters: FinanceFilter = {
+    startDate: new Date(),
+    endDate: new Date(),
+    isIncome: false,
+    isExpenses: false,
+  };
 
   constructor() { }
 
   ngOnInit(): void {
+    this.changeFilter();
   }
 
-  deleteElem(elem: FinanceElem[]): void {
-    const deletedElemIndex = this.finance.findIndex((d) => d === elem);
+  deleteElem(elem: FinanceElem): void {
+    const deletedElemIndex = this.finance.findIndex((d: FinanceElem) => d === elem);
     this.finance.splice(deletedElemIndex, 1);
     this.table.renderRows();
     // todo сервер
   }
 
+  applyDateFilters(): void {
+    // todo запрос на сервер
+    // this.filteredTableData = this.filteredTableData.filter((row) => {
+    //   return row.startTime < filters.endDate && row.startTime> === 'Дистанционный';
+    // });
+  }
+
+  changeFilter(): void {
+    this.filteredTableData = this.finance;
+    if (this.filters.isExpenses) {
+      this.filteredTableData = this.filteredTableData.filter((row) => {
+        return row.type === 'Расход';
+      });
+    } else {
+      if (this.filters.isIncome) {
+        this.filteredTableData = this.filteredTableData.filter((row) => {
+          return row.type === 'Доход';
+        });
+      }
+    }
+  }
 }

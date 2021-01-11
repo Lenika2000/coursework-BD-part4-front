@@ -48,5 +48,30 @@ mat-table {
   font-weight: bold;
   text-transform: uppercase;
   color: rgb(42, 88, 133);
-  margin-bottom: 49px;
+}
+
+.mat-form-field {
+  margin-right: 28px;
+  width: 250px;
+  height: 56px;
+}
+
+/*.filter {*/
+/*  display: flex;*/
+/*  flex-direction: row;*/
+/*}*/
+
+.finance-types_isIncome, finance-types_isExpenses {
+  margin-right: 28px;
+}
+
+.filter__add-button {
+  font-weight: 400 !important;
+  width: 122px;
+  height: 27px;
+  line-height: 26px;
+  margin-bottom: 15px;
+  margin-left: 20px;
+  color: #FFFFFF;
+  background: #2a5885;
 }

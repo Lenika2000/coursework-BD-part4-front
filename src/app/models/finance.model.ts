@@ -5,4 +5,11 @@ export interface FinanceElem {
   date: Date;
 }
 
+export interface FinanceFilter {
+  startDate: Date;
+  endDate: Date;
+  isIncome: boolean;
+  isExpenses: boolean;
+}
+
 export type FinanceElemType = 'Доход' | 'Расход';

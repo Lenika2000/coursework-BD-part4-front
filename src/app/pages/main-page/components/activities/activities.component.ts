@@ -5,7 +5,7 @@ import {Activity} from '../../../../models/activity.model';
 import {DeleteActivityDialogComponent} from './delete-activity-dialog/delete-activity-dialog.component';
 import {MatTable} from '@angular/material/table';
 import {Product} from '../../../../models/shopping.model';
-import {Filters} from '../filters/filters.component';
+import {Filters} from './filters/filters.component';
 
 @Component({
   selector: 'app-activities',

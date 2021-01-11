@@ -1,6 +1,6 @@
 import {Component, OnInit, Output} from '@angular/core';
 import { EventEmitter } from '@angular/core';
-import {ActivityType} from '../../../../models/activity.model';
+import {ActivityType} from '../../../../../models/activity.model';
 import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
