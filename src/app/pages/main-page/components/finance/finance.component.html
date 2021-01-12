@@ -17,11 +17,11 @@
         <mat-datepicker #endDatedp></mat-datepicker>
       </mat-form-field>
 
-      <mat-checkbox [(ngModel)]="filters.isIncome" labelPosition='before' (change)="changeFilter()"
+      <mat-checkbox [(ngModel)]="filters.isIncome" labelPosition='before' (change)="groupData()"
                     [disabled]="filters.isExpenses" class="finance-types_isIncome">
         Только доходы
       </mat-checkbox>
-      <mat-checkbox [(ngModel)]="filters.isExpenses" labelPosition='before' (change)="changeFilter()"
+      <mat-checkbox [(ngModel)]="filters.isExpenses" labelPosition='before' (change)="groupData()"
                     [disabled]="filters.isIncome" class="finance-types_isExpenses">
         Только расходы
       </mat-checkbox>

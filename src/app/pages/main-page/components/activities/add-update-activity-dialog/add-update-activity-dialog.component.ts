@@ -99,7 +99,6 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   }
 
   setActivityTypeSettings(selectedActivityType: string): void {
-    console.log(this.addUpdateForm)
     switch (selectedActivityType) {
       case 'Учеба': {
         this.isLesson = true;
