@@ -1,23 +1,7 @@
 <p class="filter-name">Фильтр Активностей</p>
 <div class="filter">
-  <!--  <p *ngIf="activeScreen!=='settings'" class="subtitle-2 text-high-clr vert-space-32">Показать за время</p>-->
   <div>
     <div class="filter__startDate">
-<!--      <mat-form-field class="startDate__dp">-->
-<!--        <mat-label>Начало интервала</mat-label>-->
-<!--        <input matInput readonly [(ngModel)]="filters.startDate" [matDatepicker]="startDatedp"-->
-<!--               (dateChange)="changeDate()">-->
-<!--        <mat-datepicker-toggle matSuffix [for]="startDatedp"></mat-datepicker-toggle>-->
-<!--        <mat-datepicker #startDatedp></mat-datepicker>-->
-<!--      </mat-form-field>-->
-
-<!--      <mat-form-field class="startDate__dp">-->
-<!--        <mat-label>Конец интервала</mat-label>-->
-<!--        <input matInput readonly [(ngModel)]="filters.endDate" [matDatepicker]="endDatedp"-->
-<!--               (dateChange)="changeDate()">-->
-<!--        <mat-datepicker-toggle matSuffix [for]="endDatedp"></mat-datepicker-toggle>-->
-<!--        <mat-datepicker #endDatedp></mat-datepicker>-->
-<!--      </mat-form-field>-->
       <mat-form-field class="startDate__dp">
         <mat-label>Допустимая дата начала</mat-label>
       <mat-date-range-input
@@ -33,23 +17,6 @@
       </mat-form-field>
     </div>
     <div class="filter__endDate">
-<!--      <mat-label>Допустимое время конца</mat-label>-->
-<!--      <mat-form-field>-->
-<!--        <mat-label>Начало интервала</mat-label>-->
-<!--        <input matInput readonly [(ngModel)]="filters.startDate2" [matDatepicker]="startDatedp2"-->
-<!--               (dateChange)="changeDate()">-->
-<!--        <mat-datepicker-toggle matSuffix [for]="startDatedp2"></mat-datepicker-toggle>-->
-<!--        <mat-datepicker #startDatedp2></mat-datepicker>-->
-<!--      </mat-form-field>-->
-
-<!--      <mat-form-field>-->
-<!--        <mat-label>Конец интервала</mat-label>-->
-<!--        <input matInput readonly [(ngModel)]="filters.endDate2" [matDatepicker]="endDatedp2"-->
-<!--               (dateChange)="changeDate()">-->
-<!--        <mat-datepicker-toggle matSuffix [for]="endDatedp2"></mat-datepicker-toggle>-->
-<!--        <mat-datepicker #endDatedp2></mat-datepicker>-->
-<!--      </mat-form-field>-->
-
       <mat-form-field class="endDate__dp">
         <mat-label>Допустимая дата конца</mat-label>
         <mat-date-range-input
@@ -63,7 +30,6 @@
         <mat-datepicker-toggle matSuffix [for]="campaignEndDatePicker"></mat-datepicker-toggle>
         <mat-date-range-picker #campaignEndDatePicker></mat-date-range-picker>
       </mat-form-field>
-
     </div>
   </div>
 
@@ -74,11 +40,10 @@
         <mat-option *ngFor="let type of activities" [value]="type">{{type}}</mat-option>
       </mat-select>
     </mat-form-field>
-
     <mat-checkbox [(ngModel)]="filters.isOffline" labelPosition='before' (change)="change()" class="activities-types_isOffline">
       Только очные
     </mat-checkbox>
-    <button mat-button (click)="addRow()" class="filter__add-button">
+    <button mat-button (click)="addRow()" class="btn">
       Новая запись
     </button>
   </div>

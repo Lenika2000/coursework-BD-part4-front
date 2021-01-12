@@ -1,5 +1,4 @@
 .filter-name{
-  /*margin-top: 52px;*/
   display: block;
   font-size: larger;
   font-weight: bold;
@@ -43,16 +42,8 @@
   margin-bottom: -3px;
 }
 
-.filter__add-button {
-  display: flex;
-  align-items: flex-end;
-  font-weight: 400 !important;
-  width: 122px;
-  height: 27px;
-  line-height: 26px;
-  margin-bottom: 15px;
+.btn {
+  margin-bottom: 7px;
   margin-left: 20px;
-  color: #FFFFFF;
-  background: #2a5885;
 }
 

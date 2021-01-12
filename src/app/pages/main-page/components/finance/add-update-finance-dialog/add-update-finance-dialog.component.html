@@ -1,0 +1,47 @@
+<form [formGroup]="financeForm" novalidate>
+  <p>{{(data.isAddOperation)?'Добавление статьи дохода/расхода'
+    :'Редактирование статьи дохода/расхода'}}</p>
+  <mat-icon (click)="closeDialog()" class="dialog__close-icon cursor pointer">clear</mat-icon>
+  <mat-form-field>
+    <mat-label>Статья</mat-label>
+    <mat-select formControlName="type" [errorStateMatcher]="matcher">
+      <mat-option *ngFor="let type of financeElemTypes" [value]="type">{{type}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="financeForm.get('type').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Сумма</mat-label>
+    <input matInput formControlName="sum" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="financeForm.get('sum').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+    <mat-error class="error-message" *ngIf="financeForm.get('sum').hasError('pattern')
+    && (financeForm.get('sum').dirty || financeForm.get('sum').touched)">
+      Для ввода суммы используйте только числа
+    </mat-error>
+    <mat-error class="error-message" *ngIf="financeForm.get('sum').hasError('min')
+    && (financeForm.get('sum').dirty || financeForm.get('sum').touched)">
+      Сумма не может быть меньше 1
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="description" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="financeForm.get('description').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Дата совершения</mat-label>
+    <input  matInput readonly formControlName="date" [matDatepicker]="dp">
+    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
+  </mat-form-field>
+
+  <div class="dialog__actions">
+    <button mat-button *ngIf="!data.isAddOperation" [disabled]="financeForm.invalid" (click)="onElemUpdate()" class="btn cursor pointer">Сохранить</button>
+    <button mat-button *ngIf="data.isAddOperation" [disabled]="financeForm.invalid" (click)="onElemAdd()" class="btn cursor pointer">Добавить</button>
+  </div>
+</form>

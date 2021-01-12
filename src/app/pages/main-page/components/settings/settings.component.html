@@ -1,7 +1,9 @@
 <div class="setting-content">
   <p class="setting-content__label">Мои места</p>
-  <button mat-button (click)="addLocation()" class="setting-content__add-btn">Добавить</button>
-  <table mat-table #table [dataSource]="locations"
+  <div class="setting-content__add-btn">
+    <button mat-button (click)="addLocation()" class="btn">Добавить</button>
+  </div>
+    <table mat-table #table [dataSource]="locations"
          class="mat-table-style">
 
     <ng-container matColumnDef="name">

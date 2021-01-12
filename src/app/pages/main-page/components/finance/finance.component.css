@@ -56,12 +56,7 @@ mat-table {
   height: 56px;
 }
 
-/*.filter {*/
-/*  display: flex;*/
-/*  flex-direction: row;*/
-/*}*/
-
-.finance-types_isIncome, finance-types_isExpenses {
+.finance-types_isIncome, .finance-types_isExpenses {
   margin-right: 28px;
 }
 

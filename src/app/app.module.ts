@@ -21,7 +21,7 @@ import {HomePageComponent} from './pages/main-page/components/home-page/home-pag
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
-import {AddUpdateActivityDialogComponent} from './pages/main-page/components/activities/add-activity-dialog/add-update-activity-dialog.component';
+import {AddUpdateActivityDialogComponent} from './pages/main-page/components/activities/add-update-activity-dialog/add-update-activity-dialog.component';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthPageComponent} from './pages/auth-page/auth-page.component';
 import {ProductListsComponent} from './pages/main-page/components/product-lists/product-lists.component';
@@ -37,6 +37,7 @@ import {SettingsComponent} from './pages/main-page/components/settings/settings.
 import {AddUpdateLocationComponent} from './pages/main-page/components/settings/add-update-location/add-update-location.component';
 import { NgxDadataModule } from '@kolkov/ngx-dadata';
 import {FinanceComponent} from './pages/main-page/components/finance/finance.component';
+import {AddUpdateFinanceDialogComponent} from './pages/main-page/components/finance/add-update-finance-dialog/add-update-finance-dialog.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import {FinanceComponent} from './pages/main-page/components/finance/finance.com
     DeleteActivityDialogComponent,
     SettingsComponent,
     AddUpdateLocationComponent,
-    FinanceComponent
+    FinanceComponent,
+    AddUpdateFinanceDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +97,8 @@ import {FinanceComponent} from './pages/main-page/components/finance/finance.com
     DeleteProductDialogComponent,
     AddUpdateProductDialogComponent,
     AddShopListComponent,
-    AddUpdateLocationComponent
+    AddUpdateLocationComponent,
+    AddUpdateFinanceDialogComponent
   ]
 })
 export class AppModule { }

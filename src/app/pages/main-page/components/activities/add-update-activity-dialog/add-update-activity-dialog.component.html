@@ -137,11 +137,11 @@
   </mat-form-field>
 
   <div class="activities-dialog__actions">
-    <button mat-button (click)="closeDialog()" class="dialog-btn cursor pointer">Отмена</button>
-    <button mat-button *ngIf="!data.isAddOperation" [disabled]="addUpdateForm.invalid" (click)="updateAction()" class="dialog-btn cursor pointer">
+    <button mat-button (click)="closeDialog()" class="btn cursor pointer">Отмена</button>
+    <button mat-button *ngIf="!data.isAddOperation" [disabled]="addUpdateForm.invalid" (click)="updateAction()" class="btn cursor pointer">
       Сохранить
     </button>
-    <button *ngIf="data.isAddOperation" mat-button (click)="addAction()" [disabled]="addUpdateForm.invalid" class="dialog-btn cursor pointer">
+    <button *ngIf="data.isAddOperation" mat-button (click)="addAction()" [disabled]="addUpdateForm.invalid" class="btn cursor pointer">
       Добавить
     </button>
   </div>

@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
-import {AddUpdateActivityDialogComponent} from './add-activity-dialog/add-update-activity-dialog.component';
+import {AddUpdateActivityDialogComponent} from './add-update-activity-dialog/add-update-activity-dialog.component';
 import {Activity} from '../../../../models/activity.model';
 import {DeleteActivityDialogComponent} from './delete-activity-dialog/delete-activity-dialog.component';
 import {MatTable} from '@angular/material/table';

@@ -50,7 +50,7 @@
     Подтверждение
   </mat-checkbox>
   <div class="dialog__actions">
-    <button mat-button *ngIf="!data.isAddOperation" [disabled]="productForm.invalid" (click)="onProductUpdate()" class="dialog-btn cursor pointer">Сохранить</button>
-    <button mat-button *ngIf="data.isAddOperation" [disabled]="productForm.invalid" (click)="onProductAdd()" class="dialog-btn cursor pointer">Добавить</button>
+    <button mat-button *ngIf="!data.isAddOperation" [disabled]="productForm.invalid" (click)="onProductUpdate()" class="btn cursor pointer">Сохранить</button>
+    <button mat-button *ngIf="data.isAddOperation" [disabled]="productForm.invalid" (click)="onProductAdd()" class="btn cursor pointer">Добавить</button>
   </div>
 </form>

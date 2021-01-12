@@ -20,6 +20,22 @@ body {
   height: 56px;
 }
 
+.btn {
+  border: none;
+  background: #fff;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+  color: rgb(42, 88, 133);
+}
+
+.btn:disabled {
+  color: #FFDBDFE3;
+}
+
+.btn:focus {
+  outline: none;
+}
+
 .ngx-mat-timepicker .mat-input-element {
   padding: 0 !important;
 }

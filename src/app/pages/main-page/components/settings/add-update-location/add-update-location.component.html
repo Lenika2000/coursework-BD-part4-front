@@ -16,7 +16,7 @@
   </mat-error>
   </div>
   <div class="dialog__actions">
-    <button mat-button *ngIf="!data.isAddOperation" [disabled]="locationForm.invalid" (click)="onLocationUpdate()" class="dialog-btn cursor pointer">Сохранить</button>
-    <button mat-button *ngIf="data.isAddOperation" [disabled]="locationForm.invalid" (click)="onLocationAdd()" class="dialog-btn cursor pointer">Добавить</button>
+    <button mat-button *ngIf="!data.isAddOperation" [disabled]="locationForm.invalid" (click)="onLocationUpdate()" class="btn cursor pointer">Сохранить</button>
+    <button mat-button *ngIf="data.isAddOperation" [disabled]="locationForm.invalid" (click)="onLocationAdd()" class="btn cursor pointer">Добавить</button>
   </div>
 </form>

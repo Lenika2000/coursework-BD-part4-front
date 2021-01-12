@@ -40,13 +40,14 @@
 .product-lists__add-product-button,
 .product-lists__add-shop-list-button,
 .product-lists__delete-shop-list-button {
-  width: 200px;
+  width: 230px;
   height: 36px;
-  margin-left: 94px;
+  margin-left: 64px;
   color: #FFFFFF;
   background: #2a5885;
   font-weight: 400 !important;
   line-height: 26px;
+  text-transform: uppercase;
 }
 
 .product-lists__add-product-button {
@@ -64,4 +65,5 @@
 
 .product-lists__delete-all {
   text-align: end;
+  text-transform: uppercase;
 }

@@ -25,11 +25,11 @@
                     [disabled]="filters.isIncome" class="finance-types_isExpenses">
         Только расходы
       </mat-checkbox>
-      <button mat-button (click)="addElem()" class="filter__add-button">
+      <button mat-button (click)="addElem()" class="btn">
         Новая запись
       </button>
   </div>
-  <table mat-table #table [dataSource]="filteredTableData"
+  <table mat-table #table [dataSource]="groupedData"
          class="mat-table-style">
 
     <ng-container matColumnDef="date">
@@ -70,5 +70,12 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <ng-container matColumnDef="groupHeader">
+      <td colspan="9" mat-cell *matCellDef="let groupBy" class="mat-table_group-header">{{groupBy.date}}</td>
+    </ng-container>
+
+    <tr mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroup"></tr>
+
   </table>
 </div>
