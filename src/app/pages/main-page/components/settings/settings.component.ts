@@ -1,9 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatTable} from '@angular/material/table';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
-import {AddUpdateLocationComponent} from './add-update-location/add-update-location.component';
-import {Location} from '../../../../models/activity.model';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
 import {SettingsService} from '../../../../services/settings.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MyErrorStateMatcher} from '../../../auth-page/auth-page.component';
 
 @Component({
   selector: 'app-settings',
@@ -12,87 +11,22 @@ import {SettingsService} from '../../../../services/settings.service';
 })
 export class SettingsComponent implements OnInit {
 
-  public displayedColumns = ['name', 'address', 'update', 'delete'];
-  public locations: Location[] = [];
-  public selectedLocation: Location;
-  @ViewChild('table', {static: false}) table: MatTable<Location>;
+  settingForm: FormGroup;
+  matcher = new MyErrorStateMatcher();
 
-  constructor(private dialog: MatDialog, private settingService: SettingsService) {
-    this.locations = [
-      {
-        name: 'Магнит',
-        address: 'Новоизмайловский пр. 15'
-      },
-      {
-        name: 'Лента',
-        address: 'Новоизмайловский пр. 18'
-      }
-    ];
-    this.updateLocationNames();
+  constructor(private dialog: MatDialog, private settingService: SettingsService,
+              private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
-    this.getLocations();
+    this.settingForm = this.formBuilder.group({
+      maxStressLevel: [1000, {
+        validators: [Validators.required,
+          Validators.pattern('^-?(0|[1-9]\\d*)([.,]\\d+)?'), Validators.min(1)]
+    }]});
   }
 
-  getLocations(): void {
-    this.settingService.getLocations().subscribe(() => {
-
-    })
-  }
-
-  updateLocationNames(): void {
-    const locationNames = [];
-    this.locations.forEach((elem: Location) => {
-      locationNames.push(elem.name);
-    });
-    localStorage.setItem('part4.locations', JSON.stringify(locationNames));
-  }
-
-  openAddUpdateDialog(isAddOperation: boolean, location: Location): MatDialogRef<AddUpdateLocationComponent, any> {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.height = '300px';
-    dialogConfig.width = '376px';
-    dialogConfig.data = {
-      location,
-      isAddOperation
-    };
-    if (!isAddOperation) {
-      this.selectedLocation = location;
-    }
-    return this.dialog.open(AddUpdateLocationComponent, dialogConfig);
-  }
-
-  updateLocation(location: Location): void {
-    const dialogConfirmConfigRef = this.openAddUpdateDialog(false, location);
-    dialogConfirmConfigRef.componentInstance.locationUpdate.subscribe((updatedLocation: Location) => {
-      this.selectedLocation.name = updatedLocation.name;
-      this.selectedLocation.address = updatedLocation.address;
-      this.updateLocationNames();
-      this.table.renderRows();
-      // todo сервер
-    });
-  }
-
-  addLocation(): void {
-    const location = {
-      name: '',
-      address: '',
-    };
-    const dialogConfirmConfigRef = this.openAddUpdateDialog(true, location);
-    dialogConfirmConfigRef.componentInstance.locationAdd.subscribe((newLocation: Location) => {
-      this.locations.push(newLocation);
-      this.updateLocationNames();
-      this.table.renderRows();
-      // todo сервер
-    });
-  }
-
-  deleteLocation(location: Location): void {
-    const deletedElemIndex = this.locations.findIndex((d) => d === location);
-    this.locations.splice(deletedElemIndex, 1);
-    this.updateLocationNames();
-    this.table.renderRows();
+  updateListName(): void {
     // todo сервер
   }
 

@@ -1,38 +1,19 @@
-<div class="setting-content">
-  <p class="setting-content__label">Мои места</p>
-  <div class="setting-content__add-btn">
-    <button mat-button (click)="addLocation()" class="btn">Добавить</button>
-  </div>
-    <table mat-table #table [dataSource]="locations"
-         class="mat-table-style">
-
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef class="name">Название</th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="address">
-      <th mat-header-cell *matHeaderCellDef class="address">Адрес</th>
-      <td mat-cell *matCellDef="let element" class="address"> {{element.address}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="update">
-      <th mat-header-cell *matHeaderCellDef class="update"></th>
-      <td mat-cell *matCellDef="let element" class="update cursor pointer">
-        <mat-icon (click)="updateLocation(element)" class="cursor pointer">create</mat-icon>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="delete">
-      <th mat-header-cell *matHeaderCellDef class="delete"></th>
-      <td mat-cell *matCellDef="let element" class="delete cursor pointer">
-        <mat-icon (click)="deleteLocation(element)">delete</mat-icon>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-</div>
-
-
+<form [formGroup]="settingForm" novalidate class="setting-content">
+  <p class="setting-content__label">Настройки</p>
+  <mat-form-field appearance="outline">
+    <mat-label>Максимальный уровень стресса</mat-label>
+    <input matInput formControlName="maxStressLevel" [errorStateMatcher]="matcher">
+    <mat-icon matSuffix (click)="updateListName()" class="cursor pointer">create</mat-icon>
+    <mat-error *ngIf="settingForm.get('maxStressLevel').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+    <mat-error class="error-message" *ngIf="settingForm.get('maxStressLevel').hasError('pattern')
+    && (settingForm.get('maxStressLevel').dirty || settingForm.get('maxStressLevel').touched)">
+      Для ввода максимального уровня стресса используйте только числа
+    </mat-error>
+    <mat-error class="error-message" *ngIf="settingForm.get('maxStressLevel').hasError('min')
+    && (settingForm.get('maxStressLevel').dirty || settingForm.get('maxStressLevel').touched)">
+      Максимальный уровень стресса не может быть меньше 1
+    </mat-error>
+  </mat-form-field>
+</form>

@@ -2,10 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {AppScreen} from './components/menu/menu.component';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
-import {Location} from '../../models/activity.model';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
-import {AddUpdateLocationComponent} from './components/settings/add-update-location/add-update-location.component';
-import {InitialSettingsComponent} from './components/initial-settings/initial-settings.component';
 
 @Component({
   selector: 'app-main-page',
@@ -16,13 +12,14 @@ export class MainPageComponent implements OnInit {
 
   activeScreen: AppScreen = 'activities';
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
   logout(): void {
-    this.authService.logOut();
+    localStorage.removeItem('part4.authToken');
+    localStorage.removeItem('part4.currentUser');
     this.router.navigateByUrl('login');
   }
 }

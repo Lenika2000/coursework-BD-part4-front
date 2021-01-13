@@ -1,7 +1,6 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-
 import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -34,7 +33,6 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {DeleteActivityDialogComponent} from './pages/main-page/components/activities/delete-activity-dialog/delete-activity-dialog.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {SettingsComponent} from './pages/main-page/components/settings/settings.component';
-import {AddUpdateLocationComponent} from './pages/main-page/components/settings/add-update-location/add-update-location.component';
 import { NgxDadataModule } from '@kolkov/ngx-dadata';
 import {FinanceComponent} from './pages/main-page/components/finance/finance.component';
 import {AddUpdateFinanceDialogComponent} from './pages/main-page/components/finance/add-update-finance-dialog/add-update-finance-dialog.component';
@@ -59,7 +57,6 @@ import {InitialSettingsConfirmComponent} from './pages/main-page/components/init
     AddShopListComponent,
     DeleteActivityDialogComponent,
     SettingsComponent,
-    AddUpdateLocationComponent,
     FinanceComponent,
     AddUpdateFinanceDialogComponent,
     InitialSettingsComponent,
@@ -103,7 +100,6 @@ import {InitialSettingsConfirmComponent} from './pages/main-page/components/init
     DeleteProductDialogComponent,
     AddUpdateProductDialogComponent,
     AddShopListComponent,
-    AddUpdateLocationComponent,
     AddUpdateFinanceDialogComponent,
     InitialSettingsComponent,
     InitialSettingsConfirmComponent

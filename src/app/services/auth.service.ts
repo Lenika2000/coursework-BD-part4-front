@@ -47,11 +47,6 @@ export class AuthService {
       }));
   }
 
-  logOut(): void {
-    localStorage.removeItem('part4.authToken');
-    localStorage.removeItem('part4.currentUser');
-  }
-
 }
 
 export interface ResponseMessage {
