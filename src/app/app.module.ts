@@ -38,6 +38,7 @@ import {AddUpdateLocationComponent} from './pages/main-page/components/settings/
 import { NgxDadataModule } from '@kolkov/ngx-dadata';
 import {FinanceComponent} from './pages/main-page/components/finance/finance.component';
 import {AddUpdateFinanceDialogComponent} from './pages/main-page/components/finance/add-update-finance-dialog/add-update-finance-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import {AddUpdateFinanceDialogComponent} from './pages/main-page/components/fina
     NgxMatNativeDateModule,
     NgxMaterialTimepickerModule,
     MatTooltipModule,
-    NgxDadataModule
+    NgxDadataModule,
+    MatSnackBarModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE,

@@ -1,7 +1,4 @@
 export interface User {
-  phone: string;
+  login: string;
   password: string;
-  name?: string;
-  surname?: string;
-  sex?: string;
 }

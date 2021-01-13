@@ -11,7 +11,7 @@ import {Observable} from 'rxjs';
 export class AuthService {
 
   public authenticated = false;
-  private url = 'http://35.228.254.42:8080';
+  private url = 'http://92.63.193.30:8000';
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -27,50 +27,29 @@ export class AuthService {
   }
 
   createAccount(user: User): Observable<any> {
-    user.sex = 'F';
-    user.name = 'Lena';
-    user.surname = 'Manshina';
-    return this.http.post(this.url + '/api/auth/signup', user);
+    return this.http.post(this.url + '/signup', JSON.stringify(user));
   }
 
   public logIn(user: User): Observable<any> {
-    return this.http.post(this.url + '/api/auth/signin', user)
+    return this.http.post(this.url + '/auth', user)
       .pipe(tap(data => {
-        console.log(data)
-        const token = (data as ResponseMessage).accessToken;
+        const token = (data as ResponseMessage).token;
         /*Сохранение информации о пользователе*/
-        localStorage.setItem('authToken', token as string);
-        localStorage.setItem('currentUser', JSON.stringify(user));
+        localStorage.setItem('part4.authToken', token as string);
+        localStorage.setItem('part4.currentUser', JSON.stringify(user));
         this.authenticated = true;
       }, error => {
         console.log('login error: ' + error);
       }));
   }
 
-  // logOut() {
-  //   const user: User = JSON.parse(localStorage.getItem('currentUser'));
-  //
-  //   return this.http.post(this.url + '/users/logout', user, {headers: this.getHeaders()}).subscribe(
-  //     data => {
-  //       this.authenticated = false;
-  //     },
-  //     error => {
-  //       console.log('logout error: ' + error);
-  //     })
-  //     // Действия, которые делаем в самом конце
-  //     .add(() => {
-  //       localStorage.removeItem('authToken');
-  //       localStorage.removeItem('currentUser');
-  //       // Надо обновить страницу, чтобы стили корректно подгрузились и так как данных о пользователе уже нет
-  //       // будет автоматический редирект на страницу логина
-  //       window.location.reload();
-  //     });
-  // }
+  logOut(): void {
+    localStorage.removeItem('part4.authToken');
+    localStorage.removeItem('part4.currentUser');
+  }
 
 }
 
 export interface ResponseMessage {
-  phone: string;
-  roles: string[];
-  accessToken: string;
+  token: string;
 }

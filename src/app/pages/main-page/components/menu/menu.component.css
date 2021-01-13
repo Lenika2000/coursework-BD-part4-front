@@ -9,11 +9,8 @@
 }
 
 .user-info_container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
   width: 270px;
-  min-height: 56px;
+  min-height: 100px;
   margin-bottom: 40px;
   background: #F4F8FC;
   border: 1px solid rgba(42, 88, 133, 0.38);
@@ -21,6 +18,13 @@
   border-radius: 7px;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
   0 1px 3px 0 rgba(0, 0, 0, 0.12);
+}
+
+.user-avatar-name_container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 12px;
 }
 
 .user-info_avatar {
@@ -46,7 +50,7 @@
   margin-left: 8px;
 }
 
-.user-info_name span {
+.user-info_name span, .user-info_titles span  {
   display: flex;
   align-items: center;
   font-family: Roboto, serif;
@@ -55,6 +59,11 @@
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.25px;
+}
+
+.user-info_titles {
+  margin-top: 12px;
+  margin-left: 8px;
 }
 
 .menu-actions_container {

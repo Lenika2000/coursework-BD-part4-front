@@ -9,10 +9,7 @@
         <mat-error *ngIf="authForm.get('login').hasError('required')">
           Поле обязательно для заполнения
         </mat-error>
-        <mat-hint *ngIf="isLoginPage && isLoginIncorrect  && authForm.get('login').valid" class="form-container__auth-form_error">
-          Неверное имя пользователя
-        </mat-hint>
-        <mat-hint *ngIf="!isLoginPage && isLoginIncorrect  && authForm.get('login').valid" class="form-container__auth-form_error">
+        <mat-hint *ngIf="!isLoginPage && isLoginAlreadyExists  && authForm.get('login').valid" class="form-container__auth-form_error">
           Пользователь с таким логином уже существует
         </mat-hint>
       </mat-form-field>
@@ -25,8 +22,8 @@
         <mat-error *ngIf="authForm.get('password').hasError('required')">
           Поле обязательно для заполнения
         </mat-error>
-        <mat-hint *ngIf=" isLoginPage && isPasswordIncorrect && authForm.get('password').valid" class="form-container__auth-form_error">
-          Неверный пароль. Повторите попытку.
+        <mat-hint *ngIf=" isLoginPage && isAuthenticationError && authForm.get('password').valid" class="form-container__auth-form_error">
+          Ошибка аутентификации.
         </mat-hint>
       </mat-form-field>
       <button mat-button *ngIf="isLoginPage" (click)="authenticate()" [disabled]="authForm.invalid" class="auth-form__login-button">

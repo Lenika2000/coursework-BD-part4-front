@@ -1,11 +1,19 @@
 <div class="menu">
   <div class="user-info_container">
-    <div class="user-info_avatar">М</div>
-    <div class="user-info_name">
-      <span>Маньшина</span>
-      <span>Елена</span>
+    <div class="user-avatar-name_container">
+      <div class="user-info_avatar">{{login.charAt(0)}}</div>
+      <div class="user-info_name">
+        <span>{{login}}</span>
+      </div>
+      <mat-icon
+        class="user-info_settings cursor pointer" [class.active]="activeScreen=='settings'" (click)="setActiveAction('settings')">
+        settings
+      </mat-icon>
     </div>
-    <mat-icon class="user-info_settings cursor pointer" [class.active]="activeScreen=='settings'" (click)="setActiveAction('settings')">settings</mat-icon>
+    <div class="user-info_titles">
+    <span>{{'Баланс ' + balance}}</span>
+    <span>{{'Текущий уровень стресса ' + currentStressLevel}}</span>
+    </div>
   </div>
   <div class="menu-actions_container">
     <div class="menu-action" (click)="setActiveAction('schedule')">

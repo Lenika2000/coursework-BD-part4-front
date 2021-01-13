@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +10,7 @@ export class UrlPermissionService implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const isAuthorized: boolean = localStorage.getItem('currentUser') != null;
-    console.log(isAuthorized);
-    console.log(state.url);
+    const isAuthorized: boolean = localStorage.getItem('part4.currentUser') != null;
     /*если пользователь не авторизован и если мы переходим на страницу с расписанием, то redirect на аутентификацию*/
     if (!isAuthorized && state.url.search('schedule') !== -1) {
       this.router.navigateByUrl('login');

@@ -48,15 +48,54 @@ body {
   z-index: 1001 !important;
 }
 
-input[_ngcontent-htj-c212]{border:0 solid transparent;background-color:#f1f1f1;padding:5px}
-input[type=text][_ngcontent-htj-c212]{background-color:#f1f1f1;width:100%}
-
-.autocomplete-items[_ngcontent-htj-c212]{position:absolute;border:1px solid #d4d4d4;border-bottom:none;border-top:none;z-index:99;top:100%;left:0;right:0}
-.autocomplete-items[_ngcontent-htj-c212] .autocomplele-item[_ngcontent-htj-c212]{padding:5px 10px;cursor:pointer;background-color:#fff;border-bottom:1px solid #d4d4d4}
-.autocomplete-items[_ngcontent-htj-c212] .autocomplele-item[_ngcontent-htj-c212]:hover{background-color:#e9e9e9}
-.autocomplete-items[_ngcontent-htj-c212] .autocomplele-item.active[_ngcontent-htj-c212]{
-  background-color:#1e90ff
-  !important;
-  color:#fff
+input[_ngcontent-htj-c212] {
+  border: 0 solid transparent;
+  background-color: #f1f1f1;
+  padding: 5px
 }
-.autocomplete-items[_ngcontent-htj-c212] .autocomplele-item[_ngcontent-htj-c212]   span[_ngcontent-htj-c212]{color:#555;font-size:80%}
+
+input[type=text][_ngcontent-htj-c212] {
+  background-color: #f1f1f1;
+  width: 100%
+}
+
+.autocomplete-items[_ngcontent-htj-c212] {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0
+}
+
+.autocomplete-items[_ngcontent-htj-c212] .autocomplele-item[_ngcontent-htj-c212] {
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4
+}
+
+.autocomplete-items[_ngcontent-htj-c212] .autocomplele-item[_ngcontent-htj-c212]:hover {
+  background-color: #e9e9e9
+}
+
+.autocomplete-items[_ngcontent-htj-c212] .autocomplele-item.active[_ngcontent-htj-c212] {
+  background-color: #1e90ff !important;
+  color: #fff
+}
+
+.autocomplete-items[_ngcontent-htj-c212] .autocomplele-item[_ngcontent-htj-c212] span[_ngcontent-htj-c212] {
+  color: #555;
+  font-size: 80%
+}
+
+.mat-simple-snackbar span {
+  margin: auto;
+  text-align: center;
+}
+
+::ng-deep snack-bar-container {
+  width: 100px;
+}

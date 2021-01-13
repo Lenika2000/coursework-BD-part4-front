@@ -5,6 +5,7 @@ import {AuthService} from '../../services/auth.service';
 import {User} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ErrorStateMatcher} from '@angular/material/core';
+import {SnackBarService} from '../../services/snack-bar.service';
 
 @Component({
   selector: 'app-auth-page',
@@ -18,13 +19,12 @@ export class AuthPageComponent implements OnInit {
   errorMessage: string;
   hide = true;
 
-  // логин не существует-аутентификация, уже есть пользователь с таким логином - регистрация
-  isLoginIncorrect = false;
-  isPasswordIncorrect = false;
+  isAuthenticationError = false;
+  isLoginAlreadyExists = false;
   matcher = new MyErrorStateMatcher();
 
   constructor(private router: Router, private formBuilder: FormBuilder,
-              private authService: AuthService) {
+              private authService: AuthService, private snackBarService: SnackBarService) {
   }
 
   ngOnInit(): void {
@@ -34,21 +34,18 @@ export class AuthPageComponent implements OnInit {
     });
   }
 
-
   authenticate(): void {
-     // this.isPasswordIncorrect = ! this.isPasswordIncorrect;
-     // this.isLoginIncorrect = ! this.isLoginIncorrect;
-    // const user: User = {
-    //   phone: this.authForm.get('login').value,
-    //   password: this.authForm.get('password').value
-    // };
-    // this.authService.logIn(user).subscribe(() => {
-    //     console.log('успех');
-    this.router.navigateByUrl('schedule');
-    //   }, (error) => {
-    //     console.log('невозможно осуществить вход');
-    //   }
-    // );
+    const user: User = {
+      login: this.authForm.get('login').value,
+      password: this.authForm.get('password').value
+    };
+    this.authService.logIn(user).subscribe(() => {
+        this.router.navigateByUrl('schedule');
+      }, (error) => {
+        this.isAuthenticationError = true;
+        console.log('Невозможно осуществить вход');
+      }
+    );
   }
 
   goToRegistration(): void {
@@ -57,23 +54,26 @@ export class AuthPageComponent implements OnInit {
 
   registration(): void {
     const user: User = {
-      phone: this.authForm.get('login').value,
+      login: this.authForm.get('login').value,
       password: this.authForm.get('password').value
     };
     this.authService.createAccount(user).subscribe(() => {
       this.errorMessage = '';
-      this.goToLogIn();
+      this.authenticate();
     }, (err: HttpErrorResponse) => {
       console.log(err);
       switch (err.status) {
         case 0:
-          this.errorMessage = 'Невозможно подключиться к серверу';
+          this.snackBarService.openSnackBar('Невозможно подключиться к серверу');
           break;
-        case 401:
-          this.errorMessage = 'Введен неверный логин или пароль';
+        case 400:
+          this.isLoginAlreadyExists = true;
+          break;
+        case 422:
+          this.snackBarService.openSnackBar('Ошибка валидации');
           break;
         default:
-          this.errorMessage = 'Неизвестная ошибка ' + err.status;
+          this.snackBarService.openSnackBar('Неизвестная ошибка ' + err.status);
       }
     });
   }

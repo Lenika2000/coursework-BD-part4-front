@@ -10,6 +10,9 @@ export class MenuComponent implements OnInit {
 
   @Input() activeScreen: AppScreen = 'activities';
   @Output() activeScreenChanged: EventEmitter<AppScreen> = new EventEmitter<AppScreen>();
+  balance = 15000;
+  currentStressLevel = 500;
+  login = 'Lena';
 
   constructor() {}
 
