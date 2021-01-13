@@ -1,0 +1,54 @@
+<form [formGroup]="initForm" novalidate>
+  <p>Добро пожаловать в приложение!</p>
+  <p style="margin-bottom: 16px">Для продолжения работы необходимо завершить процедуру регистрации.</p>
+  <mat-form-field>
+    <mat-label>Максимальный уровень стресса</mat-label>
+    <input matInput formControlName="maxStressLevel" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="initForm.get('maxStressLevel').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+    <mat-error class="error-message" *ngIf="initForm.get('maxStressLevel').hasError('pattern')
+    && (initForm.get('maxStressLevel').dirty || initForm.get('maxStressLevel').touched)">
+      Для ввода максимального уровня стресса используйте только числа
+    </mat-error>
+    <mat-error class="error-message" *ngIf="initForm.get('maxStressLevel').hasError('min')
+    && (initForm.get('maxStressLevel').dirty || initForm.get('maxStressLevel').touched)">
+      Максимальный уровень стресса не может быть меньше 1
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Текущий уровень стресса</mat-label>
+    <input matInput formControlName="currentStressLevel" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="initForm.get('currentStressLevel').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+    <mat-error class="error-message" *ngIf="initForm.get('currentStressLevel').hasError('pattern')
+    && (initForm.get('currentStressLevel').dirty || initForm.get('currentStressLevel').touched)">
+      Для ввода текущего уровня стресса используйте только числа
+    </mat-error>
+    <mat-error class="error-message" *ngIf="initForm.get('currentStressLevel').hasError('min')
+    && (initForm.get('currentStressLevel').dirty || initForm.get('currentStressLevel').touched)">
+      Текущий уровень стресса не может быть меньше 0
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Баланс</mat-label>
+    <input matInput formControlName="balance" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="initForm.get('balance').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+    <mat-error class="error-message" *ngIf="initForm.get('balance').hasError('pattern')
+    && (initForm.get('balance').dirty || initForm.get('balance').touched)">
+      Для ввода баланса используйте только целые числа
+    </mat-error>
+    <mat-error class="error-message" *ngIf="initForm.get('balance').hasError('min')
+    && (initForm.get('balance').dirty || initForm.get('balance').touched)">
+      Баланс не может быть меньше 0
+    </mat-error>
+  </mat-form-field>
+  <div class="dialog__actions">
+    <button mat-button (click)="closeDialog()" class="btn cursor pointer">Пропустить</button>
+    <button mat-button [disabled]="initForm.invalid" (click)="onInitSettingsSave()" class="btn cursor pointer">Сохранить</button>
+  </div>
+</form>
+

@@ -10,13 +10,14 @@ export class MenuComponent implements OnInit {
 
   @Input() activeScreen: AppScreen = 'activities';
   @Output() activeScreenChanged: EventEmitter<AppScreen> = new EventEmitter<AppScreen>();
-  balance = 15000;
+  balance = 0;
   currentStressLevel = 500;
   login = 'Lena';
 
   constructor() {}
 
   ngOnInit(): void {
+    this.login = JSON.parse(localStorage.getItem('part4.currentUser'));
   }
 
   setActiveAction(action: AppScreen): void {

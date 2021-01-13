@@ -15,7 +15,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  private getHeaders(): HttpHeaders {
+  getHeaders(): HttpHeaders {
     const token: string = localStorage.getItem('authToken');
 
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
@@ -24,6 +24,10 @@ export class AuthService {
     headers.append('Content-Type', 'application/json');
 
     return headers;
+  }
+
+  getUrl(): string {
+    return this.url;
   }
 
   createAccount(user: User): Observable<any> {
@@ -36,7 +40,7 @@ export class AuthService {
         const token = (data as ResponseMessage).token;
         /*Сохранение информации о пользователе*/
         localStorage.setItem('part4.authToken', token as string);
-        localStorage.setItem('part4.currentUser', JSON.stringify(user));
+        localStorage.setItem('part4.currentUser', JSON.stringify(user.login));
         this.authenticated = true;
       }, error => {
         console.log('login error: ' + error);

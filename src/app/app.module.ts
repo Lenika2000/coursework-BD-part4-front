@@ -39,6 +39,8 @@ import { NgxDadataModule } from '@kolkov/ngx-dadata';
 import {FinanceComponent} from './pages/main-page/components/finance/finance.component';
 import {AddUpdateFinanceDialogComponent} from './pages/main-page/components/finance/add-update-finance-dialog/add-update-finance-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {InitialSettingsComponent} from './pages/main-page/components/initial-settings/initial-settings.component';
+import {InitialSettingsConfirmComponent} from './pages/main-page/components/initial-settings/initial-settings-confirm/initial-settings-confirm.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     SettingsComponent,
     AddUpdateLocationComponent,
     FinanceComponent,
-    AddUpdateFinanceDialogComponent
+    AddUpdateFinanceDialogComponent,
+    InitialSettingsComponent,
+    InitialSettingsConfirmComponent
   ],
   imports: [
     BrowserModule,
@@ -100,7 +104,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AddUpdateProductDialogComponent,
     AddShopListComponent,
     AddUpdateLocationComponent,
-    AddUpdateFinanceDialogComponent
+    AddUpdateFinanceDialogComponent,
+    InitialSettingsComponent,
+    InitialSettingsConfirmComponent
   ]
 })
 export class AppModule { }

@@ -6,6 +6,8 @@ import {User} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {SnackBarService} from '../../services/snack-bar.service';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {InitialSettingsComponent} from '../main-page/components/initial-settings/initial-settings.component';
 
 @Component({
   selector: 'app-auth-page',
@@ -23,8 +25,11 @@ export class AuthPageComponent implements OnInit {
   isLoginAlreadyExists = false;
   matcher = new MyErrorStateMatcher();
 
-  constructor(private router: Router, private formBuilder: FormBuilder,
-              private authService: AuthService, private snackBarService: SnackBarService) {
+  constructor(private router: Router,
+              private formBuilder: FormBuilder,
+              private authService: AuthService,
+              private snackBarService: SnackBarService,
+              private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -36,11 +41,12 @@ export class AuthPageComponent implements OnInit {
 
   authenticate(): void {
     const user: User = {
-      login: this.authForm.get('login').value,
-      password: this.authForm.get('password').value
+      login: this.authForm.get('login').value.trim(),
+      password: this.authForm.get('password').value.trim()
     };
     this.authService.logIn(user).subscribe(() => {
         this.router.navigateByUrl('schedule');
+      // this.openInitDialog();
       }, (error) => {
         this.isAuthenticationError = true;
         console.log('Невозможно осуществить вход');
@@ -54,12 +60,13 @@ export class AuthPageComponent implements OnInit {
 
   registration(): void {
     const user: User = {
-      login: this.authForm.get('login').value,
-      password: this.authForm.get('password').value
+      login: this.authForm.get('login').value.trim(),
+      password: this.authForm.get('password').value.trim()
     };
     this.authService.createAccount(user).subscribe(() => {
       this.errorMessage = '';
       this.authenticate();
+      this.openInitDialog();
     }, (err: HttpErrorResponse) => {
       console.log(err);
       switch (err.status) {
@@ -76,6 +83,13 @@ export class AuthPageComponent implements OnInit {
           this.snackBarService.openSnackBar('Неизвестная ошибка ' + err.status);
       }
     });
+  }
+
+  openInitDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.height = '420px';
+    dialogConfig.width = '376px';
+    this.dialog.open(InitialSettingsComponent, dialogConfig);
   }
 
   goToLogIn(): void {

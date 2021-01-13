@@ -3,6 +3,7 @@ import {MatTable} from '@angular/material/table';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {AddUpdateLocationComponent} from './add-update-location/add-update-location.component';
 import {Location} from '../../../../models/activity.model';
+import {SettingsService} from '../../../../services/settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -16,7 +17,7 @@ export class SettingsComponent implements OnInit {
   public selectedLocation: Location;
   @ViewChild('table', {static: false}) table: MatTable<Location>;
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private settingService: SettingsService) {
     this.locations = [
       {
         name: 'Магнит',
@@ -31,6 +32,13 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getLocations();
+  }
+
+  getLocations(): void {
+    this.settingService.getLocations().subscribe(() => {
+
+    })
   }
 
   updateLocationNames(): void {

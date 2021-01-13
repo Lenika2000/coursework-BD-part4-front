@@ -1,0 +1,9 @@
+.dialog__actions {
+  position: absolute;
+  top: 380px;
+  right: 17px;
+}
+
+.mat-form-field {
+  margin-bottom: 16px;
+}
