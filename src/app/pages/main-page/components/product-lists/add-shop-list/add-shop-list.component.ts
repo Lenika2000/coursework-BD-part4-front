@@ -21,7 +21,7 @@ export class AddShopListComponent implements OnInit {
 
   ngOnInit(): void {
     this.addShopNameForm = this.formBuilder.group({
-      name:  new FormControl('', [Validators.required, this.validateShopName.bind(this)]),
+      name:  new FormControl('', [Validators.required, this.validateShopName.bind(this), Validators.maxLength(32)]),
     });
   }
 

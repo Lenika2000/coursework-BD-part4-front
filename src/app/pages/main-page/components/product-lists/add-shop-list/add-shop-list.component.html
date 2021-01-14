@@ -12,6 +12,9 @@
     <mat-error *ngIf="addShopNameForm.get('name').getError('validateShopName')">
       Список с таким именем уже существует
     </mat-error>
+    <mat-error *ngIf="addShopNameForm.get('name').hasError('maxlength')">
+      Максимальная длина названия 32 символа
+    </mat-error>
   </mat-form-field>
   <div class="dialog__actions">
     <button mat-button [disabled]="addShopNameForm.invalid" (click)="onShopNameCreate()" class="btn cursor pointer">Добавить</button>
