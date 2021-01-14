@@ -3,12 +3,13 @@
     : 'Редактирование активности'}}</p>
 
   <mat-form-field>
-    <mat-label class="">Периодичность</mat-label>
+    <mat-label>Периодичность</mat-label>
     <mat-select formControlName="period">
       <mat-option *ngFor="let period of periodList" [value]="period">{{period}}</mat-option>
     </mat-select>
   </mat-form-field>
 
+  <div class="horizontal-forms">
   <mat-form-field *ngIf="isPeriodicityActivity">
     <mat-label>Дата начала выполнения</mat-label>
     <input matInput readonly formControlName="start_time" [matDatepicker]="dp" [max]="this.maxDate" (dateChange)="updateMinMaxDate()">
@@ -19,7 +20,7 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field *ngIf="isPeriodicityActivity">
+  <mat-form-field *ngIf="isPeriodicityActivity" style="margin-bottom: 16px">
     <mat-label>Дата конца выполнения</mat-label>
     <input matInput readonly formControlName="end_time" [matDatepicker]="dp" [min]="this.minDate" (dateChange)="updateMinMaxDate()">
     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
@@ -28,7 +29,9 @@
       При пустом поле активность будет считаться бесконечной
     </mat-hint>
   </mat-form-field>
+  </div>
 
+  <div class="horizontal-forms">
   <mat-form-field>
     <mat-label>Допустимое время начала</mat-label>
     <input matInput formControlName="start_timepicker" [ngxTimepicker]="start_time" [format]="24"
@@ -54,6 +57,7 @@
       Время конца не может быть меньше времени начала
     </mat-hint>
   </mat-form-field>
+  </div>
 
   <mat-form-field *ngIf="!isPeriodicityActivity">
     <mat-label>Дата ближайшего выполнения</mat-label>

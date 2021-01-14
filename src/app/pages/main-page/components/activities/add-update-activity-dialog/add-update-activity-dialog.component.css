@@ -7,7 +7,7 @@
 }
 
 .activities-dialog__actions {
-  margin-left: 39%;
+  margin-left: 50%;
   margin-top: 12px;
 }
 
@@ -24,6 +24,15 @@
 
 .mat-datepicker-content .mat-calendar {
   zoom: 0.85;
+}
+
+mat-form-field {
+  width: 400px;
+}
+
+.horizontal-forms mat-form-field {
+  display: inline-block;
+  width: 180px;
 }
 
 /*.dialog-checkbox {*/
