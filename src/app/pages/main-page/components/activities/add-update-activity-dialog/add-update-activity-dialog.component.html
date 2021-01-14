@@ -1,39 +1,78 @@
 <form [formGroup]="addUpdateForm" novalidate>
-  <p>{{(data.isAddOperation)?'Добавление активности'
-    :'Редактирование активности'}}</p>
+  <p>{{(data.isAddOperation) ? 'Добавление активности'
+    : 'Редактирование активности'}}</p>
+
+  <mat-form-field>
+    <mat-label class="">Периодичность</mat-label>
+    <mat-select formControlName="period">
+      <mat-option *ngFor="let period of periodList" [value]="period">{{period}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="isPeriodicityActivity">
+    <mat-label>Дата начала выполнения</mat-label>
+    <input matInput readonly formControlName="start_time" [matDatepicker]="dp" [max]="this.maxDate" (dateChange)="updateMinMaxDate()">
+    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
+    <mat-error *ngIf="addUpdateForm.get('start_time').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="isPeriodicityActivity">
+    <mat-label>Дата конца выполнения</mat-label>
+    <input matInput readonly formControlName="end_time" [matDatepicker]="dp" [min]="this.minDate" (dateChange)="updateMinMaxDate()">
+    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
+    <mat-hint>
+      При пустом поле активность будет считаться бесконечной
+    </mat-hint>
+  </mat-form-field>
 
   <mat-form-field>
     <mat-label>Допустимое время начала</mat-label>
-    <input matInput readonly [ngxMatDatetimePicker]="pickerStartDate" formControlName="startTime">
-    <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
-    <ngx-mat-datetime-picker #pickerStartDate [defaultTime]=[8,0]
-                             [stepHour]=1 [stepMinute]=10>
-    </ngx-mat-datetime-picker>
+    <input matInput formControlName="start_timepicker" [ngxTimepicker]="start_time" [format]="24"
+           [errorStateMatcher]="matcher" readonly>
+    <ngx-material-timepicker #start_time [enableKeyboardInput]="true" [theme]="theme"></ngx-material-timepicker>
+    <mat-error *ngIf="addUpdateForm.get('start_timepicker').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+    <mat-hint style="color: red" *ngIf="addUpdateForm.getError('validateStartTimepicker')">
+      Время начала не может быть больше времени конца
+    </mat-hint>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Допустимое время конца</mat-label>
-    <input matInput readonly [ngxMatDatetimePicker]="pickerEndDate" formControlName="endTime">
-    <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
-    <ngx-mat-datetime-picker #pickerEndDate [defaultTime]=[8,0]
-                             [stepHour]=1 [stepMinute]=10>
-    </ngx-mat-datetime-picker>
+    <input matInput formControlName="end_timepicker" [ngxTimepicker]="end_time" [format]="24" [errorStateMatcher]="matcher"
+           readonly>
+    <ngx-material-timepicker #end_time [enableKeyboardInput]="true" [theme]="theme"></ngx-material-timepicker>
+    <mat-error *ngIf="addUpdateForm.get('end_timepicker').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+    <mat-hint style="color: red" *ngIf="addUpdateForm.getError('validateStartTimepicker')">
+      Время конца не может быть меньше времени начала
+    </mat-hint>
   </mat-form-field>
 
-  <mat-form-field>
-    <mat-label class="">Продолжительность</mat-label>
-    <input matInput formControlName="interval" [ngxTimepicker]="interval" [format]="24" [errorStateMatcher]="matcher" readonly>
-    <ngx-material-timepicker #interval [enableKeyboardInput]="true" [theme]="theme"></ngx-material-timepicker>
-    <mat-error *ngIf="addUpdateForm.get('interval').hasError('required')">
+  <mat-form-field *ngIf="!isPeriodicityActivity">
+    <mat-label>Дата ближайшего выполнения</mat-label>
+    <input matInput readonly formControlName="processing_date" [matDatepicker]="dp" [min]="this.minDate" >
+    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker #dp></mat-datepicker>
+    <mat-error *ngIf="addUpdateForm.get('duration').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label class="">Периодичность</mat-label>
-    <mat-select formControlName="periodicity">
-      <mat-option *ngFor="let periodicity of periodicityList" [value]="periodicity">{{periodicity}}</mat-option>
-    </mat-select>
+    <mat-label>Продолжительность</mat-label>
+    <input matInput formControlName="duration" [ngxTimepicker]="interval" [format]="24" [errorStateMatcher]="matcher"
+           readonly>
+    <ngx-material-timepicker #interval [enableKeyboardInput]="true" [theme]="theme"></ngx-material-timepicker>
+    <mat-error *ngIf="addUpdateForm.get('duration').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field>
@@ -45,21 +84,19 @@
 
   <mat-form-field>
     <mat-label>Влияние на уровень стресса</mat-label>
-    <input matInput formControlName="impactOnStressLevel" [errorStateMatcher]="matcher">
-    <mat-error *ngIf="addUpdateForm.get('impactOnStressLevel').hasError('required')">
+    <input matInput formControlName="stress_points" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="addUpdateForm.get('stress_points').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
-    <mat-error *ngIf="addUpdateForm.get('impactOnStressLevel').hasError('pattern')
-       && (addUpdateForm.get('impactOnStressLevel').dirty || addUpdateForm.get('impactOnStressLevel').touched)">
+    <mat-error *ngIf="addUpdateForm.get('stress_points').hasError('pattern')
+       && (addUpdateForm.get('stress_points').dirty || addUpdateForm.get('stress_points').touched)">
       Доступен только ввод целых чисел со знаком +/-
     </mat-error>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Локация</mat-label>
-    <mat-select formControlName="location">
-      <mat-option *ngFor="let location of locations" [value]="location">{{location}}</mat-option>
-    </mat-select>
+    <input matInput formControlName="location" [errorStateMatcher]="matcher">
     <mat-error *ngIf="addUpdateForm.get('location').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
@@ -138,10 +175,12 @@
 
   <div class="activities-dialog__actions">
     <button mat-button (click)="closeDialog()" class="btn cursor pointer">Отмена</button>
-    <button mat-button *ngIf="!data.isAddOperation" [disabled]="addUpdateForm.invalid" (click)="updateAction()" class="btn cursor pointer">
+    <button mat-button *ngIf="!data.isAddOperation" [disabled]="addUpdateForm.invalid" (click)="updateAction()"
+            class="btn cursor pointer">
       Сохранить
     </button>
-    <button *ngIf="data.isAddOperation" mat-button (click)="addAction()" [disabled]="addUpdateForm.invalid" class="btn cursor pointer">
+    <button *ngIf="data.isAddOperation" mat-button (click)="addAction()" [disabled]="addUpdateForm.invalid"
+            class="btn cursor pointer">
       Добавить
     </button>
   </div>

@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { EventEmitter } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ActivityType, FormatType, LessonType, Periodicity} from '../../../../../models/activity.model';
+import {FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {ActivityType, FormatType, LessonType, Period} from '../../../../../models/activity.model';
 import {NgxMaterialTimepickerTheme} from 'ngx-material-timepicker';
 import {MyErrorStateMatcher} from '../../../../auth-page/auth-page.component';
 
@@ -18,15 +18,15 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   @Output() activityUpdate = new EventEmitter<any>();
   public activities: ActivityType[] = [ 'Учеба' , 'Работа' , 'Спорт' ,
   'Поход в магазин' , 'Встреча' , 'Другое' ];
-  public periodicityList: Periodicity[]  = ['Каждый день', 'Каждую неделю', 'Каждый месяц', 'Каждый год', 'Через день', 'Через неделю',
-    'Через месяц', 'Через год', 'Без повтора'];
+  public periodList: Period[]  = ['Без повтора', 'Каждый день', 'Каждую неделю', 'Каждый месяц', 'Каждый год'];
   public activitiesFormat: FormatType[] = [ 'Очный' , 'Дистанционный'];
   public lessonsType: LessonType[] = [ 'Лекция' , 'Практика'];
   // todo запрашивать с сервера
   public shoppingListNames: string[] = [];
-  // todo запрашивать с сервера
-  public locations: string[] = [];
+  minProcessingDate = new Date();
+  maxDate = new Date();
   minDate = new Date();
+  isPeriodicityActivity = false;
   isLesson = false;
   isSport = false;
   isShopping = false;
@@ -54,12 +54,15 @@ export class AddUpdateActivityDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.addUpdateForm = this.formBuilder.group({
-      startTime: [ this.data.activity.startTime],
-      endTime: [this.data.activity.endTime],
-      interval: [this.data.activity.interval, {validators: [Validators.required]}],
-      periodicity: [this.data.activity.periodicity],
+      start_time: [ this.data.activity.start_time, {validators: [Validators.required]}],
+      end_time: [this.data.isAddOperation ? '' : this.data.activity.end_time],
+      start_timepicker: [ this.data.activity.start_time.getHours() + ':' + this.data.activity.start_time.getMinutes(), {validators: [Validators.required]}],
+      end_timepicker: [ this.data.activity.end_time.getHours() + ':' + this.data.activity.end_time.getMinutes(), {validators: [Validators.required]}],
+      processing_date: [this.data.activity.processing_date , {validators: [Validators.required]}],
+      duration: [this.data.activity.duration, {validators: [Validators.required]}],
+      period: [this.data.activity.period],
       format: [this.data.activity.format],
-      impactOnStressLevel: [this.data.activity.impactOnStressLevel, {validators: [Validators.required, Validators.pattern('^(-|\\+)?(0|[1-9]\\d*)')]}],
+      stress_points: [this.data.activity.stress_points, {validators: [Validators.required, Validators.pattern('^(-|\\+)?(0|[1-9]\\d*)')]}],
       location: [this.data.activity.location , {validators: [Validators.required]}],
       isDone: [],
       activityType: [this.data.activity.activityType,  {validators: [Validators.required]}],
@@ -70,8 +73,9 @@ export class AddUpdateActivityDialogComponent implements OnInit {
       description: [(this.data.isAddOperation) ? '' : this.data.activity.description,  {validators: [Validators.required]}],
       humanName: [(this.data.isAddOperation) ? '' : this.data.activity.humanName,  {validators: [Validators.required]}],
       shoppingListName: [(this.data.isAddOperation) ? '' : this.data.activity.shoppingListName,  {validators: [Validators.required]}],
-    });
-    this.locations = JSON.parse(localStorage.getItem('part4.locations'));
+    }, { validator: ValidateStartTimepicker});
+    this.updateMinMaxDate();
+    this.setPeriodType(this.addUpdateForm.get('period').value);
     this.onChangeActivityType();
     if (!this.data.isAddOperation) {
       this.cleanVariables();
@@ -130,14 +134,60 @@ export class AddUpdateActivityDialogComponent implements OnInit {
     }
   }
 
+  setPeriodType(selectedPeriodicity: string): void {
+    if (selectedPeriodicity.localeCompare('Без повтора') === 0) {
+      this.addUpdateForm.controls.processing_date.enable();
+      this.isPeriodicityActivity = false;
+    } else {
+      this.addUpdateForm.controls.processing_date.disable();
+      this.isPeriodicityActivity = true;
+    }
+  }
+
   onChangeActivityType(): void {
     this.addUpdateForm.get('activityType').valueChanges.subscribe(selectedActivityType => {
       this.cleanVariables();
       this.setActivityTypeSettings(selectedActivityType);
     });
+    this.addUpdateForm.get('period').valueChanges.subscribe(selectedPeriodicity => {
+      this.setPeriodType(selectedPeriodicity);
+    });
   }
 
-  addAction(): void{
+  // собираем из даты и времени новую дату
+  getCorrectDate(time: string, mainDate: Date ): Date {
+    const correctDate = new Date();
+    const hours = time.substr(0, time.indexOf(':'));
+    const min = time.substr(time.indexOf(':') + 1, time.length - 1);
+    correctDate.setFullYear(mainDate.getFullYear(),
+      mainDate.getMonth(), mainDate.getDate());
+    correctDate.setHours(Number(hours), Number(min));
+    return correctDate;
+  }
+
+  addAction(): void {
+    const startTimepicker = this.addUpdateForm.get('start_timepicker').value;
+    const endTimepicker = this.addUpdateForm.get('end_timepicker').value;
+    if (!this.isPeriodicityActivity) {
+      // непериодическая активность
+      const processingDate = this.addUpdateForm.get('processing_date').value;
+      this.addUpdateForm.get('start_time').setValue(this.getCorrectDate(startTimepicker, processingDate));
+      this.addUpdateForm.get('end_time').setValue(this.getCorrectDate(endTimepicker, processingDate));
+    } else  {
+      // периодическая активность
+      if (this.data.isAddOperation) {
+        // processing_date при добавлении активности совпадает с допустимой датой начала
+        this.addUpdateForm.controls.processing_date.enable();
+        this.addUpdateForm.get('processing_date').setValue(this.addUpdateForm.get('start_time').value);
+      }
+      this.addUpdateForm.get('start_time').setValue(this.getCorrectDate(startTimepicker, this.addUpdateForm.get('start_time').value));
+      if (!this.addUpdateForm.get('end_time').value) {
+        this.addUpdateForm.get('end_time').setValue(this.getCorrectDate(endTimepicker, new Date(2080, 1, 1)));
+      } else {
+        this.addUpdateForm.get('end_time').setValue(this.getCorrectDate(endTimepicker, this.addUpdateForm.get('end_time').value));
+      }
+    }
+    console.log(this.addUpdateForm.value);
     this.activityAdd.emit(this.addUpdateForm.value);
     this.closeDialog();
   }
@@ -147,9 +197,33 @@ export class AddUpdateActivityDialogComponent implements OnInit {
     this.closeDialog();
   }
 
+  updateMinMaxDate(): void {
+    this.maxDate = this.addUpdateForm.get('end_time').value;
+    this.minDate = this.addUpdateForm.get('start_time').value;
+  }
 }
 
 export interface ActivityWithOperationType {
   activity: any;
   isAddOperation: boolean;
+}
+
+const ValidateStartTimepicker: ValidatorFn = (fg: FormGroup) => {
+  const endTimepicker = fg.get('end_timepicker').value;
+  const startTimepicker = fg.get('start_timepicker').value;
+  const startHours = addZeros(startTimepicker.substr(0, startTimepicker.indexOf(':')), 2);
+  const startMin = addZeros(startTimepicker.substr(startTimepicker.indexOf(':') + 1, startTimepicker.length - 1), 2);
+  const endHours = addZeros(endTimepicker.substr(0, endTimepicker.indexOf(':')), 2);
+  const endMin = addZeros(endTimepicker.substr(endTimepicker.indexOf(':') + 1, endTimepicker.length - 1), 2);
+  const isValid = startHours.concat(startMin).localeCompare(endHours.concat(endMin)) === -1;
+  return isValid ? null : {
+    validateStartTimepicker: {
+      valid: false
+    }
+  };
+};
+
+export function addZeros(str: string, numbersQuantity: number) {
+  str = str.toString();
+  return str.length < numbersQuantity ? addZeros('0' + str, numbersQuantity) : str;
 }

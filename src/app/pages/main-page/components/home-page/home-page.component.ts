@@ -13,19 +13,19 @@ import {pairwise, startWith} from 'rxjs/operators';
 })
 export class HomePageComponent implements OnInit {
 
-  public displayedColumns = ['startTime', 'interval', 'format', 'activityType', 'impactOnStressLevel',
+  public displayedColumns = ['start_time', 'duration', 'format', 'activityType', 'stress_points',
     'location', 'isConfirm'];
   @ViewChild('table', {static: false}) table: MatTable<Product>;
   groupedData: Array<any> = new Array<any>();
 
   public activities: any = [
     {
-      startTime: new Date(),
-      endTime: new Date(),
-      periodicity: 'каждый вторник',
-      interval: '1:10',
+      start_time: new Date(),
+      end_time: new Date(),
+      period: 'каждый вторник',
+      duration: '1:10',
       format: 'Очный',
-      impactOnStressLevel: 50,
+      stress_points: 50,
       location: 'Ломо',
       activityType: 'Учеба',
       isDone: false,
@@ -34,12 +34,12 @@ export class HomePageComponent implements OnInit {
       type: 'Лекция',
     },
     {
-      startTime: new Date(),
-      endTime: new Date(),
-      periodicity: 'каждый понедельник',
-      interval: '1:10',
+      start_time: new Date(),
+      end_time: new Date(),
+      period: 'каждый понедельник',
+      duration: '1:10',
       format: 'Дистанционный',
-      impactOnStressLevel: 50,
+      stress_points: 50,
       location: 'Ломо',
       activityType: 'Встреча',
       isDone: false,
@@ -61,13 +61,13 @@ export class HomePageComponent implements OnInit {
       pairwise(),
     ).subscribe(([prevPair, pair]) => {
         if (!prevPair) {
-          this.groupedData.push(new GroupByData(pair.startTime.toLocaleDateString(), true));
+          this.groupedData.push(new GroupByData(pair.start_time.toLocaleDateString(), true));
           this.groupedData.push(pair);
         } else {
-          if (prevPair.startTime.toLocaleDateString() === pair.startTime.toLocaleDateString()) {
+          if (prevPair.start_time.toLocaleDateString() === pair.start_time.toLocaleDateString()) {
             this.groupedData.push(pair);
           } else {
-            this.groupedData.push(new GroupByData(pair.startTime.toLocaleDateString(), true));
+            this.groupedData.push(new GroupByData(pair.start_time.toLocaleDateString(), true));
             this.groupedData.push(pair);
           }
         }
@@ -87,6 +87,6 @@ export class HomePageComponent implements OnInit {
 
 export function sortDataByTimeASC(tableData: any): any[] {
   return (tableData.sort((a, b) => {
-    return (a.startTime.getTime() - b.startTime.getTime());
+    return (a.start_time.getTime() - b.start_time.getTime());
   }));
 }

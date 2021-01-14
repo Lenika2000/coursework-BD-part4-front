@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AppScreen} from './components/menu/menu.component';
 import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-main-page',

@@ -14,19 +14,19 @@ import {Filters} from './filters/filters.component';
 })
 export class ActivitiesComponent implements OnInit {
 
-  public displayedColumns = ['startTime', 'endTime', 'periodicity', 'interval',
-    'format', 'activityType', 'impactOnStressLevel', 'location', 'update', 'delete'];
+  public displayedColumns = ['start_time', 'end_time', 'period', 'processing_date', 'duration',
+    'format', 'activityType', 'stress_points', 'location', 'update', 'delete'];
   @ViewChild('table', {static: false}) table: MatTable<Product>;
   selectedActivity: any;
   filteredTableData: any[];
   public activities: any = [
   {
-    startTime: new Date(),
-    endTime: new Date(),
-    periodicity: 'Каждый день',
-    interval: '1:10',
+    start_time: new Date(),
+    end_time: new Date(),
+    period: 'Каждый день',
+    duration: '1:10',
     format: 'Очный',
-    impactOnStressLevel: 50,
+    stress_points: 50,
     location: 'Магнит',
     activityType: 'Учеба',
     isDone: false,
@@ -35,12 +35,12 @@ export class ActivitiesComponent implements OnInit {
     type: 'Лекция',
   },
     {
-      startTime: new Date(),
-      endTime: new Date(),
-      periodicity: 'Каждый день',
-      interval: '1:10',
+      start_time: new Date(),
+      end_time: new Date(),
+      period: 'Каждый день',
+      duration: '1:10',
       format: 'Дистанционный',
-      impactOnStressLevel: 50,
+      stress_points: 50,
       location: 'Магнит',
       activityType: 'Встреча',
       isDone: false,
@@ -67,17 +67,17 @@ export class ActivitiesComponent implements OnInit {
 
   addActivity(): void {
     const activity = {
-      startTime: new Date(),
-      endTime: new Date(),
-      periodicity: 'Каждый день',
-      interval: '',
+      start_time: new Date(),
+      end_time: new Date(),
+      period: 'Каждый день',
+      duration: '',
       format: 'Очный',
-      impactOnStressLevel:  '',
+      stress_points:  '',
       location: '',
       activityType: ''
     };
-    activity.startTime.setHours(8, 0, 0, 0);
-    activity.endTime.setHours(15, 0, 0, 0);
+    activity.start_time.setHours(8, 0, 0, 0);
+    activity.end_time.setHours(15, 0, 0, 0);
     const dialogRef = this.openAddUpdateDialog(true, activity);
 
     dialogRef.componentInstance.activityAdd.subscribe((newRow) => {
@@ -93,12 +93,12 @@ export class ActivitiesComponent implements OnInit {
 
     dialogRef.componentInstance.activityUpdate.subscribe((updatedActivity) => {
 
-      this.selectedActivity.startTime = updatedActivity.startTime;
-      this.selectedActivity.endTime = updatedActivity.endTime;
-      this.selectedActivity.periodicity = updatedActivity.periodicity;
-      this.selectedActivity.interval = updatedActivity.interval;
+      this.selectedActivity.start_time = updatedActivity.start_time;
+      this.selectedActivity.end_time = updatedActivity.end_time;
+      this.selectedActivity.period = updatedActivity.period;
+      this.selectedActivity.duration = updatedActivity.duration;
       this.selectedActivity.format = updatedActivity.format;
-      this.selectedActivity.impactOnStressLevel = updatedActivity.impactOnStressLevel;
+      this.selectedActivity.stress_points = updatedActivity.stress_points;
       this.selectedActivity.location = updatedActivity.location;
       this.selectedActivity.activityType = updatedActivity.activityType;
       switch (this.selectedActivity.activityType) {

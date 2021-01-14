@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FinanceElem, FinanceFilter} from '../../../../models/finance.model';
 import {MatTable} from '@angular/material/table';
-import {GroupByData, Location} from '../../../../models/activity.model';
+import {GroupByData} from '../../../../models/activity.model';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {AddUpdateFinanceDialogComponent} from './add-update-finance-dialog/add-update-finance-dialog.component';
 import {of} from 'rxjs';
