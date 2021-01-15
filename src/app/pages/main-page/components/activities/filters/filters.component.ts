@@ -45,7 +45,7 @@ export class FiltersComponent implements OnInit {
       startDate2: this.campaignEndDate.get('start').value,
       endDate2: this.campaignEndDate.get('end').value,
       isOffline: false,
-      activityType: undefined,
+      activity_type: undefined,
     };
   }
 
@@ -69,5 +69,5 @@ export interface Filters {
   startDate2: Date;
   endDate2: Date;
   isOffline: boolean;
-  activityType: ActivityType;
+  activity_type: ActivityType;
 }

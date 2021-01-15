@@ -1,11 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {AddUpdateActivityDialogComponent} from './add-update-activity-dialog/add-update-activity-dialog.component';
-import {Activity} from '../../../../models/activity.model';
+import {Activity, ActivityType, Location, ServerActivity} from '../../../../models/activity.model';
 import {DeleteActivityDialogComponent} from './delete-activity-dialog/delete-activity-dialog.component';
 import {MatTable} from '@angular/material/table';
-import {Product} from '../../../../models/shopping.model';
+import {Product, ShoppingList} from '../../../../models/shopping.model';
 import {Filters} from './filters/filters.component';
+import {ActivitiesService} from '../../../../services/activities.service';
+import {PeriodService} from '../../../../services/period.service';
 
 @Component({
   selector: 'app-activities',
@@ -15,7 +17,7 @@ import {Filters} from './filters/filters.component';
 export class ActivitiesComponent implements OnInit {
 
   public displayedColumns = ['start_time', 'end_time', 'period', 'processing_date', 'duration',
-    'format', 'activityType', 'stress_points', 'location', 'update', 'delete'];
+    'format', 'activity_type', 'stress_points', 'location', 'update', 'delete'];
   @ViewChild('table', {static: false}) table: MatTable<Product>;
   selectedActivity: any;
   filteredTableData: any[];
@@ -28,7 +30,7 @@ export class ActivitiesComponent implements OnInit {
     format: 'Очный',
     stress_points: 50,
     location: {id: 0, name: 'Магнит'},
-    activityType: 'Учеба',
+    activity_type: 'Учеба',
     isDone: false,
     room: 223,
     teacher: 'Клименков',
@@ -42,15 +44,46 @@ export class ActivitiesComponent implements OnInit {
       format: 'Дистанционный',
       stress_points: 50,
       location: {id: 0, name: 'Магнит'},
-      activityType: 'Встреча',
+      activity_type: 'Встреча',
       isDone: false,
       humanName: 'Женя'
     }];
 
-  constructor( private dialog: MatDialog) { }
+  constructor( private dialog: MatDialog,
+               private activitiesService: ActivitiesService,
+               private periodService: PeriodService) { }
 
   public ngOnInit(): void {
-    this.filteredTableData = this.activities;
+    this.activities = this.filteredTableData = this.activities;
+  }
+
+  getActivities(): void {
+    this.activitiesService.getActivities().subscribe( (activities: ServerActivity[]) => {
+      this.activities = this.prepareActivityData(activities);
+    });
+  }
+
+  // todo не хватает полей
+  prepareActivityData(activities: ServerActivity[]): Activity[] {
+    return activities.map(entry => {
+      return {
+        id: entry.id,
+        start_time: entry.start_time,
+        end_time: entry.end_time,
+        processing_date: new Date(entry.processing_date),
+        duration: getCorrectTime(entry.duration),
+        period: getCorrectPeriod(entry.period, this.periodService),
+        format: entry.format,
+        stress_points: entry.stress_points,
+        location: getLocation(entry.location_id),
+        activity_type: changeActivityTypeFromServer(entry.activity_type),
+        description: entry.description,
+        room: entry.room,
+        teacher: entry.teacher,
+        type: entry.type,
+        shoppingList: undefined,
+      };
+    });
   }
 
   openAddUpdateDialog(isAddOperation: boolean, activity: any): MatDialogRef<AddUpdateActivityDialogComponent, any>  {
@@ -74,16 +107,17 @@ export class ActivitiesComponent implements OnInit {
       format: 'Очный',
       stress_points:  '',
       location: '',
-      activityType: ''
+      activity_type: ''
     };
     activity.start_time.setHours(8, 0, 0, 0);
     activity.end_time.setHours(15, 0, 0, 0);
     const dialogRef = this.openAddUpdateDialog(true, activity);
 
     dialogRef.componentInstance.activityAdd.subscribe((newRow) => {
-      this.activities.push(newRow);
-      this.table.renderRows();
-      // todo сервер
+      this.activitiesService.addActivity(newRow).subscribe(() => {
+        this.activities.push(newRow);
+        this.table.renderRows();
+      });
     });
   }
 
@@ -92,7 +126,6 @@ export class ActivitiesComponent implements OnInit {
     const dialogRef = this.openAddUpdateDialog(false, activity);
 
     dialogRef.componentInstance.activityUpdate.subscribe((updatedActivity) => {
-
       this.selectedActivity.start_time = updatedActivity.start_time;
       this.selectedActivity.end_time = updatedActivity.end_time;
       this.selectedActivity.period = updatedActivity.period;
@@ -100,8 +133,8 @@ export class ActivitiesComponent implements OnInit {
       this.selectedActivity.format = updatedActivity.format;
       this.selectedActivity.stress_points = updatedActivity.stress_points;
       this.selectedActivity.location = updatedActivity.location;
-      this.selectedActivity.activityType = updatedActivity.activityType;
-      switch (this.selectedActivity.activityType) {
+      this.selectedActivity.activity_type = updatedActivity.activity_type;
+      switch (this.selectedActivity.activity_type) {
         case 'Учеба': {
           this.selectedActivity.teacher = updatedActivity.teacher;
           this.selectedActivity.room = updatedActivity.room;
@@ -167,9 +200,9 @@ export class ActivitiesComponent implements OnInit {
         return row.format === 'Очный';
       });
     }
-    if (filters.activityType !== undefined) {
+    if (filters.activity_type !== undefined) {
       this.filteredTableData = this.filteredTableData.filter((row) => {
-        return row.activityType === filters.activityType;
+        return row.activity_type === filters.activity_type;
       });
     }
   }
@@ -177,7 +210,7 @@ export class ActivitiesComponent implements OnInit {
 
 export function getAdditionalInfo(index: number, activities: any[]): string {
   const hoverActivity = activities[index];
-  switch (hoverActivity.activityType) {
+  switch (hoverActivity.activity_type) {
     case 'Встреча':
       return `Встреча с ${hoverActivity.humanName}`;
     case 'Учеба':
@@ -188,5 +221,58 @@ export function getAdditionalInfo(index: number, activities: any[]): string {
       return `Описание - ${hoverActivity.description}`;
     case 'Поход в магазин':
       return `Название списка покупок - ${hoverActivity.shopListName}`;
+  }
+}
+
+export function getCorrectPeriod(period: number, periodMapService: PeriodService): string {
+  return periodMapService.getPeriodMapFromServer().get(period);
+}
+
+export  function getCorrectTime(seconds: number): string {
+  const hours = seconds / 60 / 60;
+  const min = (seconds - 60 * 60 * hours) / 60;
+  return hours + ':' + min;
+}
+
+export function getLocation(locationId: number): Location {
+  const locations = JSON.parse(localStorage.getItem('part4.locations'));
+  locations.forEach(( (location: Location) => {
+    if (location.id === locationId) {
+      return location;
+    }
+  }));
+  return ;
+}
+
+export function getShoppingList(shoppingListId: number): ShoppingList {
+  const shoppingLists = JSON.parse(localStorage.getItem('part4.shopping.lists'));
+  shoppingLists.forEach(( (shoppingList: ShoppingList) => {
+    if (shoppingList.id === shoppingListId) {
+      return shoppingList;
+    }
+  }));
+  return ;
+}
+
+export function changeActivityTypeFromServer(activityType: string): ActivityType{
+  switch (activityType) {
+    case 'studying': {
+      return 'Учеба';
+    }
+    case 'sport' : {
+      return 'Спорт';
+    }
+    case 'other' : {
+      return 'Другое';
+    }
+    case 'shopping' : {
+      return 'Поход в магазин';
+    }
+    case 'meeting' : {
+      return 'Встреча';
+    }
+    case 'work' : {
+      return 'Работа';
+    }
   }
 }

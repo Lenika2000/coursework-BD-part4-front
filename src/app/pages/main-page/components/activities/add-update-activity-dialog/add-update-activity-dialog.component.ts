@@ -2,10 +2,11 @@ import {Component, Inject, OnInit, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { EventEmitter } from '@angular/core';
 import {FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import {ActivityType, FormatType, LessonType} from '../../../../../models/activity.model';
+import {ActivityType, FormatType, LessonType, Location} from '../../../../../models/activity.model';
 import {NgxMaterialTimepickerTheme} from 'ngx-material-timepicker';
 import {MyErrorStateMatcher} from '../../../../auth-page/auth-page.component';
 import {Period} from '../../../../../services/period.service';
+import {ShoppingList} from '../../../../../models/shopping.model';
 
 @Component({
   selector: 'app-add-activity-dialog',
@@ -24,9 +25,9 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   public activitiesFormat: FormatType[] = [ 'Очный' , 'Дистанционный'];
   public lessonsType: LessonType[] = [ 'Лекция' , 'Практика'];
   // todo запрашивать с сервера
-  public shoppingListNames: string[] = [];
+  public shoppingListNames: ShoppingList[] = [];
   // todo запрашивать с сервера
-  public locations: string[] = [];
+  public locations: Location[] = [];
   minProcessingDate = new Date();
   maxDate = new Date();
   minDate = new Date();
@@ -69,7 +70,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
       stress_points: [this.data.activity.stress_points, {validators: [Validators.required, Validators.pattern('^(-|\\+)?(0|[1-9]\\d*)')]}],
       location: [this.data.activity.location.name , {validators: [Validators.required]}],
       isDone: [],
-      activityType: [this.data.activity.activityType,  {validators: [Validators.required]}],
+      activity_type: [this.data.activity.activity_type,  {validators: [Validators.required]}],
       room: [(this.data.isAddOperation) ? '' : this.data.activity.room,  {validators: [Validators.required]}],
       teacher: [(this.data.isAddOperation) ? '' : this.data.activity.teacher,  {validators: [Validators.required]}],
       lessonType: [(this.data.isAddOperation) ? '' : this.data.activity.type,  {validators: [Validators.required]}],
@@ -84,7 +85,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
     this.onChangeActivityType();
     if (!this.data.isAddOperation) {
       this.cleanVariables();
-      this.setActivityTypeSettings(this.addUpdateForm.get('activityType').value);
+      this.setActivityTypeSettings(this.addUpdateForm.get('activity_type').value);
     }
   }
 
@@ -150,7 +151,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   }
 
   onChangeActivityType(): void {
-    this.addUpdateForm.get('activityType').valueChanges.subscribe(selectedActivityType => {
+    this.addUpdateForm.get('activity_type').valueChanges.subscribe(selectedActivityType => {
       this.cleanVariables();
       this.setActivityTypeSettings(selectedActivityType);
     });
@@ -173,6 +174,11 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   addAction(): void {
     const startTimepicker = this.addUpdateForm.get('start_timepicker').value;
     const endTimepicker = this.addUpdateForm.get('end_timepicker').value;
+    this.locations.map((location) => {
+      if (location.name ===  this.addUpdateForm.get('location').value) {
+        this.addUpdateForm.get('location').setValue(location.id);
+      }
+    });
     if (!this.isPeriodicityActivity) {
       // непериодическая активность
       const processingDate = this.addUpdateForm.get('processing_date').value;
@@ -228,7 +234,8 @@ const ValidateStartTimepicker: ValidatorFn = (fg: FormGroup) => {
   };
 };
 
-export function addZeros(str: string, numbersQuantity: number) {
+export function addZeros(str: string, numbersQuantity: number): string {
   str = str.toString();
   return str.length < numbersQuantity ? addZeros('0' + str, numbersQuantity) : str;
 }
+

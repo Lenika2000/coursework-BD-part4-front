@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class PeriodService {
 
  periodMap = new Map<string, number>();
+ periodMapFromServer = new Map<number, string>();
   constructor() {
     this.periodMap.set('Каждый день', 86400);
     this.periodMap.set('Каждые два дня', 86400 * 2);
@@ -16,6 +17,23 @@ export class PeriodService {
     this.periodMap.set('Каждую неделю', 86400 * 7);
     this.periodMap.set('Каждые две недели', 86400 * 14);
     this.periodMap.set('Без повтора', 0);
+    this.periodMapFromServer.set(86400, 'Каждый день');
+    this.periodMapFromServer.set(86400 * 2, 'Каждые два дня');
+    this.periodMapFromServer.set(86400 * 3, 'Каждые три дня');
+    this.periodMapFromServer.set(86400 * 4, 'Каждые четыре дня');
+    this.periodMapFromServer.set(86400 * 5, 'Каждые пять дней');
+    this.periodMapFromServer.set(86400 * 6, 'Каждые шесть дней');
+    this.periodMapFromServer.set(86400 * 7, 'Каждую неделю');
+    this.periodMapFromServer.set(86400 * 14, 'Каждые две недели');
+    this.periodMapFromServer.set(0, 'Без повтора');
+  }
+
+  getPeriodMap(): Map<string, number> {
+    return this.periodMap;
+  }
+
+  getPeriodMapFromServer(): Map<number, string> {
+    return this.periodMapFromServer;
   }
 }
 

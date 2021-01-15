@@ -110,10 +110,10 @@
 
   <mat-form-field>
     <mat-label>Тип активности</mat-label>
-    <mat-select formControlName="activityType" [errorStateMatcher]="matcher">
+    <mat-select formControlName="activity_type" [errorStateMatcher]="matcher">
       <mat-option *ngFor="let type of activities" [value]="type">{{type}}</mat-option>
     </mat-select>
-    <mat-error *ngIf="addUpdateForm.get('activityType').hasError('required')">
+    <mat-error *ngIf="addUpdateForm.get('activity_type').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
   </mat-form-field>
@@ -160,7 +160,6 @@
     </mat-error>
   </mat-form-field>
 
-
   <mat-form-field *ngIf="isMeeting">
     <mat-label>Собеседник</mat-label>
     <input matInput formControlName="humanName">
@@ -172,7 +171,7 @@
   <mat-form-field *ngIf="isShopping">
     <mat-label>Название списка покупок</mat-label>
     <mat-select formControlName="shoppingListName">
-      <mat-option *ngFor="let name of shoppingListNames" [value]="name">{{name}}</mat-option>
+      <mat-option *ngFor="let shoppingList of shoppingListNames" [value]="shoppingList.name">{{shoppingList.name}}</mat-option>
     </mat-select>
     <mat-error *ngIf="addUpdateForm.get('shoppingListName').hasError('required')">
       Поле обязательно для заполнения

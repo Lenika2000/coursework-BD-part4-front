@@ -1,5 +1,7 @@
+import {ShoppingList} from './shopping.model';
+
 export interface Activity {
-  activityId?: number;
+  id?: number;
   start_time: Date;
   end_time: Date;
   processing_date?: Date; // дата ближайшего выполнения
@@ -8,8 +10,31 @@ export interface Activity {
   format: FormatType;
   stress_points: number;
   location: Location;
-  activityType: ActivityType;
-  isDone: boolean;
+  activity_type: ActivityType;
+  isDone?: boolean;
+  description?: string;
+  room?: string;
+  teacher?: string;
+  type?: LessonType;
+  shoppingList?: ShoppingList;
+}
+
+export interface ServerActivity {
+  id?: number;
+  description?: string;
+  type?: LessonType;
+  room?: string;
+  teacher?: string;
+  shopping_list_id?: ShoppingList;
+  start_time: Date;
+  end_time: Date;
+  processing_date?: Date; // дата ближайшего выполнения
+  duration: number; // продолжительность
+  period: number; // разница в днях между выполнениями активности
+  format: FormatType;
+  stress_points: number;
+  activity_type: string;
+  location_id: number;
 }
 
 export interface Lesson extends Activity{

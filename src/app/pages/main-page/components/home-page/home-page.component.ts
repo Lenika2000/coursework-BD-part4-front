@@ -13,7 +13,7 @@ import {pairwise, startWith} from 'rxjs/operators';
 })
 export class HomePageComponent implements OnInit {
 
-  public displayedColumns = ['start_time', 'duration', 'format', 'activityType', 'stress_points',
+  public displayedColumns = ['start_time', 'duration', 'format', 'activity_type', 'stress_points',
     'location', 'isConfirm'];
   @ViewChild('table', {static: false}) table: MatTable<Product>;
   groupedData: Array<any> = new Array<any>();
@@ -27,7 +27,7 @@ export class HomePageComponent implements OnInit {
       format: 'Очный',
       stress_points: 50,
       location: 'Ломо',
-      activityType: 'Учеба',
+      activity_type: 'Учеба',
       isDone: false,
       room: 223,
       teacher: 'Клименков',
@@ -41,7 +41,7 @@ export class HomePageComponent implements OnInit {
       format: 'Дистанционный',
       stress_points: 50,
       location: 'Ломо',
-      activityType: 'Встреча',
+      activity_type: 'Встреча',
       isDone: false,
       human: 'Женя'
     }];

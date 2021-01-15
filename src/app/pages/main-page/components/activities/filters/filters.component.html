@@ -36,7 +36,7 @@
   <div class="filter__activities-types">
     <mat-form-field>
       <mat-label class="">Тип активности</mat-label>
-      <mat-select [(ngModel)]="filters.activityType" (selectionChange)="change()">
+      <mat-select [(ngModel)]="filters.activity_type" (selectionChange)="change()">
         <mat-option *ngFor="let type of activities" [value]="type">{{type}}</mat-option>
       </mat-select>
     </mat-form-field>
