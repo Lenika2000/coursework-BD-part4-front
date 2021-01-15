@@ -39,6 +39,7 @@ import {AddUpdateFinanceDialogComponent} from './pages/main-page/components/fina
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {InitialSettingsComponent} from './pages/main-page/components/initial-settings/initial-settings.component';
 import {InitialSettingsConfirmComponent} from './pages/main-page/components/initial-settings/initial-settings-confirm/initial-settings-confirm.component';
+import {AddUpdateLocationComponent} from './pages/main-page/components/settings/add-update-location/add-update-location.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import {InitialSettingsConfirmComponent} from './pages/main-page/components/init
     FinanceComponent,
     AddUpdateFinanceDialogComponent,
     InitialSettingsComponent,
-    InitialSettingsConfirmComponent
+    InitialSettingsConfirmComponent,
+    AddUpdateLocationComponent
   ],
   imports: [
     BrowserModule,
@@ -102,7 +104,8 @@ import {InitialSettingsConfirmComponent} from './pages/main-page/components/init
     AddShopListComponent,
     AddUpdateFinanceDialogComponent,
     InitialSettingsComponent,
-    InitialSettingsConfirmComponent
+    InitialSettingsConfirmComponent,
+    AddUpdateLocationComponent
   ]
 })
 export class AppModule { }

@@ -1,8 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {SettingsService} from '../../../../services/settings.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MyErrorStateMatcher} from '../../../auth-page/auth-page.component';
+import {MatTable} from '@angular/material/table';
+import {Location} from '../../../../models/activity.model';
+import {AddUpdateLocationComponent} from './add-update-location/add-update-location.component';
 
 @Component({
   selector: 'app-settings',
@@ -11,14 +14,30 @@ import {MyErrorStateMatcher} from '../../../auth-page/auth-page.component';
 })
 export class SettingsComponent implements OnInit {
 
+  public displayedColumns = ['name', 'update', 'delete'];
+  public locations: Location[] = [];
+  public selectedLocation: Location;
+  @ViewChild('table', {static: false}) table: MatTable<Location>;
   settingForm: FormGroup;
   matcher = new MyErrorStateMatcher();
 
   constructor(private dialog: MatDialog, private settingService: SettingsService,
               private formBuilder: FormBuilder) {
+    this.locations = [
+      {
+        id: 1,
+        name: 'Магнит',
+      },
+      {
+        id: 2,
+        name: 'Лента',
+      }
+    ];
+    this.updateLocationNames();
   }
 
   ngOnInit(): void {
+    this.getLocations();
     this.settingForm = this.formBuilder.group({
       maxStressLevel: [1000, {
         validators: [Validators.required,
@@ -27,6 +46,65 @@ export class SettingsComponent implements OnInit {
   }
 
   updateListName(): void {
+    // todo сервер
+  }
+
+  getLocations(): void {
+    this.settingService.getLocations().subscribe(() => {
+
+    })
+  }
+
+  openAddUpdateDialog(isAddOperation: boolean, location: Location): MatDialogRef<AddUpdateLocationComponent, any> {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.height = '200px';
+    dialogConfig.width = '376px';
+    dialogConfig.data = {
+      location,
+      isAddOperation
+    };
+    if (!isAddOperation) {
+      this.selectedLocation = location;
+    }
+    return this.dialog.open(AddUpdateLocationComponent, dialogConfig);
+  }
+
+  updateLocationNames(): void {
+    const locationNames = [];
+    this.locations.forEach((elem: Location) => {
+      locationNames.push(elem.name);
+    });
+    localStorage.setItem('part4.locations', JSON.stringify(locationNames));
+  }
+
+  updateLocation(location: Location): void {
+    const dialogConfirmConfigRef = this.openAddUpdateDialog(false, location);
+    dialogConfirmConfigRef.componentInstance.locationUpdate.subscribe((updatedLocation: Location) => {
+      this.selectedLocation.name = updatedLocation.name;
+      this.updateLocationNames();
+      this.table.renderRows();
+      // todo сервер
+    });
+  }
+
+  addLocation(): void {
+    const location = {
+      name: '',
+    };
+    const dialogConfirmConfigRef = this.openAddUpdateDialog(true, location);
+    dialogConfirmConfigRef.componentInstance.locationAdd.subscribe((newLocation: Location) => {
+      this.locations.push(newLocation);
+      this.updateLocationNames();
+      this.table.renderRows();
+      // todo сервер
+    });
+  }
+
+  deleteLocation(location: Location): void {
+    const deletedElemIndex = this.locations.findIndex((d) => d === location);
+    this.locations.splice(deletedElemIndex, 1);
+    this.updateLocationNames();
+    this.table.renderRows();
     // todo сервер
   }
 

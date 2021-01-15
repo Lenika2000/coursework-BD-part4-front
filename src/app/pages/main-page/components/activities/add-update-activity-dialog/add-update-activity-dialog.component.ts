@@ -2,9 +2,10 @@ import {Component, Inject, OnInit, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { EventEmitter } from '@angular/core';
 import {FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import {ActivityType, FormatType, LessonType, Period} from '../../../../../models/activity.model';
+import {ActivityType, FormatType, LessonType} from '../../../../../models/activity.model';
 import {NgxMaterialTimepickerTheme} from 'ngx-material-timepicker';
 import {MyErrorStateMatcher} from '../../../../auth-page/auth-page.component';
+import {Period} from '../../../../../services/period.service';
 
 @Component({
   selector: 'app-add-activity-dialog',
@@ -18,11 +19,15 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   @Output() activityUpdate = new EventEmitter<any>();
   public activities: ActivityType[] = [ 'Учеба' , 'Работа' , 'Спорт' ,
   'Поход в магазин' , 'Встреча' , 'Другое' ];
-  public periodList: Period[]  = ['Без повтора', 'Каждый день', 'Каждую неделю', 'Каждый месяц', 'Каждый год'];
+  public periodList: Period[]  = ['Без повтора', 'Каждый день' , 'Каждые два дня' , 'Каждые три дня',
+    'Каждые четыре дня' , 'Каждые пять дней', 'Каждые шесть дней' , 'Каждую неделю' , 'Каждые две недели',
+    'Каждый месяц' , 'Каждый год' , 'Без повтора'];
   public activitiesFormat: FormatType[] = [ 'Очный' , 'Дистанционный'];
   public lessonsType: LessonType[] = [ 'Лекция' , 'Практика'];
   // todo запрашивать с сервера
   public shoppingListNames: string[] = [];
+  // todo запрашивать с сервера
+  public locations: string[] = [];
   minProcessingDate = new Date();
   maxDate = new Date();
   minDate = new Date();
@@ -74,6 +79,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
       humanName: [(this.data.isAddOperation) ? '' : this.data.activity.humanName,  {validators: [Validators.required]}],
       shoppingListName: [(this.data.isAddOperation) ? '' : this.data.activity.shoppingListName,  {validators: [Validators.required]}],
     }, { validator: ValidateStartTimepicker});
+    this.locations = JSON.parse(localStorage.getItem('part4.locations'));
     this.updateMinMaxDate();
     this.setPeriodType(this.addUpdateForm.get('period').value);
     this.onChangeActivityType();

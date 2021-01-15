@@ -100,7 +100,9 @@
 
   <mat-form-field>
     <mat-label>Локация</mat-label>
-    <input matInput formControlName="location" [errorStateMatcher]="matcher">
+    <mat-select formControlName="location">
+      <mat-option *ngFor="let location of locations" [value]="location">{{location}}</mat-option>
+    </mat-select>
     <mat-error *ngIf="addUpdateForm.get('location').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>

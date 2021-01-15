@@ -1,0 +1,19 @@
+<form [formGroup]="locationForm" novalidate>
+  <p>{{(data.isAddOperation)?'Добавление места'
+    :'Редактирование места'}}</p>
+  <mat-icon (click)="closeDialog()" class="dialog__close-icon cursor pointer">clear</mat-icon>
+  <div>
+    <mat-form-field>
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="name" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="locationForm.get('name').dirty && locationForm.get('name').hasError('required')">
+      Поле обязательно для заполнения
+    </mat-error>
+    </mat-form-field>
+  </div>
+  <div class="dialog__actions">
+    <button mat-button *ngIf="!data.isAddOperation" [disabled]="locationForm.invalid" (click)="onLocationUpdate()" class="btn cursor pointer">Сохранить</button>
+    <button mat-button *ngIf="data.isAddOperation" [disabled]="locationForm.invalid" (click)="onLocationAdd()" class="btn cursor pointer">Добавить</button>
+  </div>
+</form>
+

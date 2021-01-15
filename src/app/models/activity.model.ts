@@ -37,15 +37,19 @@ export interface Meeting extends Activity{
   human?: string;
 }
 
+export interface Location {
+  id?: number;
+  name: string;
+}
+
 export type LessonType = 'Лекция' | 'Практика';
 export type FormatType = 'Очный' | 'Дистанционный';
 export type ActivityType = 'Учеба' | 'Работа' | 'Спорт' |
   'Поход в магазин' | 'Встреча' | 'Перемещение' | 'Другое' ;
 
-export type Period = 'Каждый день' | 'Каждую неделю' | 'Каждый месяц' | 'Каждый год' |
-  'Через день' | 'Через неделю' | 'Через месяц' | 'Через год' | 'Без повтора' ;
-
 export class GroupByData {
   constructor(private date: string, private  isGroupBy: boolean) {
   }
 }
+
+

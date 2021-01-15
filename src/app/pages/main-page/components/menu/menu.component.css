@@ -123,6 +123,7 @@
 
 .user-info_settings {
   margin: 0px 13px 0 auto;
+  border-radius: 10px;
 }
 
 .user-info_settings.active {
