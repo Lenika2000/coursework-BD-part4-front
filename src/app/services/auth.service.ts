@@ -16,7 +16,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   getHeaders(): HttpHeaders {
-    const token: string = localStorage.getItem('authToken');
+    const token: string = localStorage.getItem('part4.authToken');
 
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
 

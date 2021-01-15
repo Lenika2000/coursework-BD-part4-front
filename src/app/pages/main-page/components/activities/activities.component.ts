@@ -27,7 +27,7 @@ export class ActivitiesComponent implements OnInit {
     duration: '1:10',
     format: 'Очный',
     stress_points: 50,
-    location: 'Магнит',
+    location: {id: 0, name: 'Магнит'},
     activityType: 'Учеба',
     isDone: false,
     room: 223,
@@ -41,7 +41,7 @@ export class ActivitiesComponent implements OnInit {
       duration: '1:10',
       format: 'Дистанционный',
       stress_points: 50,
-      location: 'Магнит',
+      location: {id: 0, name: 'Магнит'},
       activityType: 'Встреча',
       isDone: false,
       humanName: 'Женя'

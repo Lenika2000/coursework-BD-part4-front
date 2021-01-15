@@ -7,7 +7,7 @@ export interface Activity {
   period: string; // разница в днях между выполнениями активности
   format: FormatType;
   stress_points: number;
-  location: string;
+  location: Location;
   activityType: ActivityType;
   isDone: boolean;
 }
@@ -40,6 +40,7 @@ export interface Meeting extends Activity{
 export interface Location {
   id?: number;
   name: string;
+  user_id?: number;
 }
 
 export type LessonType = 'Лекция' | 'Практика';

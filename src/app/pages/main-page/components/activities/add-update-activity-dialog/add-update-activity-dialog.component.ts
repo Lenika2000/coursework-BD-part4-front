@@ -20,8 +20,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   public activities: ActivityType[] = [ 'Учеба' , 'Работа' , 'Спорт' ,
   'Поход в магазин' , 'Встреча' , 'Другое' ];
   public periodList: Period[]  = ['Без повтора', 'Каждый день' , 'Каждые два дня' , 'Каждые три дня',
-    'Каждые четыре дня' , 'Каждые пять дней', 'Каждые шесть дней' , 'Каждую неделю' , 'Каждые две недели',
-    'Каждый месяц' , 'Каждый год' , 'Без повтора'];
+    'Каждые четыре дня' , 'Каждые пять дней', 'Каждые шесть дней' , 'Каждую неделю' , 'Каждые две недели', 'Без повтора'];
   public activitiesFormat: FormatType[] = [ 'Очный' , 'Дистанционный'];
   public lessonsType: LessonType[] = [ 'Лекция' , 'Практика'];
   // todo запрашивать с сервера
@@ -68,7 +67,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
       period: [this.data.activity.period],
       format: [this.data.activity.format],
       stress_points: [this.data.activity.stress_points, {validators: [Validators.required, Validators.pattern('^(-|\\+)?(0|[1-9]\\d*)')]}],
-      location: [this.data.activity.location , {validators: [Validators.required]}],
+      location: [this.data.activity.location.name , {validators: [Validators.required]}],
       isDone: [],
       activityType: [this.data.activity.activityType,  {validators: [Validators.required]}],
       room: [(this.data.isAddOperation) ? '' : this.data.activity.room,  {validators: [Validators.required]}],

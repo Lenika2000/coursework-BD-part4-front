@@ -22,19 +22,7 @@ export class SettingsComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
   constructor(private dialog: MatDialog, private settingService: SettingsService,
-              private formBuilder: FormBuilder) {
-    this.locations = [
-      {
-        id: 1,
-        name: 'Магнит',
-      },
-      {
-        id: 2,
-        name: 'Лента',
-      }
-    ];
-    this.updateLocationNames();
-  }
+              private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.getLocations();
@@ -50,9 +38,10 @@ export class SettingsComponent implements OnInit {
   }
 
   getLocations(): void {
-    this.settingService.getLocations().subscribe(() => {
-
-    })
+    this.settingService.getLocations().subscribe((locations: Location[]) => {
+        this.locations =  locations;
+        this.updateLocationNames();
+    });
   }
 
   openAddUpdateDialog(isAddOperation: boolean, location: Location): MatDialogRef<AddUpdateLocationComponent, any> {
@@ -70,20 +59,17 @@ export class SettingsComponent implements OnInit {
   }
 
   updateLocationNames(): void {
-    const locationNames = [];
-    this.locations.forEach((elem: Location) => {
-      locationNames.push(elem.name);
-    });
-    localStorage.setItem('part4.locations', JSON.stringify(locationNames));
+    localStorage.setItem('part4.locations', JSON.stringify(this.locations));
   }
 
   updateLocation(location: Location): void {
     const dialogConfirmConfigRef = this.openAddUpdateDialog(false, location);
     dialogConfirmConfigRef.componentInstance.locationUpdate.subscribe((updatedLocation: Location) => {
-      this.selectedLocation.name = updatedLocation.name;
-      this.updateLocationNames();
-      this.table.renderRows();
-      // todo сервер
+      this.settingService.updateLocation(updatedLocation).subscribe(() => {
+        this.selectedLocation = updatedLocation;
+        this.updateLocationNames();
+        this.table.renderRows();
+      });
     });
   }
 
@@ -93,19 +79,20 @@ export class SettingsComponent implements OnInit {
     };
     const dialogConfirmConfigRef = this.openAddUpdateDialog(true, location);
     dialogConfirmConfigRef.componentInstance.locationAdd.subscribe((newLocation: Location) => {
-      this.locations.push(newLocation);
-      this.updateLocationNames();
-      this.table.renderRows();
-      // todo сервер
+      this.settingService.addLocation(newLocation.name).subscribe(() => {
+        this.getLocations();
+        this.table.renderRows();
+      });
     });
   }
 
   deleteLocation(location: Location): void {
     const deletedElemIndex = this.locations.findIndex((d) => d === location);
-    this.locations.splice(deletedElemIndex, 1);
-    this.updateLocationNames();
-    this.table.renderRows();
-    // todo сервер
+    this.settingService.deleteLocation(this.locations[deletedElemIndex].id).subscribe(() => {
+      this.locations.splice(deletedElemIndex, 1);
+      this.updateLocationNames();
+      this.table.renderRows();
+    });
   }
 
 }

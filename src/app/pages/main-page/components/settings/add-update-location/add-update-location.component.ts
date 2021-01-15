@@ -33,7 +33,8 @@ export class AddUpdateLocationComponent implements OnInit {
 
   onLocationUpdate(): void {
     this.closeDialog();
-    this.locationUpdate.emit(this.locationForm.value);
+    this.data.location.name = this.locationForm.get('name').value;
+    this.locationUpdate.emit(this.data.location);
   }
 
   onLocationAdd(): void {
