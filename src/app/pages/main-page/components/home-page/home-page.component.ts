@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTable} from '@angular/material/table';
 import {Product} from '../../../../models/shopping.model';
 import { getAdditionalInfo } from '../activities/activities.component';
-import {GroupByData} from '../../../../models/activity.model';
+import {Activity, GroupByData} from '../../../../models/activity.model';
 import {of} from 'rxjs';
 import {pairwise, startWith} from 'rxjs/operators';
 
@@ -15,9 +15,9 @@ export class HomePageComponent implements OnInit {
 
   public displayedColumns = ['start_time', 'duration', 'format', 'activity_type', 'stress_points',
     'location', 'isConfirm'];
-  @ViewChild('table', {static: false}) table: MatTable<Product>;
+  // @ViewChild('table', {static: false}) table: MatTable<Product>;
   groupedData: Array<any> = new Array<any>();
-
+  selectedActivity: any;
   public activities: any = [
     {
       start_time: new Date(),
@@ -73,6 +73,13 @@ export class HomePageComponent implements OnInit {
         }
       }
     ).unsubscribe();
+  }
+
+  updateActivityApproved(activity: Activity): void {
+    this.selectedActivity = activity;
+    // this.shoppingService.updateProduct(this.selectedProduct).subscribe(() => {
+    //   this.table.renderRows();
+    // });
   }
 
   getAdditionalInfo(index): string {

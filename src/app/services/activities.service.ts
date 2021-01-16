@@ -31,9 +31,9 @@ export class ActivitiesService {
       { headers: this.authService.getHeaders()});
   }
 
-  updateActivity(updatedActivity: Activity): Observable<any> {
+  updateActivity(updatedActivity: Activity, activityId: number): Observable<any> {
     console.log( this.prepareActivityToServer(updatedActivity));
-    return this.http.put(this.authService.getUrl() + `/activities/${updatedActivity.id}`,
+    return this.http.put(this.authService.getUrl() + `/activities/${activityId}`,
       this.prepareActivityToServer(updatedActivity),
       { headers: this.authService.getHeaders()});
   }

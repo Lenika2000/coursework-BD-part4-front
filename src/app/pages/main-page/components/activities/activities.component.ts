@@ -101,11 +101,8 @@ export class ActivitiesComponent implements OnInit {
     this.selectedActivity = activity;
     const dialogRef = this.openAddUpdateDialog(false, activity);
 
-    console.log(activity)
-
     dialogRef.componentInstance.activityUpdate.subscribe((updatedActivity) => {
-      console.log(updatedActivity)
-      this.activitiesService.updateActivity(updatedActivity).subscribe(() => {
+      this.activitiesService.updateActivity(updatedActivity, activity.id).subscribe(() => {
         this.getActivities();
       });
     });
@@ -133,7 +130,6 @@ export class ActivitiesComponent implements OnInit {
   }
 
   applyDateFilters(filters: Filters): void {
-    console.log(filters)
     this.startDate = filters.startDate;
     this.endDate = filters.endDate;
     this.getActivities();
