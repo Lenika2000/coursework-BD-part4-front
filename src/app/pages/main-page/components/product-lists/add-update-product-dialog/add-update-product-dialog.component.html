@@ -26,26 +26,26 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label>Количество</mat-label>
-    <input matInput formControlName="quantity" [errorStateMatcher]="matcher">
-    <mat-error *ngIf="productForm.get('quantity').hasError('required')">
+    <input matInput formControlName="amount" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="productForm.get('amount').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
-    <mat-error class="error-message" *ngIf="productForm.get('quantity').hasError('pattern')
-    && (productForm.get('quantity').dirty || productForm.get('quantity').touched)">
+    <mat-error class="error-message" *ngIf="productForm.get('amount').hasError('pattern')
+    && (productForm.get('amount').dirty || productForm.get('amount').touched)">
       Для ввода количества используйте только целые числа
     </mat-error>
-    <mat-error class="error-message" *ngIf="productForm.get('quantity').hasError('min')
-    && (productForm.get('quantity').dirty || productForm.get('quantity').touched)">
+    <mat-error class="error-message" *ngIf="productForm.get('amount').hasError('min')
+    && (productForm.get('amount').dirty || productForm.get('amount').touched)">
       Количество не может быть меньше 1
     </mat-error>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Срочность</mat-label>
-    <input  matInput readonly formControlName="urgency" [matDatepicker]="dp" [min]="minDate">
+    <input  matInput readonly formControlName="deadline" [matDatepicker]="dp" [min]="minDate">
     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker #dp></mat-datepicker>
   </mat-form-field>
-  <mat-checkbox formControlName="isConfirm" labelPosition='before'
+  <mat-checkbox formControlName="approved" labelPosition='before'
                 class="dialog-checkbox">
     Подтверждение
   </mat-checkbox>

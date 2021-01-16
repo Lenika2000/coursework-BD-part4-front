@@ -8,8 +8,8 @@ import {Component, Input, OnInit, EventEmitter, Output, OnChanges, SimpleChanges
 export class ProductListsFilterComponent implements OnInit, OnChanges {
 
   @Input() listName;
-  isConfirm;
-  @Input() shopNamesList;
+  approved;
+  @Input() shopLists;
   @Output() changeShopName = new EventEmitter<string>();
   @Output() changeConfirmFilter = new EventEmitter<boolean>();
 
@@ -20,16 +20,16 @@ export class ProductListsFilterComponent implements OnInit, OnChanges {
 
   changeListName(): void {
     this.changeShopName.emit(this.listName);
-    this.changeConfirmFilter.emit(this.isConfirm);
+    this.changeConfirmFilter.emit(this.approved);
   }
 
   onConfirmFilterChange(): void {
-    this.changeConfirmFilter.emit(this.isConfirm);
+    this.changeConfirmFilter.emit(this.approved);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.shopNamesList) {
-      this.shopNamesList = changes.shopNamesList.currentValue;
+    if (changes.shopLists) {
+      this.shopLists = changes.shopLists.currentValue;
     }
   }
 

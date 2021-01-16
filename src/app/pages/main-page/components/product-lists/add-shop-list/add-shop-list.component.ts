@@ -2,6 +2,7 @@ import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {MyErrorStateMatcher} from '../../../../auth-page/auth-page.component';
+import {ShoppingList} from '../../../../../models/shopping.model';
 
 @Component({
   selector: 'app-add-shop-list',
@@ -16,7 +17,7 @@ export class AddShopListComponent implements OnInit {
 
   constructor( private dialogRef: MatDialogRef<AddShopListComponent>,
                private formBuilder: FormBuilder,
-               @Inject(MAT_DIALOG_DATA) public shopNamesList: string[]) {
+               @Inject(MAT_DIALOG_DATA) public shopLists: ShoppingList[]) {
   }
 
   ngOnInit(): void {
@@ -35,8 +36,8 @@ export class AddShopListComponent implements OnInit {
   }
 
   validateShopName(c: FormControl): ValidationErrors {
-    const isValid = this.shopNamesList.filter((name: string) => {
-      return name === c.value.trim();
+    const isValid = this.shopLists.filter((shopList: ShoppingList) => {
+      return shopList.name === c.value.trim();
     }).length === 0;
     return isValid ? null : {
       validateShopName: {

@@ -25,13 +25,13 @@ export class AddUpdateProductDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.productForm = this.formBuilder.group({
-      name: [this.data.product.name, {validators: [Validators.required]}],
-      price: [this.data.product.price, {validators: [Validators.required,
+      name: [this.data.isAddOperation ? '' : this.data.product.name, {validators: [Validators.required]}],
+      price: [this.data.isAddOperation ? '' : this.data.product.price, {validators: [Validators.required,
           Validators.pattern('^-?(0|[1-9]\\d*)([.,]\\d+)?'), Validators.min(1)]}],
-      quantity: [this.data.product.quantity, {validators: [Validators.required,
+      amount: [this.data.isAddOperation ? '' : this.data.product.amount, {validators: [Validators.required,
           Validators.pattern('^-?[0-9]+$'), Validators.min(1)] }],
-      urgency: [ this.data.product.urgency ],
-      isConfirm: [this.data.product.isConfirm],
+      deadline: [this.data.isAddOperation ? new Date() : this.data.product.deadline],
+      approved: [{value: this.data.isAddOperation ? '' : this.data.product.approved, disabled: this.data.isAddOperation}],
     });
   }
 

@@ -22,10 +22,10 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   'Поход в магазин' , 'Встреча' , 'Другое' ];
   public periodList: Period[]  = ['Без повтора', 'Каждый день' , 'Каждые два дня' , 'Каждые три дня',
     'Каждые четыре дня' , 'Каждые пять дней', 'Каждые шесть дней' , 'Каждую неделю' , 'Каждые две недели', 'Без повтора'];
-  public activitiesFormat: FormatType[] = [ 'Очный' , 'Дистанционный'];
-  public lessonsType: LessonType[] = [ 'Лекция' , 'Практика'];
+  public activitiesFormat: FormatType[] = [ 'очный' , 'дистанционный'];
+  public lessonsType: LessonType[] = [ 'лекция' , 'практика'];
   // todo запрашивать с сервера
-  public shoppingListNames: ShoppingList[] = [];
+  public shoppingLists: ShoppingList[] = [];
   // todo запрашивать с сервера
   public locations: Location[] = [];
   minProcessingDate = new Date();
@@ -77,9 +77,10 @@ export class AddUpdateActivityDialogComponent implements OnInit {
       sportType: [(this.data.isAddOperation) ? '' : this.data.activity.sportType,  {validators: [Validators.required]}],
       description: [(this.data.isAddOperation) ? '' : this.data.activity.description,  {validators: [Validators.required]}],
       humanName: [(this.data.isAddOperation) ? '' : this.data.activity.humanName,  {validators: [Validators.required]}],
-      shoppingListName: [(this.data.isAddOperation) ? '' : this.data.activity.shoppingListName,  {validators: [Validators.required]}],
+      shoppingListName: [(this.data.isAddOperation) ? '' : this.data.activity.shoppingList.name,  {validators: [Validators.required]}],
     }, { validator: ValidateStartTimepicker});
     this.locations = JSON.parse(localStorage.getItem('part4.locations'));
+    this.shoppingLists = JSON.parse(localStorage.getItem('part4.shopping.lists'));
     this.updateMinMaxDate();
     this.setPeriodType(this.addUpdateForm.get('period').value);
     this.onChangeActivityType();

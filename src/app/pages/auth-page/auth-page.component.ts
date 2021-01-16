@@ -8,6 +8,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import {SnackBarService} from '../../services/snack-bar.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {InitialSettingsComponent} from '../main-page/components/initial-settings/initial-settings.component';
+import {ShoppingService} from '../../services/shopping.service';
 
 @Component({
   selector: 'app-auth-page',
@@ -29,7 +30,8 @@ export class AuthPageComponent implements OnInit {
               private formBuilder: FormBuilder,
               private authService: AuthService,
               private snackBarService: SnackBarService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private shoppingService: ShoppingService) {
   }
 
   ngOnInit(): void {
@@ -46,6 +48,10 @@ export class AuthPageComponent implements OnInit {
     };
     this.authService.logIn(user).subscribe(() => {
         this.router.navigateByUrl('schedule');
+        // this.shoppingService.addShoppingList('Список по умолчанию').subscribe(() => {
+
+        // });
+
       // this.openInitDialog();
       }, (error) => {
         this.isAuthenticationError = true;
@@ -67,6 +73,8 @@ export class AuthPageComponent implements OnInit {
       this.errorMessage = '';
       this.authenticate();
       this.openInitDialog();
+      this.shoppingService.addShoppingList('Список по умолчанию').subscribe(() => {
+      });
     }, (err: HttpErrorResponse) => {
       console.log(err);
       switch (err.status) {
@@ -90,6 +98,7 @@ export class AuthPageComponent implements OnInit {
     dialogConfig.height = '420px';
     dialogConfig.width = '376px';
     this.dialog.open(InitialSettingsComponent, dialogConfig);
+    this.shoppingService.addShoppingList('Список по умолчанию');
   }
 
   goToLogIn(): void {

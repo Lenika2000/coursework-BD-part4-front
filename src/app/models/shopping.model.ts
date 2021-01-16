@@ -1,14 +1,16 @@
 export interface ShoppingList {
   id?: number;
   name: string;
-  products: Product[];
+  products?: Product[];
 }
 
 
 export interface Product {
+  id?: number;
   name: string;
   price: number;
-  quantity: number;
-  urgency: Date;
-  isConfirm: boolean;
+  amount: number;
+  deadline: Date;
+  approved?: any;
+  shopping_list_id?: number;
 }

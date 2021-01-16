@@ -171,7 +171,7 @@
   <mat-form-field *ngIf="isShopping">
     <mat-label>Название списка покупок</mat-label>
     <mat-select formControlName="shoppingListName">
-      <mat-option *ngFor="let shoppingList of shoppingListNames" [value]="shoppingList.name">{{shoppingList.name}}</mat-option>
+      <mat-option *ngFor="let shoppingList of shoppingLists" [value]="shoppingList.name">{{shoppingList.name}}</mat-option>
     </mat-select>
     <mat-error *ngIf="addUpdateForm.get('shoppingListName').hasError('required')">
       Поле обязательно для заполнения

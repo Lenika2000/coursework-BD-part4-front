@@ -25,7 +25,7 @@ export interface ServerActivity {
   type?: LessonType;
   room?: string;
   teacher?: string;
-  shopping_list_id?: ShoppingList;
+  shopping_list_id?: number;
   start_time: Date;
   end_time: Date;
   processing_date?: Date; // дата ближайшего выполнения
@@ -68,8 +68,8 @@ export interface Location {
   user_id?: number;
 }
 
-export type LessonType = 'Лекция' | 'Практика';
-export type FormatType = 'Очный' | 'Дистанционный';
+export type LessonType = 'лекция' | 'практика';
+export type FormatType = 'очный' | 'дистанционный';
 export type ActivityType = 'Учеба' | 'Работа' | 'Спорт' |
   'Поход в магазин' | 'Встреча' | 'Перемещение' | 'Другое' ;
 

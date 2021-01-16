@@ -27,14 +27,14 @@ export class ActivitiesComponent implements OnInit {
     end_time: new Date(),
     period: 'Каждый день',
     duration: '1:10',
-    format: 'Очный',
+    format: 'очный',
     stress_points: 50,
     location: {id: 0, name: 'Магнит'},
     activity_type: 'Учеба',
     isDone: false,
     room: 223,
     teacher: 'Клименков',
-    type: 'Лекция',
+    type: 'лекция',
   },
     {
       start_time: new Date(),
@@ -81,7 +81,7 @@ export class ActivitiesComponent implements OnInit {
         room: entry.room,
         teacher: entry.teacher,
         type: entry.type,
-        shoppingList: undefined,
+        shoppingList: getShoppingList(entry.shopping_list_id),
       };
     });
   }
@@ -104,7 +104,7 @@ export class ActivitiesComponent implements OnInit {
       end_time: new Date(),
       period: 'Каждый день',
       duration: '',
-      format: 'Очный',
+      format: 'очный',
       stress_points:  '',
       location: '',
       activity_type: ''
@@ -197,7 +197,7 @@ export class ActivitiesComponent implements OnInit {
     this.filteredTableData = this.activities;
     if (filters.isOffline) {
       this.filteredTableData = this.filteredTableData.filter((row) => {
-        return row.format === 'Очный';
+        return row.format === 'очный';
       });
     }
     if (filters.activity_type !== undefined) {
