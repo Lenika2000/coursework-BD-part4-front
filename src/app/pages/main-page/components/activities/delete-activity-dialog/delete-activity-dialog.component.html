@@ -2,7 +2,7 @@
 <div>{{'Тип активности - ' + activity.activity_type}}</div>
 <div>{{'Периодичность - ' + activity.period}}</div>
 <div>{{'Продолжительность - ' + activity.duration}}</div>
-<div>{{'Локация - ' + activity.location}}</div>
+<div>{{'Локация - ' + activity.location.name}}</div>
 <div mat-dialog-actions class="delete-dialog__actions">
   <button mat-button class="btn-text btn cursor pointer" (click)="closeDialog()">Отмена</button>
   <button mat-button class="btn-text btn cursor pointer" (click)="onActivityDelete()">Удалить</button>

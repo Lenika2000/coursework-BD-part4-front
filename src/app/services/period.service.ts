@@ -16,7 +16,7 @@ export class PeriodService {
     this.periodMap.set('Каждые шесть дней', 86400 * 6);
     this.periodMap.set('Каждую неделю', 86400 * 7);
     this.periodMap.set('Каждые две недели', 86400 * 14);
-    this.periodMap.set('Без повтора', 0);
+    this.periodMap.set('Без повтора', undefined);
     this.periodMapFromServer.set(86400, 'Каждый день');
     this.periodMapFromServer.set(86400 * 2, 'Каждые два дня');
     this.periodMapFromServer.set(86400 * 3, 'Каждые три дня');
@@ -25,7 +25,6 @@ export class PeriodService {
     this.periodMapFromServer.set(86400 * 6, 'Каждые шесть дней');
     this.periodMapFromServer.set(86400 * 7, 'Каждую неделю');
     this.periodMapFromServer.set(86400 * 14, 'Каждые две недели');
-    this.periodMapFromServer.set(0, 'Без повтора');
   }
 
   getPeriodMap(): Map<string, number> {

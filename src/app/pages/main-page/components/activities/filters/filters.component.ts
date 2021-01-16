@@ -16,7 +16,7 @@ export class FiltersComponent implements OnInit {
   @Output() filtersChangeDate = new EventEmitter<Filters>();
 
   public filters: Filters;
-  public activities: ActivityType[] = [ 'Учеба' , 'Работа' , 'Спорт' ,
+  public activities: ActivityType[] = [ 'Все', 'Учеба' , 'Работа' , 'Спорт' ,
   'Поход в магазин' , 'Встреча' , 'Другое'];
 
   campaignStartDate: FormGroup;
@@ -24,33 +24,38 @@ export class FiltersComponent implements OnInit {
 
   constructor() {
     const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
+    const endDate = new Date();
+    endDate.setMonth(today.getMonth() + 1);
 
     this.campaignStartDate = new FormGroup({
-      start: new FormControl(new Date(year, month, 13)),
-      end: new FormControl(new Date(year, month, 16))
+      start: new FormControl(today),
+      end: new FormControl(endDate)
     });
 
-    this.campaignEndDate = new FormGroup({
-      start: new FormControl(new Date(year, month, 15)),
-      end: new FormControl(new Date(year, month, 19))
-    });
+    // todo переименовать название фильтра
+    // this.campaignEndDate = new FormGroup({
+    //   start: new FormControl(new Date(year, month, 15)),
+    //   end: new FormControl(new Date(year, month, 19))
+    // });
   }
 
   public ngOnInit(): void {
     this.filters = {
       startDate: this.campaignStartDate.get('start').value,
       endDate: this.campaignStartDate.get('end').value,
-      startDate2: this.campaignEndDate.get('start').value,
-      endDate2: this.campaignEndDate.get('end').value,
+      // startDate2: this.campaignEndDate.get('start').value,
+      // endDate2: this.campaignEndDate.get('end').value,
       isOffline: false,
       activity_type: undefined,
     };
   }
 
   public changeDate(): void {
-    this.filtersChangeDate.emit(this.filters);
+    if (this.campaignStartDate.get('end').value !== null) {
+      this.filters.startDate = this.campaignStartDate.get('start').value;
+      this.filters.endDate = this.campaignStartDate.get('end').value;
+      this.filtersChangeDate.emit(this.filters);
+    }
   }
 
   change(): void {
@@ -66,8 +71,8 @@ export class FiltersComponent implements OnInit {
 export interface Filters {
   startDate: Date;
   endDate: Date;
-  startDate2: Date;
-  endDate2: Date;
+  // startDate2: Date;
+  // endDate2: Date;
   isOffline: boolean;
   activity_type: ActivityType;
 }

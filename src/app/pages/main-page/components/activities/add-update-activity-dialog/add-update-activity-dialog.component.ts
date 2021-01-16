@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import { EventEmitter } from '@angular/core';
+import {EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {ActivityType, FormatType, LessonType, Location} from '../../../../../models/activity.model';
 import {NgxMaterialTimepickerTheme} from 'ngx-material-timepicker';
@@ -18,15 +18,13 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   addUpdateForm: FormGroup;
   @Output() activityAdd = new EventEmitter<any>();
   @Output() activityUpdate = new EventEmitter<any>();
-  public activities: ActivityType[] = [ 'Учеба' , 'Работа' , 'Спорт' ,
-  'Поход в магазин' , 'Встреча' , 'Другое' ];
-  public periodList: Period[]  = ['Без повтора', 'Каждый день' , 'Каждые два дня' , 'Каждые три дня',
-    'Каждые четыре дня' , 'Каждые пять дней', 'Каждые шесть дней' , 'Каждую неделю' , 'Каждые две недели', 'Без повтора'];
-  public activitiesFormat: FormatType[] = [ 'очный' , 'дистанционный'];
-  public lessonsType: LessonType[] = [ 'лекция' , 'практика'];
-  // todo запрашивать с сервера
+  public activities: ActivityType[] = ['Учеба', 'Работа', 'Спорт',
+    'Поход в магазин', 'Встреча', 'Другое'];
+  public periodList: Period[] = ['Без повтора', 'Каждый день', 'Каждые два дня', 'Каждые три дня',
+    'Каждые четыре дня', 'Каждые пять дней', 'Каждые шесть дней', 'Каждую неделю', 'Каждые две недели', 'Без повтора'];
+  public activitiesFormat: FormatType[] = ['очный', 'дистанционный'];
+  public lessonsType: LessonType[] = ['лекция', 'практика'];
   public shoppingLists: ShoppingList[] = [];
-  // todo запрашивать с сервера
   public locations: Location[] = [];
   minProcessingDate = new Date();
   maxDate = new Date();
@@ -53,32 +51,33 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   };
   matcher = new MyErrorStateMatcher();
 
-  constructor( public confirmDialogRef: MatDialogRef<AddUpdateActivityDialogComponent>,
-               private formBuilder: FormBuilder,
-               @Inject(MAT_DIALOG_DATA) public data: ActivityWithOperationType) { }
+  constructor(public confirmDialogRef: MatDialogRef<AddUpdateActivityDialogComponent>,
+              private formBuilder: FormBuilder,
+              @Inject(MAT_DIALOG_DATA) public data: ActivityWithOperationType) {
+  }
 
   ngOnInit(): void {
     this.addUpdateForm = this.formBuilder.group({
-      start_time: [ this.data.activity.start_time, {validators: [Validators.required]}],
+      start_time: [this.data.activity.start_time, {validators: [Validators.required]}],
       end_time: [this.data.isAddOperation ? '' : this.data.activity.end_time],
-      start_timepicker: [ this.data.activity.start_time.getHours() + ':' + this.data.activity.start_time.getMinutes(), {validators: [Validators.required]}],
-      end_timepicker: [ this.data.activity.end_time.getHours() + ':' + this.data.activity.end_time.getMinutes(), {validators: [Validators.required]}],
-      processing_date: [this.data.activity.processing_date , {validators: [Validators.required]}],
+      start_timepicker: [this.data.activity.start_time.getHours() + ':' + this.data.activity.start_time.getMinutes(), {validators: [Validators.required]}],
+      end_timepicker: [this.data.activity.end_time.getHours() + ':' + this.data.activity.end_time.getMinutes(), {validators: [Validators.required]}],
+      processing_date: [this.data.activity.processing_date, {validators: [Validators.required]}],
       duration: [this.data.activity.duration, {validators: [Validators.required]}],
       period: [this.data.activity.period],
       format: [this.data.activity.format],
       stress_points: [this.data.activity.stress_points, {validators: [Validators.required, Validators.pattern('^(-|\\+)?(0|[1-9]\\d*)')]}],
-      location: [this.data.activity.location.name , {validators: [Validators.required]}],
+      location: [this.data.activity.location.name, {validators: [Validators.required]}],
       isDone: [],
-      activity_type: [this.data.activity.activity_type,  {validators: [Validators.required]}],
-      room: [(this.data.isAddOperation) ? '' : this.data.activity.room,  {validators: [Validators.required]}],
-      teacher: [(this.data.isAddOperation) ? '' : this.data.activity.teacher,  {validators: [Validators.required]}],
-      lessonType: [(this.data.isAddOperation) ? '' : this.data.activity.type,  {validators: [Validators.required]}],
-      sportType: [(this.data.isAddOperation) ? '' : this.data.activity.sportType,  {validators: [Validators.required]}],
-      description: [(this.data.isAddOperation) ? '' : this.data.activity.description,  {validators: [Validators.required]}],
-      humanName: [(this.data.isAddOperation) ? '' : this.data.activity.humanName,  {validators: [Validators.required]}],
-      shoppingListName: [(this.data.isAddOperation) ? '' : this.data.activity.shoppingList.name,  {validators: [Validators.required]}],
-    }, { validator: ValidateStartTimepicker});
+      activity_type: [this.data.activity.activity_type, {validators: [Validators.required]}],
+      room: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Учеба') !== 0) ? '' : this.data.activity.room, {validators: [Validators.required]}],
+      teacher: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Учеба') !== 0) ? '' : this.data.activity.teacher, {validators: [Validators.required]}],
+      lessonType: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Учеба') !== 0) ? '' : this.data.activity.type, {validators: [Validators.required]}],
+      sportType: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Спорт') !== 0) ? '' : this.data.activity.sportType, {validators: [Validators.required]}],
+      description: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Другое') !== 0) ? '' : this.data.activity.description, {validators: [Validators.required]}],
+      humanName: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Встреча') !== 0) ? '' : this.data.activity.humanName, {validators: [Validators.required]}],
+      shoppingList: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Поход в магазин') !== 0) ? '' : this.data.activity.shoppingList.name, {validators: [Validators.required]}],
+    }, {validator: ValidateStartTimepicker});
     this.locations = JSON.parse(localStorage.getItem('part4.locations'));
     this.shoppingLists = JSON.parse(localStorage.getItem('part4.shopping.lists'));
     this.updateMinMaxDate();
@@ -106,7 +105,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
     this.addUpdateForm.controls.sportType.disable();
     this.addUpdateForm.controls.description.disable();
     this.addUpdateForm.controls.humanName.disable();
-    this.addUpdateForm.controls.shoppingListName.disable();
+    this.addUpdateForm.controls.shoppingList.disable();
   }
 
   setActivityTypeSettings(selectedActivityType: string): void {
@@ -130,7 +129,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
       }
       case 'Поход в магазин' : {
         this.isShopping = true;
-        this.addUpdateForm.controls.shoppingListName.enable();
+        this.addUpdateForm.controls.shoppingList.enable();
         break;
       }
       case 'Встреча' : {
@@ -142,6 +141,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   }
 
   setPeriodType(selectedPeriodicity: string): void {
+    console.log(selectedPeriodicity);
     if (selectedPeriodicity.localeCompare('Без повтора') === 0) {
       this.addUpdateForm.controls.processing_date.enable();
       this.isPeriodicityActivity = false;
@@ -162,7 +162,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   }
 
   // собираем из даты и времени новую дату
-  getCorrectDate(time: string, mainDate: Date ): Date {
+  getCorrectDate(time: string, mainDate: Date): Date {
     const correctDate = new Date();
     const hours = time.substr(0, time.indexOf(':'));
     const min = time.substr(time.indexOf(':') + 1, time.length - 1);
@@ -172,12 +172,17 @@ export class AddUpdateActivityDialogComponent implements OnInit {
     return correctDate;
   }
 
-  addAction(): void {
+  prepareActivity(): void {
     const startTimepicker = this.addUpdateForm.get('start_timepicker').value;
     const endTimepicker = this.addUpdateForm.get('end_timepicker').value;
     this.locations.map((location) => {
-      if (location.name ===  this.addUpdateForm.get('location').value) {
+      if (location.name === this.addUpdateForm.get('location').value) {
         this.addUpdateForm.get('location').setValue(location.id);
+      }
+    });
+    this.shoppingLists.map((shoppingList) => {
+      if (shoppingList.name === this.addUpdateForm.get('shoppingList').value) {
+        this.addUpdateForm.get('shoppingList').setValue(shoppingList.id);
       }
     });
     if (!this.isPeriodicityActivity) {
@@ -185,13 +190,11 @@ export class AddUpdateActivityDialogComponent implements OnInit {
       const processingDate = this.addUpdateForm.get('processing_date').value;
       this.addUpdateForm.get('start_time').setValue(this.getCorrectDate(startTimepicker, processingDate));
       this.addUpdateForm.get('end_time').setValue(this.getCorrectDate(endTimepicker, processingDate));
-    } else  {
+    } else {
       // периодическая активность
-      if (this.data.isAddOperation) {
-        // processing_date при добавлении активности совпадает с допустимой датой начала
-        this.addUpdateForm.controls.processing_date.enable();
-        this.addUpdateForm.get('processing_date').setValue(this.addUpdateForm.get('start_time').value);
-      }
+      // processing_date совпадает с допустимой датой начала
+      this.addUpdateForm.controls.processing_date.enable();
+      this.addUpdateForm.get('processing_date').setValue(this.addUpdateForm.get('start_time').value);
       this.addUpdateForm.get('start_time').setValue(this.getCorrectDate(startTimepicker, this.addUpdateForm.get('start_time').value));
       if (!this.addUpdateForm.get('end_time').value) {
         this.addUpdateForm.get('end_time').setValue(this.getCorrectDate(endTimepicker, new Date(2080, 1, 1)));
@@ -199,12 +202,16 @@ export class AddUpdateActivityDialogComponent implements OnInit {
         this.addUpdateForm.get('end_time').setValue(this.getCorrectDate(endTimepicker, this.addUpdateForm.get('end_time').value));
       }
     }
-    console.log(this.addUpdateForm.value);
+  }
+
+  addActivity(): void {
+    this.prepareActivity();
     this.activityAdd.emit(this.addUpdateForm.value);
     this.closeDialog();
   }
 
-  updateAction(): void {
+  updateActivity(): void {
+    this.prepareActivity();
     this.activityUpdate.emit(this.addUpdateForm.value);
     this.closeDialog();
   }

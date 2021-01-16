@@ -9,28 +9,28 @@
         [rangePicker]="campaignStartDatePicker"
         [comparisonStart]="campaignStartDate.value.start"
         [comparisonEnd]="campaignStartDate.value.end">
-        <input readonly matStartDate formControlName="start" (dateChange)="changeDate()">
+        <input readonly matStartDate formControlName="start">
         <input readonly matEndDate formControlName="end" (dateChange)="changeDate()">
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="campaignStartDatePicker"></mat-datepicker-toggle>
       <mat-date-range-picker #campaignStartDatePicker></mat-date-range-picker>
       </mat-form-field>
     </div>
-    <div class="filter__endDate">
-      <mat-form-field class="endDate__dp">
-        <mat-label>Допустимая дата конца</mat-label>
-        <mat-date-range-input
-          [formGroup]="campaignEndDate"
-          [rangePicker]="campaignEndDatePicker"
-          [comparisonStart]="campaignEndDate.value.start"
-          [comparisonEnd]="campaignEndDate.value.end">
-          <input readonly matStartDate formControlName="start" (dateChange)="changeDate()">
-          <input readonly matEndDate formControlName="end" (dateChange)="changeDate()">
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="campaignEndDatePicker"></mat-datepicker-toggle>
-        <mat-date-range-picker #campaignEndDatePicker></mat-date-range-picker>
-      </mat-form-field>
-    </div>
+<!--    <div class="filter__endDate">-->
+<!--      <mat-form-field class="endDate__dp">-->
+<!--        <mat-label>Допустимая дата конца</mat-label>-->
+<!--        <mat-date-range-input-->
+<!--          [formGroup]="campaignEndDate"-->
+<!--          [rangePicker]="campaignEndDatePicker"-->
+<!--          [comparisonStart]="campaignEndDate.value.start"-->
+<!--          [comparisonEnd]="campaignEndDate.value.end">-->
+<!--          <input readonly matStartDate formControlName="start" (dateChange)="changeDate()">-->
+<!--          <input readonly matEndDate formControlName="end" (dateChange)="changeDate()">-->
+<!--        </mat-date-range-input>-->
+<!--        <mat-datepicker-toggle matSuffix [for]="campaignEndDatePicker"></mat-datepicker-toggle>-->
+<!--        <mat-date-range-picker #campaignEndDatePicker></mat-date-range-picker>-->
+<!--      </mat-form-field>-->
+<!--    </div>-->
   </div>
 
   <div class="filter__activities-types">

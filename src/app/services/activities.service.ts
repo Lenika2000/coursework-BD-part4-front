@@ -17,32 +17,12 @@ export class ActivitiesService {
     this.periodMap = this.periodService.getPeriodMap();
   }
 
-  getActivities(): Observable<any> {
-    const start_time = new Date();
-    const end_time = new Date();
-    end_time.setDate(31);
-    return this.http.get(this.authService.getUrl() + `/activities?start_time=${start_time.toISOString()}&end_time=${end_time.toISOString()}`, { headers: this.authService.getHeaders()});
+  getActivities(startTime: Date, endTime: Date ): Observable<any> {
+    return this.http.get(this.authService.getUrl() + `/activities?start_time=${startTime.toISOString()}&endTime=${endTime.toISOString()}`, { headers: this.authService.getHeaders()});
   }
 
   addActivity(addedActivity: Activity): Observable<any> {
-    const activity = {
-      start_time: addedActivity.start_time.toISOString(),
-      end_time: addedActivity.end_time.toISOString(),
-      processing_date: `${addedActivity.processing_date.getFullYear()}-${addZeros((addedActivity.processing_date.getMonth() + 1).toString(), 2)}-${ addZeros(addedActivity.processing_date.getDate().toString(), 2)}`, // дата ближайшего выполнения
-      duration: getSeconds(addedActivity.duration), // продолжительность
-      period: getPeriod(addedActivity.period, this.periodService), // разница в днях между выполнениями активности
-      format: addedActivity.format,
-      stress_points: addedActivity.stress_points,
-      location_id: addedActivity.location,
-      activity_type: changeActivityType(addedActivity.activity_type),
-      description: addedActivity.description,
-      room: addedActivity.room,
-      teacher: addedActivity.teacher,
-      type: addedActivity.type,
-      shopping_list_id: addedActivity.shoppingList?.id
-    };
-    console.log(activity);
-    return this.http.post(this.authService.getUrl() + '/activities', activity,
+    return this.http.post(this.authService.getUrl() + '/activities', this.prepareActivityToServer(addedActivity),
       { headers: this.authService.getHeaders()});
   }
 
@@ -51,10 +31,31 @@ export class ActivitiesService {
       { headers: this.authService.getHeaders()});
   }
 
-  // updateActivity(activity: Activity): Observable<any> {
-  //   return this.http.put(this.authService.getUrl() + `/activities/${activity.id}`, {name: location.name},
-  //     { headers: this.authService.getHeaders()});
-  // }
+  updateActivity(updatedActivity: Activity): Observable<any> {
+    console.log( this.prepareActivityToServer(updatedActivity));
+    return this.http.put(this.authService.getUrl() + `/activities/${updatedActivity.id}`,
+      this.prepareActivityToServer(updatedActivity),
+      { headers: this.authService.getHeaders()});
+  }
+
+  prepareActivityToServer(activity: Activity): any {
+    return {
+      start_time: activity.start_time.toISOString(),
+      end_time: activity.end_time.toISOString(),
+      processing_date: `${activity.processing_date.getFullYear()}-${addZeros((activity.processing_date.getMonth() + 1).toString(), 2)}-${ addZeros(activity.processing_date.getDate().toString(), 2)}`, // дата ближайшего выполнения
+      duration: getSeconds(activity.duration), // продолжительность
+      period: getPeriod(activity.period, this.periodService), // разница в днях между выполнениями активности
+      format: activity.format,
+      stress_points: activity.stress_points,
+      location_id: activity.location,
+      activity_type: changeActivityType(activity.activity_type),
+      description: activity.description,
+      room: activity.room,
+      teacher: activity.teacher,
+      type: activity.type,
+      shopping_list_id: activity.shoppingList
+    };
+  }
 }
 
 export function getPeriod(period: string, periodMapService: PeriodService): number {

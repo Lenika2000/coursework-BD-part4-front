@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
-import {AddUpdateActivityDialogComponent} from './add-update-activity-dialog/add-update-activity-dialog.component';
+import {AddUpdateActivityDialogComponent, addZeros} from './add-update-activity-dialog/add-update-activity-dialog.component';
 import {Activity, ActivityType, Location, ServerActivity} from '../../../../models/activity.model';
 import {DeleteActivityDialogComponent} from './delete-activity-dialog/delete-activity-dialog.component';
 import {MatTable} from '@angular/material/table';
@@ -21,45 +21,22 @@ export class ActivitiesComponent implements OnInit {
   @ViewChild('table', {static: false}) table: MatTable<Product>;
   selectedActivity: any;
   filteredTableData: any[];
-  public activities: any = [
-  {
-    start_time: new Date(),
-    end_time: new Date(),
-    period: 'Каждый день',
-    duration: '1:10',
-    format: 'очный',
-    stress_points: 50,
-    location: {id: 0, name: 'Магнит'},
-    activity_type: 'Учеба',
-    isDone: false,
-    room: 223,
-    teacher: 'Клименков',
-    type: 'лекция',
-  },
-    {
-      start_time: new Date(),
-      end_time: new Date(),
-      period: 'Каждый день',
-      duration: '1:10',
-      format: 'Дистанционный',
-      stress_points: 50,
-      location: {id: 0, name: 'Магнит'},
-      activity_type: 'Встреча',
-      isDone: false,
-      humanName: 'Женя'
-    }];
+  public activities: any[] = [];
+  startDate: Date = new Date();
+  endDate: Date = new Date();
 
   constructor( private dialog: MatDialog,
                private activitiesService: ActivitiesService,
                private periodService: PeriodService) { }
 
   public ngOnInit(): void {
-    this.activities = this.filteredTableData = this.activities;
+    this.endDate.setMonth(this.startDate.getMonth() + 1);
+    this.getActivities();
   }
 
   getActivities(): void {
-    this.activitiesService.getActivities().subscribe( (activities: ServerActivity[]) => {
-      this.activities = this.prepareActivityData(activities);
+    this.activitiesService.getActivities(this.startDate, this.endDate).subscribe( (activities: ServerActivity[]) => {
+       this.activities = this.filteredTableData =  this.prepareActivityData(activities);
     });
   }
 
@@ -68,8 +45,8 @@ export class ActivitiesComponent implements OnInit {
     return activities.map(entry => {
       return {
         id: entry.id,
-        start_time: entry.start_time,
-        end_time: entry.end_time,
+        start_time: new Date(entry.start_time),
+        end_time: new Date(entry.end_time),
         processing_date: new Date(entry.processing_date),
         duration: getCorrectTime(entry.duration),
         period: getCorrectPeriod(entry.period, this.periodService),
@@ -115,8 +92,7 @@ export class ActivitiesComponent implements OnInit {
 
     dialogRef.componentInstance.activityAdd.subscribe((newRow) => {
       this.activitiesService.addActivity(newRow).subscribe(() => {
-        this.activities.push(newRow);
-        this.table.renderRows();
+        this.getActivities();
       });
     });
   }
@@ -125,41 +101,13 @@ export class ActivitiesComponent implements OnInit {
     this.selectedActivity = activity;
     const dialogRef = this.openAddUpdateDialog(false, activity);
 
+    console.log(activity)
+
     dialogRef.componentInstance.activityUpdate.subscribe((updatedActivity) => {
-      this.selectedActivity.start_time = updatedActivity.start_time;
-      this.selectedActivity.end_time = updatedActivity.end_time;
-      this.selectedActivity.period = updatedActivity.period;
-      this.selectedActivity.duration = updatedActivity.duration;
-      this.selectedActivity.format = updatedActivity.format;
-      this.selectedActivity.stress_points = updatedActivity.stress_points;
-      this.selectedActivity.location = updatedActivity.location;
-      this.selectedActivity.activity_type = updatedActivity.activity_type;
-      switch (this.selectedActivity.activity_type) {
-        case 'Учеба': {
-          this.selectedActivity.teacher = updatedActivity.teacher;
-          this.selectedActivity.room = updatedActivity.room;
-          this.selectedActivity.lessonType = updatedActivity.lessonType;
-          break;
-        }
-        case 'Спорт' : {
-          this.selectedActivity.sportType = updatedActivity.sportType;
-          break;
-        }
-        case 'Другое' : {
-          this.selectedActivity.description = updatedActivity.description;
-          break;
-        }
-        case 'Поход в магазин' : {
-          this.selectedActivity.shopListName = updatedActivity.shoppingListName;
-          break;
-        }
-        case 'Встреча' : {
-          this.selectedActivity.humanName = updatedActivity.humanName;
-          break;
-        }
-      }
-      this.table.renderRows();
-      // todo сервер
+      console.log(updatedActivity)
+      this.activitiesService.updateActivity(updatedActivity).subscribe(() => {
+        this.getActivities();
+      });
     });
   }
 
@@ -172,10 +120,11 @@ export class ActivitiesComponent implements OnInit {
     const dialogConfirmConfigRef = this.dialog.open(DeleteActivityDialogComponent, deleteDialogConfig);
 
     dialogConfirmConfigRef.componentInstance.activityDelete.subscribe(() => {
-      const deletedElemIndex = this.activities.findIndex((d) => d === activity);
-      this.activities.splice(deletedElemIndex, 1);
-      this.table.renderRows();
-      // todo сервер
+      this.activitiesService.deleteActivity(activity.id).subscribe(() => {
+        const deletedElemIndex = this.activities.findIndex((d) => d === activity);
+        this.activities.splice(deletedElemIndex, 1);
+        this.table.renderRows();
+      });
     });
   }
 
@@ -183,13 +132,11 @@ export class ActivitiesComponent implements OnInit {
     return getAdditionalInfo(index, this.activities);
   }
 
-
   applyDateFilters(filters: Filters): void {
-    this.filteredTableData = this.activities;
-    // todo запрос на сервер
-    // this.filteredTableData = this.filteredTableData.filter((row) => {
-    //   return row.startTime < filters.endDate && row.startTime> === 'Дистанционный';
-    // });
+    console.log(filters)
+    this.startDate = filters.startDate;
+    this.endDate = filters.endDate;
+    this.getActivities();
   }
 
 
@@ -201,9 +148,11 @@ export class ActivitiesComponent implements OnInit {
       });
     }
     if (filters.activity_type !== undefined) {
-      this.filteredTableData = this.filteredTableData.filter((row) => {
-        return row.activity_type === filters.activity_type;
-      });
+      if (filters.activity_type.localeCompare('Все') !== 0) {
+        this.filteredTableData = this.filteredTableData.filter((row) => {
+          return row.activity_type === filters.activity_type;
+        });
+      }
     }
   }
 }
@@ -220,38 +169,41 @@ export function getAdditionalInfo(index: number, activities: any[]): string {
     case 'Другое':
       return `Описание - ${hoverActivity.description}`;
     case 'Поход в магазин':
-      return `Название списка покупок - ${hoverActivity.shopListName}`;
+      return `Название списка покупок - ${hoverActivity.shoppingList.name}`;
   }
 }
 
 export function getCorrectPeriod(period: number, periodMapService: PeriodService): string {
+  if (period === null) {
+    return 'Без повтора';
+  }
   return periodMapService.getPeriodMapFromServer().get(period);
 }
 
 export  function getCorrectTime(seconds: number): string {
   const hours = seconds / 60 / 60;
   const min = (seconds - 60 * 60 * hours) / 60;
-  return hours + ':' + min;
+  return addZeros(hours.toString(), 2) + ':' + addZeros(min.toString(), 2);
 }
 
 export function getLocation(locationId: number): Location {
   const locations = JSON.parse(localStorage.getItem('part4.locations'));
-  locations.forEach(( (location: Location) => {
+  for ( const location of locations) {
     if (location.id === locationId) {
       return location;
     }
-  }));
-  return ;
+  }
+  return undefined;
 }
 
 export function getShoppingList(shoppingListId: number): ShoppingList {
   const shoppingLists = JSON.parse(localStorage.getItem('part4.shopping.lists'));
-  shoppingLists.forEach(( (shoppingList: ShoppingList) => {
-    if (shoppingList.id === shoppingListId) {
-      return shoppingList;
+  for ( const shop of shoppingLists) {
+    if (shop.id === shoppingListId) {
+      return shop;
     }
-  }));
-  return ;
+  }
+  return undefined;
 }
 
 export function changeActivityTypeFromServer(activityType: string): ActivityType{

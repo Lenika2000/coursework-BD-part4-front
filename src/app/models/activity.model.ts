@@ -71,7 +71,7 @@ export interface Location {
 export type LessonType = 'лекция' | 'практика';
 export type FormatType = 'очный' | 'дистанционный';
 export type ActivityType = 'Учеба' | 'Работа' | 'Спорт' |
-  'Поход в магазин' | 'Встреча' | 'Перемещение' | 'Другое' ;
+  'Поход в магазин' | 'Встреча' | 'Перемещение' | 'Другое' | 'Все' ;
 
 export class GroupByData {
   constructor(private date: string, private  isGroupBy: boolean) {
