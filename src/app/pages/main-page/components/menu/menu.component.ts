@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Stress, StressPointsService} from '../../../../services/stress-points.service';
 
 
 @Component({
@@ -14,10 +15,13 @@ export class MenuComponent implements OnInit {
   currentStressLevel = 500;
   login = 'Lena';
 
-  constructor() {}
+  constructor(private  stressPointsService: StressPointsService) {}
 
   ngOnInit(): void {
     this.login = JSON.parse(localStorage.getItem('part4.currentUser'));
+    this.stressPointsService.getStressPoint().subscribe((stress: Stress) => {
+      this.currentStressLevel = stress.current_stress;
+    });
   }
 
   setActiveAction(action: AppScreen): void {

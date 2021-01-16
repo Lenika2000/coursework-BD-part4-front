@@ -6,6 +6,7 @@ import {MyErrorStateMatcher} from '../../../auth-page/auth-page.component';
 import {MatTable} from '@angular/material/table';
 import {Location} from '../../../../models/activity.model';
 import {AddUpdateLocationComponent} from './add-update-location/add-update-location.component';
+import {Stress, StressPointsService} from '../../../../services/stress-points.service';
 
 @Component({
   selector: 'app-settings',
@@ -20,21 +21,34 @@ export class SettingsComponent implements OnInit {
   @ViewChild('table', {static: false}) table: MatTable<Location>;
   settingForm: FormGroup;
   matcher = new MyErrorStateMatcher();
+  isUpdatingMaxStressLevel = false;
 
-  constructor(private dialog: MatDialog, private settingService: SettingsService,
-              private formBuilder: FormBuilder) {}
+  constructor(private dialog: MatDialog,
+              private settingService: SettingsService,
+              private formBuilder: FormBuilder,
+              private stressPointsService: StressPointsService) {}
 
   ngOnInit(): void {
     this.getLocations();
     this.settingForm = this.formBuilder.group({
-      maxStressLevel: [1000, {
+      maxStressLevel: ['', {
         validators: [Validators.required,
           Validators.pattern('^-?(0|[1-9]\\d*)([.,]\\d+)?'), Validators.min(1)]
     }]});
+    this.stressPointsService.getStressPoint().subscribe((stress: Stress) => {
+      this.settingForm.get('maxStressLevel').setValue(stress.max_stress);
+    });
   }
 
-  updateListName(): void {
-    // todo сервер
+  openUpdatingMaxStressLevelForm(): void {
+    this.isUpdatingMaxStressLevel = true;
+  }
+
+  updateMaxStressLevel(): void {
+    this.isUpdatingMaxStressLevel = false;
+    this.stressPointsService.updateMaxStressLevel( this.settingForm.get('maxStressLevel').value).subscribe(() => {
+
+    });
   }
 
   getLocations(): void {

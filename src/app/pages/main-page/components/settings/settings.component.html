@@ -1,9 +1,14 @@
 <form [formGroup]="settingForm" novalidate class="setting-content">
   <p class="setting-content__label">Настройки</p>
-  <mat-form-field appearance="outline">
+  <div *ngIf="!isUpdatingMaxStressLevel">
+    <p>{{'Максимальный уровень стресса: ' + settingForm.get('maxStressLevel').value}}
+      <mat-icon matSuffix (click)="openUpdatingMaxStressLevelForm()" class="cursor pointer">create</mat-icon>
+    </p>
+  </div>
+  <mat-form-field appearance="outline" *ngIf="isUpdatingMaxStressLevel">
     <mat-label>Максимальный уровень стресса</mat-label>
     <input matInput formControlName="maxStressLevel" [errorStateMatcher]="matcher">
-    <mat-icon matSuffix (click)="updateListName()" class="cursor pointer">create</mat-icon>
+    <mat-icon matSuffix (click)="updateMaxStressLevel()" class="cursor pointer"> check_circle_outline</mat-icon>
     <mat-error *ngIf="settingForm.get('maxStressLevel').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
