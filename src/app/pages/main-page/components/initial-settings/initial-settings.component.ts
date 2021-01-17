@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MyErrorStateMatcher} from '../../../auth-page/auth-page.component';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {InitialSettingsConfirmComponent} from './initial-settings-confirm/initial-settings-confirm.component';
+import {StressPointsService} from '../../../../services/stress-points.service';
 
 @Component({
   selector: 'app-initial-settings',
@@ -16,12 +17,13 @@ export class InitialSettingsComponent implements OnInit {
 
   constructor( private dialogRef: MatDialogRef<InitialSettingsComponent>,
                private formBuilder: FormBuilder,
-               private dialog: MatDialog) {
+               private dialog: MatDialog,
+               private  stressPointsService: StressPointsService) {
   }
 
   ngOnInit(): void {
     this.initForm = this.formBuilder.group({
-      maxStressLevel: [ 1000, {validators: [Validators.required,
+      maxStressLevel: [ 600, {validators: [Validators.required,
           Validators.pattern('^-?(0|[1-9]\\d*)([.,]\\d+)?'), Validators.min(1)]}],
       currentStressLevel: [0, {validators: [Validators.required,
           Validators.pattern('^-?(0|[1-9]\\d*)([.,]\\d+)?'), Validators.min(0)]}],
@@ -40,6 +42,9 @@ export class InitialSettingsComponent implements OnInit {
 
   onInitSettingsSave(): void {
     this.closeDialog();
+    this.stressPointsService.updateMaxStressLevel( this.initForm.get('maxStressLevel').value).subscribe(() => {
+
+    });
     // todo сервер установка начальных значений
   }
 
