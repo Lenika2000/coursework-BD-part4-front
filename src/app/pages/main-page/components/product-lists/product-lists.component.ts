@@ -10,6 +10,7 @@ import {MyErrorStateMatcher} from '../../../auth-page/auth-page.component';
 import {ShoppingService} from '../../../../services/shopping.service';
 import {skip} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {FinanceService} from '../../../../services/finance.service';
 
 @Component({
   selector: 'app-product-lists',
@@ -34,7 +35,8 @@ export class ProductListsComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private dialog: MatDialog,
-              private shoppingService: ShoppingService) {
+              private shoppingService: ShoppingService,
+              private financeService: FinanceService) {
   }
 
   ngOnInit(): void {
@@ -98,6 +100,7 @@ export class ProductListsComponent implements OnInit {
     this.selectedProduct = product;
     this.selectedProduct.shopping_list_id = this.selectedShoppingList.id;
     this.shoppingService.updateProduct(this.selectedProduct).subscribe(() => {
+      this.financeService.setBalanceSubject.next();
       this.table.renderRows();
     });
   }

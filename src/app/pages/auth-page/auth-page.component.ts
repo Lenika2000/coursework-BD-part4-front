@@ -9,6 +9,8 @@ import {SnackBarService} from '../../services/snack-bar.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {InitialSettingsComponent} from '../main-page/components/initial-settings/initial-settings.component';
 import {ShoppingService} from '../../services/shopping.service';
+import {SettingsService} from '../../services/settings.service';
+import {Location} from '../../models/activity.model';
 
 @Component({
   selector: 'app-auth-page',
@@ -31,7 +33,8 @@ export class AuthPageComponent implements OnInit {
               private authService: AuthService,
               private snackBarService: SnackBarService,
               private dialog: MatDialog,
-              private shoppingService: ShoppingService) {
+              private shoppingService: ShoppingService,
+              private settingsService: SettingsService) {
   }
 
   ngOnInit(): void {
@@ -48,11 +51,9 @@ export class AuthPageComponent implements OnInit {
     };
     this.authService.logIn(user).subscribe(() => {
         this.router.navigateByUrl('schedule');
-        // this.shoppingService.addShoppingList('Список по умолчанию').subscribe(() => {
-
-        // });
-
-      // this.openInitDialog();
+        this.settingsService.getLocations().subscribe((locations: Location[]) => {
+          localStorage.setItem('part4.locations', JSON.stringify(locations));
+        });
       }, (error) => {
         this.isAuthenticationError = true;
         console.log('Невозможно осуществить вход');

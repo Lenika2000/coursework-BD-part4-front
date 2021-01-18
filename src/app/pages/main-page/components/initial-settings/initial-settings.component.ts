@@ -19,7 +19,7 @@ export class InitialSettingsComponent implements OnInit {
   constructor( private dialogRef: MatDialogRef<InitialSettingsComponent>,
                private formBuilder: FormBuilder,
                private dialog: MatDialog,
-               private  stressPointsService: StressPointsService,
+               private stressPointsService: StressPointsService,
                private financeService: FinanceService) {
   }
 
@@ -43,10 +43,9 @@ export class InitialSettingsComponent implements OnInit {
   }
 
   onInitSettingsSave(): void {
-    this.closeDialog();
+    this.dialogRef.close();
     this.stressPointsService.updateMaxStressLevel( this.initForm.get('maxStressLevel').value).subscribe(() => {});
-    this.financeService.setInitBalance(this.initForm.get('balance').value).subscribe(() => {});
-    // todo сервер установка начальных значений
+    this.financeService.setInitBalance(this.initForm.get('balance').value);
   }
 
 }

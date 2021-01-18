@@ -28,6 +28,9 @@ export class MenuComponent implements OnInit {
     this.scheduleService.updateStressLvlSubject.subscribe(() => {
       this.getStressPoints();
     });
+    this.financeService.setBalanceSubject.subscribe(() => {
+      this.getBalance();
+    });
     this.getStressPoints();
     this.getBalance();
   }

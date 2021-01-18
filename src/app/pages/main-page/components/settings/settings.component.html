@@ -25,6 +25,7 @@
   <div class="setting-content__add-btn">
     <button mat-button (click)="addLocation()" class="btn">Добавить</button>
   </div>
+  <div class="mat-table-container">
   <table mat-table #table [dataSource]="locations"
          class="mat-table-style">
 
@@ -50,4 +51,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  </div>
 </form>

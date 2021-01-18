@@ -31,7 +31,7 @@ export class HomePageComponent implements OnInit {
 
   updateActivityApproved(activity: Activity): void {
     this.selectedActivity = activity;
-    this.scheduleService.setActivityComplete(activity.id);
+    this.scheduleService.setActivityComplete(activity.id, activity.completed);
   }
 
   getAdditionalInfo(index): string {

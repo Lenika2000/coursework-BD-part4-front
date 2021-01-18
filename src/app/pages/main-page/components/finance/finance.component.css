@@ -16,6 +16,10 @@ table {
   font-size: larger;
 }
 
+.update, .delete {
+  width: 6%;
+}
+
 .expenses {
   color: red;
   font-size: larger;
@@ -49,3 +53,5 @@ table {
   color: #FFFFFF;
   background: #2a5885;
 }
+
+

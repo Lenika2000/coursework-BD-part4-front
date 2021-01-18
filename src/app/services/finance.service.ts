@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from './auth.service';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {FinanceElem} from '../models/finance.model';
 import {getDateWithoutHours} from './activities.service';
 
@@ -10,6 +10,7 @@ import {getDateWithoutHours} from './activities.service';
 })
 export class FinanceService {
 
+  public setBalanceSubject: Subject<any> = new Subject<any>();
   constructor(private readonly http: HttpClient, private authService: AuthService) { }
 
   getFinances(startDate: Date, endDate: Date): Observable<any> {
@@ -31,9 +32,11 @@ export class FinanceService {
     return this.http.get(this.authService.getUrl() + `/me/balance`, { headers: this.authService.getHeaders()});
   }
 
-  setInitBalance(balance: number): Observable<any> {
-    return this.http.put(this.authService.getUrl() + `/me/balance`, {balance},
-      { headers: this.authService.getHeaders()});
+  setInitBalance(balance: number): void {
+    this.http.put(this.authService.getUrl() + `/me/balance`, {balance},
+      { headers: this.authService.getHeaders()}).subscribe(() => {
+        this.setBalanceSubject.next();
+    });
   }
 
 }

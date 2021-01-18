@@ -7,6 +7,7 @@
     <mat-datepicker-toggle matSuffix [for]="startDatedp"></mat-datepicker-toggle>
     <mat-datepicker #startDatedp></mat-datepicker>
   </mat-form-field>
+  <div class="mat-table-container">
   <table mat-table  #table [dataSource]="activities"
          class="mat-table-style">
 
@@ -38,7 +39,7 @@
     <ng-container matColumnDef="isConfirm">
       <th mat-header-cell *matHeaderCellDef class="isConfirm">Подтверждение</th>
       <td mat-cell *matCellDef="let element" class="isConfirm">
-        <mat-checkbox [(ngModel)]="element.completed" labelPosition='before' [disabled]="element.completed"
+        <mat-checkbox [(ngModel)]="element.completed" labelPosition='before'
                       (change)="updateActivityApproved(element)" class="dialog-checkbox">
         </mat-checkbox>
       </td>
@@ -50,6 +51,7 @@
         matTooltipPosition="left"
         mat-row *matRowDef="let index=index; let row; columns: displayedColumns;"></tr>
   </table>
+  </div>
 </div>
 
 

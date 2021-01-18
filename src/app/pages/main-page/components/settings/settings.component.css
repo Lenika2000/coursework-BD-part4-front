@@ -7,6 +7,10 @@
   padding-right: calc((55% - 307px)/2);
 }
 
+.mat-table-container{
+  height: 500px;
+}
+
 .setting-content__label{
   display: block;
   font-size: larger;

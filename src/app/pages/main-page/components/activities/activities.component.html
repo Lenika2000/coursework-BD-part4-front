@@ -3,6 +3,7 @@
                (filtersChangeDate)="applyDateFilters($event)"
                (filtersChange)="filterTableData($event)"
   ></app-filters>
+  <div class="mat-table-container">
   <table mat-table  #table [dataSource]="filteredTableData"
          class="mat-table-style">
 
@@ -71,5 +72,6 @@
         matTooltipPosition="left"
         mat-row *matRowDef="let index=index; let row; columns: displayedColumns;"></tr>
   </table>
+  </div>
 </div>
 

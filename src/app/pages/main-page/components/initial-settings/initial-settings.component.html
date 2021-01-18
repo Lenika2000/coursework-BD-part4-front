@@ -16,21 +16,21 @@
       Максимальный уровень стресса не может быть меньше 1
     </mat-error>
   </mat-form-field>
-  <mat-form-field>
-    <mat-label>Текущий уровень стресса</mat-label>
-    <input matInput formControlName="currentStressLevel" [errorStateMatcher]="matcher">
-    <mat-error *ngIf="initForm.get('currentStressLevel').hasError('required')">
-      Поле обязательно для заполнения
-    </mat-error>
-    <mat-error class="error-message" *ngIf="initForm.get('currentStressLevel').hasError('pattern')
-    && (initForm.get('currentStressLevel').dirty || initForm.get('currentStressLevel').touched)">
-      Для ввода текущего уровня стресса используйте только числа
-    </mat-error>
-    <mat-error class="error-message" *ngIf="initForm.get('currentStressLevel').hasError('min')
-    && (initForm.get('currentStressLevel').dirty || initForm.get('currentStressLevel').touched)">
-      Текущий уровень стресса не может быть меньше 0
-    </mat-error>
-  </mat-form-field>
+<!--  <mat-form-field>-->
+<!--    <mat-label>Текущий уровень стресса</mat-label>-->
+<!--    <input matInput formControlName="currentStressLevel" [errorStateMatcher]="matcher">-->
+<!--    <mat-error *ngIf="initForm.get('currentStressLevel').hasError('required')">-->
+<!--      Поле обязательно для заполнения-->
+<!--    </mat-error>-->
+<!--    <mat-error class="error-message" *ngIf="initForm.get('currentStressLevel').hasError('pattern')-->
+<!--    && (initForm.get('currentStressLevel').dirty || initForm.get('currentStressLevel').touched)">-->
+<!--      Для ввода текущего уровня стресса используйте только числа-->
+<!--    </mat-error>-->
+<!--    <mat-error class="error-message" *ngIf="initForm.get('currentStressLevel').hasError('min')-->
+<!--    && (initForm.get('currentStressLevel').dirty || initForm.get('currentStressLevel').touched)">-->
+<!--      Текущий уровень стресса не может быть меньше 0-->
+<!--    </mat-error>-->
+<!--  </mat-form-field>-->
   <mat-form-field>
     <mat-label>Баланс</mat-label>
     <input matInput formControlName="balance" [errorStateMatcher]="matcher">

@@ -16,7 +16,7 @@ export class AddUpdateFinanceDialogComponent implements OnInit {
   financeForm: FormGroup;
   financeElemTypes: FinanceElemType[] = ['доход', 'расход'];
   matcher = new MyErrorStateMatcher();
-  minDate = new Date();
+  maxDate = new Date();
 
   constructor( private dialogRef: MatDialogRef<AddUpdateFinanceDialogComponent>,
                private formBuilder: FormBuilder,

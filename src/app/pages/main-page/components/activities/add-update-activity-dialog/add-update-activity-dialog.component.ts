@@ -57,8 +57,9 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.minProcessingDate.setDate(this.minProcessingDate.getDate() + 1);
     this.addUpdateForm = this.formBuilder.group({
-      start_time: [this.data.activity.start_time, {validators: [Validators.required]}],
+      start_time: [this.minProcessingDate, {validators: [Validators.required]}],
       end_time: [this.data.isAddOperation ? '' : this.data.activity.end_time],
       start_timepicker: [this.data.activity.start_time.getHours() + ':' + this.data.activity.start_time.getMinutes(), {validators: [Validators.required]}],
       end_timepicker: [this.data.activity.end_time.getHours() + ':' + this.data.activity.end_time.getMinutes(), {validators: [Validators.required]}],
@@ -78,7 +79,6 @@ export class AddUpdateActivityDialogComponent implements OnInit {
       humanName: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Встреча') !== 0) ? '' : this.data.activity.humanName, {validators: [Validators.required]}],
       shoppingList: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Поход в магазин') !== 0) ? '' : this.data.activity.shoppingList.name, {validators: [Validators.required]}],
     }, {validator: ValidateStartTimepicker});
-    this.minProcessingDate.setDate(this.minProcessingDate.getDate() + 1);
     this.locations = JSON.parse(localStorage.getItem('part4.locations'));
     this.shoppingLists = JSON.parse(localStorage.getItem('part4.shopping.lists'));
     this.updateMinMaxDate();

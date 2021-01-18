@@ -15,7 +15,7 @@ import {FinanceService} from '../../../../services/finance.service';
 })
 export class FinanceComponent implements OnInit {
 
-  public displayedColumns = ['type', 'sum', 'description', 'date',
+  public displayedColumns = ['type', 'sum', 'description',
     'update', 'delete'];
   @ViewChild('table', {static: false}) table: MatTable<Location>;
   filteredTableData: FinanceElem[];
@@ -94,6 +94,7 @@ export class FinanceComponent implements OnInit {
     dialogRef.componentInstance.elemAdd.subscribe((newRow: FinanceElem) => {
       this.financeService.addFinanceElem(newRow).subscribe((id: number) => {
           newRow.id = id;
+          this.financeService.setBalanceSubject.next();
           this.finances.push(newRow);
           this.groupData();
           this.table.renderRows();
