@@ -6,7 +6,7 @@ import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog
 import {AddUpdateFinanceDialogComponent} from './add-update-finance-dialog/add-update-finance-dialog.component';
 import {of} from 'rxjs';
 import {pairwise, startWith} from 'rxjs/operators';
-import {sortDataByTimeASC} from '../home-page/home-page.component';
+import {FinanceService} from '../../../../services/finance.service';
 
 @Component({
   selector: 'app-finance',
@@ -20,20 +20,7 @@ export class FinanceComponent implements OnInit {
   @ViewChild('table', {static: false}) table: MatTable<Location>;
   filteredTableData: FinanceElem[];
   groupedData: Array<any> = new Array<any>();
-  finance: FinanceElem[] = [
-    {
-      type: 'Доход',
-      sum: 15000,
-      description: 'Зарплата',
-      date: new Date()
-    },
-    {
-      type: 'Расход',
-      sum: 150,
-      description: 'Покупки в магнит',
-      date: new Date()
-    }
-  ];
+  finances: FinanceElem[] = [] ;
   filters: FinanceFilter = {
     startDate: new Date(),
     endDate: new Date(),
@@ -41,15 +28,26 @@ export class FinanceComponent implements OnInit {
     isExpenses: false,
   };
   selectedElem: FinanceElem;
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private financeService: FinanceService) { }
 
   ngOnInit(): void {
-    this.groupData();
+    this.filters.endDate.setMonth(this.filters.startDate.getMonth() + 1);
+    this.getFinances();
+  }
+
+  getFinances(): void {
+    this.financeService.getFinances(this.filters.startDate, this.filters.endDate).subscribe((finances: FinanceElem[]) => {
+      this.finances = finances;
+      for ( const financeElem of this.finances) {
+        financeElem.date = new Date(financeElem.date);
+      }
+      this.groupData();
+    });
   }
 
   groupData(): void {
     this.groupedData = [];
-    this.finance = this.sortDataByTimeASC(this.finance);
+    this.finances = this.sortDataByTimeASC(this.finances);
     this.changeFilter();
     of(...this.filteredTableData).pipe(
       startWith(null),
@@ -86,18 +84,20 @@ export class FinanceComponent implements OnInit {
 
   addElem(): void {
     const financeElem: FinanceElem =  {
-      type: 'Доход',
-      sum: 0,
-      description: '',
+      type: 'доход',
+      cost: 0,
+      item: '',
       date: new Date()
     };
     const dialogRef = this.openAddUpdateDialog(true, financeElem);
 
-    dialogRef.componentInstance.elemAdd.subscribe((newRow) => {
-      this.finance.push(newRow);
-      this.groupData();
-      this.table.renderRows();
-      // todo сервер
+    dialogRef.componentInstance.elemAdd.subscribe((newRow: FinanceElem) => {
+      this.financeService.addFinanceElem(newRow).subscribe((id: number) => {
+          newRow.id = id;
+          this.finances.push(newRow);
+          this.groupData();
+          this.table.renderRows();
+      });
     });
   }
 
@@ -108,8 +108,8 @@ export class FinanceComponent implements OnInit {
     dialogRef.componentInstance.elemUpdate.subscribe((updatedElem: FinanceElem) => {
       this.selectedElem.type = updatedElem.type;
       this.selectedElem.date = updatedElem.date;
-      this.selectedElem.sum = updatedElem.sum;
-      this.selectedElem.description = updatedElem.description;
+      this.selectedElem.cost = updatedElem.cost;
+      this.selectedElem.item = updatedElem.item;
       this.groupData();
       this.table.renderRows();
       // todo сервер
@@ -117,30 +117,27 @@ export class FinanceComponent implements OnInit {
   }
 
   deleteElem(elem: FinanceElem): void {
-    const deletedElemIndex = this.finance.findIndex((d: FinanceElem) => d === elem);
-    this.finance.splice(deletedElemIndex, 1);
+    const deletedElemIndex = this.finances.findIndex((d: FinanceElem) => d === elem);
+    this.finances.splice(deletedElemIndex, 1);
     this.groupData();
     this.table.renderRows();
     // todo сервер
   }
 
   applyDateFilters(): void {
-    // todo запрос на сервер
-    // this.filteredTableData = this.filteredTableData.filter((row) => {
-    //   return row.startTime < filters.endDate && row.startTime> === 'Дистанционный';
-    // });
+    this.getFinances();
   }
 
   changeFilter(): void {
-    this.filteredTableData = this.finance;
+    this.filteredTableData = this.finances;
     if (this.filters.isExpenses) {
       this.filteredTableData = this.filteredTableData.filter((row) => {
-        return row.type === 'Расход';
+        return row.type === 'расход';
       });
     } else {
       if (this.filters.isIncome) {
         this.filteredTableData = this.filteredTableData.filter((row) => {
-          return row.type === 'Доход';
+          return row.type === 'доход';
         });
       }
     }

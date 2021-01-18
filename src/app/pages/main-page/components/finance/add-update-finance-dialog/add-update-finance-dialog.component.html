@@ -13,29 +13,29 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label>Сумма</mat-label>
-    <input matInput formControlName="sum" [errorStateMatcher]="matcher">
-    <mat-error *ngIf="financeForm.get('sum').hasError('required')">
+    <input matInput formControlName="cost" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="financeForm.get('cost').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
-    <mat-error class="error-message" *ngIf="financeForm.get('sum').hasError('pattern')
-    && (financeForm.get('sum').dirty || financeForm.get('sum').touched)">
+    <mat-error class="error-message" *ngIf="financeForm.get('cost').hasError('pattern')
+    && (financeForm.get('cost').dirty || financeForm.get('cost').touched)">
       Для ввода суммы используйте только числа
     </mat-error>
-    <mat-error class="error-message" *ngIf="financeForm.get('sum').hasError('min')
-    && (financeForm.get('sum').dirty || financeForm.get('sum').touched)">
+    <mat-error class="error-message" *ngIf="financeForm.get('cost').hasError('min')
+    && (financeForm.get('cost').dirty || financeForm.get('cost').touched)">
       Сумма не может быть меньше 1
     </mat-error>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Описание</mat-label>
-    <input matInput formControlName="description" [errorStateMatcher]="matcher">
-    <mat-error *ngIf="financeForm.get('description').hasError('required')">
+    <input matInput formControlName="item" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="financeForm.get('item').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Дата совершения</mat-label>
-    <input  matInput readonly formControlName="date" [matDatepicker]="dp">
+    <input  matInput readonly formControlName="date" [matDatepicker]="dp" [min]="minDate">
     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker #dp></mat-datepicker>
   </mat-form-field>

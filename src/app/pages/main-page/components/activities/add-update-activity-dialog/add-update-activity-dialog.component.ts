@@ -19,7 +19,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   @Output() activityAdd = new EventEmitter<any>();
   @Output() activityUpdate = new EventEmitter<any>();
   public activities: ActivityType[] = ['Учеба', 'Работа', 'Спорт',
-    'Поход в магазин', 'Встреча', 'Другое'];
+    'Поход в магазин', 'Другое'];
   public periodList: Period[] = ['Без повтора', 'Каждый день', 'Каждые два дня', 'Каждые три дня',
     'Каждые четыре дня', 'Каждые пять дней', 'Каждые шесть дней', 'Каждую неделю', 'Каждые две недели', 'Без повтора'];
   public activitiesFormat: FormatType[] = ['очный', 'дистанционный'];
@@ -78,6 +78,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
       humanName: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Встреча') !== 0) ? '' : this.data.activity.humanName, {validators: [Validators.required]}],
       shoppingList: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Поход в магазин') !== 0) ? '' : this.data.activity.shoppingList.name, {validators: [Validators.required]}],
     }, {validator: ValidateStartTimepicker});
+    this.minProcessingDate.setDate(this.minProcessingDate.getDate() + 1);
     this.locations = JSON.parse(localStorage.getItem('part4.locations'));
     this.shoppingLists = JSON.parse(localStorage.getItem('part4.shopping.lists'));
     this.updateMinMaxDate();

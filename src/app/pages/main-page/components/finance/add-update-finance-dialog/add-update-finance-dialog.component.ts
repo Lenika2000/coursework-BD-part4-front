@@ -14,8 +14,9 @@ export class AddUpdateFinanceDialogComponent implements OnInit {
   @Output() elemUpdate = new EventEmitter<FinanceElem>();
   @Output() elemAdd = new EventEmitter<FinanceElem>();
   financeForm: FormGroup;
-  financeElemTypes: FinanceElemType[] = ['Доход', 'Расход'];
+  financeElemTypes: FinanceElemType[] = ['доход', 'расход'];
   matcher = new MyErrorStateMatcher();
+  minDate = new Date();
 
   constructor( private dialogRef: MatDialogRef<AddUpdateFinanceDialogComponent>,
                private formBuilder: FormBuilder,
@@ -23,12 +24,11 @@ export class AddUpdateFinanceDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
     this.financeForm = this.formBuilder.group({
       type: [this.data.financeElem.type, {validators: [Validators.required]}],
-      sum: [this.data.financeElem.sum, {validators: [Validators.required,
+      cost: [this.data.financeElem.cost, {validators: [Validators.required,
           Validators.pattern('^-?(0|[1-9]\\d*)([.,]\\d+)?'), Validators.min(1)]}],
-      description: [this.data.financeElem.description, {validators: [Validators.required]}],
+      item: [this.data.financeElem.item, {validators: [Validators.required]}],
       date: [ this.data.financeElem.date ],
     });
   }

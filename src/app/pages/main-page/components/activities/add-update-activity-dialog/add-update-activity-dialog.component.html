@@ -12,7 +12,7 @@
   <div class="horizontal-forms">
   <mat-form-field *ngIf="isPeriodicityActivity">
     <mat-label>Дата начала выполнения</mat-label>
-    <input matInput readonly formControlName="start_time" [matDatepicker]="dp" [max]="this.maxDate" (dateChange)="updateMinMaxDate()">
+    <input matInput readonly formControlName="start_time" [min]="this.minProcessingDate" [matDatepicker]="dp" [max]="this.maxDate" (dateChange)="updateMinMaxDate()">
     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker #dp></mat-datepicker>
     <mat-error *ngIf="addUpdateForm.get('start_time').hasError('required')">

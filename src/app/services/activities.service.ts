@@ -17,7 +17,7 @@ export class ActivitiesService {
   }
 
   getActivities(startTime: Date, endTime: Date ): Observable<any> {
-    return this.http.get(this.authService.getUrl() + `/activities?start_time=${startTime.toISOString().substr(0, startTime.toISOString().length - 2)}&endTime=${endTime.toISOString().substr(0, endTime.toISOString().length - 2)}`, { headers: this.authService.getHeaders()});
+    return this.http.get(this.authService.getUrl() + `/activities?start_time=${startTime.toISOString().substr(0, startTime.toISOString().length - 2)}&end_time=${endTime.toISOString().substr(0, endTime.toISOString().length - 2)}`, { headers: this.authService.getHeaders()});
   }
 
   addActivity(addedActivity: Activity): Observable<any> {
@@ -41,7 +41,7 @@ export class ActivitiesService {
     return {
       start_time: activity.start_time.toISOString(),
       end_time: activity.end_time.toISOString(),
-      processing_date: `${activity.processing_date.getFullYear()}-${addZeros((activity.processing_date.getMonth() + 1).toString(), 2)}-${ addZeros(activity.processing_date.getDate().toString(), 2)}`, // дата ближайшего выполнения
+      processing_date: getDateWithoutHours(activity.processing_date), // дата ближайшего выполнения
       duration: getSeconds(activity.duration), // продолжительность
       period: getPeriod(activity.period), // разница в днях между выполнениями активности
       format: activity.format,
@@ -55,6 +55,10 @@ export class ActivitiesService {
       shopping_list_id: activity.shoppingList
     };
   }
+}
+
+export function getDateWithoutHours(date: Date): string {
+  return `${date.getFullYear()}-${addZeros((date.getMonth() + 1).toString(), 2)}-${ addZeros(date.getDate().toString(), 2)}`;
 }
 
 export function getPeriod(period: string): number {

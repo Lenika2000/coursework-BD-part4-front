@@ -4,6 +4,7 @@ import {MyErrorStateMatcher} from '../../../auth-page/auth-page.component';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {InitialSettingsConfirmComponent} from './initial-settings-confirm/initial-settings-confirm.component';
 import {StressPointsService} from '../../../../services/stress-points.service';
+import {FinanceService} from '../../../../services/finance.service';
 
 @Component({
   selector: 'app-initial-settings',
@@ -18,7 +19,8 @@ export class InitialSettingsComponent implements OnInit {
   constructor( private dialogRef: MatDialogRef<InitialSettingsComponent>,
                private formBuilder: FormBuilder,
                private dialog: MatDialog,
-               private  stressPointsService: StressPointsService) {
+               private  stressPointsService: StressPointsService,
+               private financeService: FinanceService) {
   }
 
   ngOnInit(): void {
@@ -42,9 +44,8 @@ export class InitialSettingsComponent implements OnInit {
 
   onInitSettingsSave(): void {
     this.closeDialog();
-    this.stressPointsService.updateMaxStressLevel( this.initForm.get('maxStressLevel').value).subscribe(() => {
-
-    });
+    this.stressPointsService.updateMaxStressLevel( this.initForm.get('maxStressLevel').value).subscribe(() => {});
+    this.financeService.setInitBalance(this.initForm.get('balance').value).subscribe(() => {});
     // todo сервер установка начальных значений
   }
 

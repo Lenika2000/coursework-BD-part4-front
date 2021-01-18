@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from './auth.service';
 import {Observable, Subject} from 'rxjs';
-import {addZeros} from '../pages/main-page/components/activities/add-update-activity-dialog/add-update-activity-dialog.component';
+import {getDateWithoutHours} from './activities.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class ScheduleService {
   public updateStressLvlSubject: Subject<any> = new Subject<any>();
 
   getSchedule(date: Date): Observable<any> {
-    return this.http.get(this.authService.getUrl() + `/me/schedule?sch_date=${date.getFullYear()}-${addZeros((date.getMonth() + 1).toString(), 2)}-${ addZeros(date.getDate().toString(), 2)}`, { headers: this.authService.getHeaders()});
+    return this.http.get(this.authService.getUrl() + `/me/schedule?sch_date=${getDateWithoutHours(date)}`, { headers: this.authService.getHeaders()});
   }
 
   setActivityComplete(activityId: number): void {

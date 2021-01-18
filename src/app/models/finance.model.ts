@@ -1,7 +1,8 @@
 export interface FinanceElem {
+  id?: number;
   type: FinanceElemType;
-  sum: number;
-  description: string;
+  cost: number;
+  item: string;
   date: Date;
 }
 
@@ -12,4 +13,4 @@ export interface FinanceFilter {
   isExpenses: boolean;
 }
 
-export type FinanceElemType = 'Доход' | 'Расход';
+export type FinanceElemType = 'доход' | 'расход';
