@@ -41,7 +41,7 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label>Срочность</mat-label>
-    <input  matInput readonly formControlName="deadline" [matDatepicker]="dp" [min]="minDate">
+    <input  matInput readonly formControlName="deadline" [matDatepicker]="dp">
     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker #dp></mat-datepicker>
   </mat-form-field>

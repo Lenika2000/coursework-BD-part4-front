@@ -161,7 +161,7 @@ export function getAdditionalInfo(index: number, activities: any[]): string {
     case 'Учеба':
       return `Аудитория - ${hoverActivity.room}\nПреподаватель - ${hoverActivity.teacher}\nТип - ${hoverActivity.type}`;
     case 'Спорт':
-      return `Тип занятия - ${hoverActivity.sportType}`;
+      return `Тип занятия - ${hoverActivity.type}`;
     case 'Другое':
       return `Описание - ${hoverActivity.description}`;
     case 'Поход в магазин':
@@ -178,14 +178,19 @@ export function getCorrectPeriod(period: number): string {
 
 export  function getEndTimeForSchedule(startTime: Date, seconds: number): Date {
   const endTime = new Date(startTime);
-  const hours = seconds / 60 / 60;
+  const hours = Math.floor(seconds / (60 * 60));
   const min = (seconds - 60 * 60 * hours) / 60;
   endTime.setHours(endTime.getHours() + hours, endTime.getMinutes() + min);
   return endTime;
 }
 
 export  function getCorrectTime(seconds: number): string {
-  const hours = seconds / 60 / 60;
+  let hours;
+  if (seconds / 60 / 60 < 1) {
+    hours = 0;
+  } else {
+    hours = Math.floor(seconds / (60 * 60));
+  }
   const min = (seconds - 60 * 60 * hours) / 60;
   return addZeros(hours.toString(), 2) + ':' + addZeros(min.toString(), 2);
 }

@@ -28,6 +28,26 @@ export class FinanceService {
       { headers: this.authService.getHeaders()});
   }
 
+  updateFinanceElem(financeElem: FinanceElem): void {
+    const updatedFinanceElem = {
+      type: financeElem.type,
+      cost: financeElem.cost,
+      item: financeElem.item,
+      date: getDateWithoutHours(financeElem.date)
+    };
+    this.http.put(this.authService.getUrl() + `/finances/${financeElem.id}`, updatedFinanceElem,
+      { headers: this.authService.getHeaders()}).subscribe(() => {
+      this.setBalanceSubject.next();
+    });
+  }
+
+  deleteFinanceElem(financeElemId: number): void {
+    this.http.delete(this.authService.getUrl() + `/finances/${financeElemId}`,
+      { headers: this.authService.getHeaders()}).subscribe(() => {
+      this.setBalanceSubject.next();
+    });
+  }
+
   getBalance(): Observable<any> {
     return this.http.get(this.authService.getUrl() + `/me/balance`, { headers: this.authService.getHeaders()});
   }

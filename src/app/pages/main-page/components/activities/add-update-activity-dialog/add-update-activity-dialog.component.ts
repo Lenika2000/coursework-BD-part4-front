@@ -73,8 +73,8 @@ export class AddUpdateActivityDialogComponent implements OnInit {
       activity_type: [this.data.activity.activity_type, {validators: [Validators.required]}],
       room: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Учеба') !== 0) ? '' : this.data.activity.room, {validators: [Validators.required]}],
       teacher: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Учеба') !== 0) ? '' : this.data.activity.teacher, {validators: [Validators.required]}],
-      lessonType: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Учеба') !== 0) ? '' : this.data.activity.type, {validators: [Validators.required]}],
-      sportType: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Спорт') !== 0) ? '' : this.data.activity.sportType, {validators: [Validators.required]}],
+      type: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Учеба') !== 0) ? '' : this.data.activity.type, {validators: [Validators.required]}],
+      sportType: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Спорт') !== 0) ? '' : this.data.activity.type, {validators: [Validators.required]}],
       description: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Другое') !== 0) ? '' : this.data.activity.description, {validators: [Validators.required]}],
       humanName: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Встреча') !== 0) ? '' : this.data.activity.humanName, {validators: [Validators.required]}],
       shoppingList: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Поход в магазин') !== 0) ? '' : this.data.activity.shoppingList.name, {validators: [Validators.required]}],
@@ -102,7 +102,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
     this.isShopping = false;
     this.addUpdateForm.controls.room.disable();
     this.addUpdateForm.controls.teacher.disable();
-    this.addUpdateForm.controls.lessonType.disable();
+    this.addUpdateForm.controls.type.disable();
     this.addUpdateForm.controls.sportType.disable();
     this.addUpdateForm.controls.description.disable();
     this.addUpdateForm.controls.humanName.disable();
@@ -113,7 +113,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
     switch (selectedActivityType) {
       case 'Учеба': {
         this.isLesson = true;
-        this.addUpdateForm.controls.lessonType.enable();
+        this.addUpdateForm.controls.type.enable();
         this.addUpdateForm.controls.room.enable();
         this.addUpdateForm.controls.teacher.enable();
         break;
@@ -147,7 +147,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
       this.addUpdateForm.controls.processing_date.enable();
       this.isPeriodicityActivity = false;
     } else {
-      this.addUpdateForm.controls.processing_date.disable();
+      // this.addUpdateForm.controls.processing_date.disable();
       this.isPeriodicityActivity = true;
     }
   }
@@ -186,6 +186,10 @@ export class AddUpdateActivityDialogComponent implements OnInit {
         this.addUpdateForm.get('shoppingList').setValue(shoppingList.id);
       }
     });
+    if (this.addUpdateForm.get('activity_type').value.localeCompare('Спорт') === 0) {
+      this.addUpdateForm.controls.type.enable();
+      this.addUpdateForm.get('type').setValue(this.addUpdateForm.get('sportType').value);
+    }
     if (!this.isPeriodicityActivity) {
       // непериодическая активность
       const processingDate = this.addUpdateForm.get('processing_date').value;
@@ -194,8 +198,8 @@ export class AddUpdateActivityDialogComponent implements OnInit {
     } else {
       // периодическая активность
       // processing_date совпадает с допустимой датой начала
-      this.addUpdateForm.controls.processing_date.enable();
-      this.addUpdateForm.get('processing_date').setValue(this.addUpdateForm.get('start_time').value);
+      // this.addUpdateForm.controls.processing_date.enable();
+      // this.addUpdateForm.get('processing_date').setValue(this.addUpdateForm.get('start_time').value);
       this.addUpdateForm.get('start_time').setValue(this.getCorrectDate(startTimepicker, this.addUpdateForm.get('start_time').value));
       if (!this.addUpdateForm.get('end_time').value) {
         this.addUpdateForm.get('end_time').setValue(this.getCorrectDate(endTimepicker, new Date(2080, 1, 1)));

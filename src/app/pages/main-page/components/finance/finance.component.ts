@@ -111,18 +111,18 @@ export class FinanceComponent implements OnInit {
       this.selectedElem.date = updatedElem.date;
       this.selectedElem.cost = updatedElem.cost;
       this.selectedElem.item = updatedElem.item;
+      this.financeService.updateFinanceElem(this.selectedElem);
       this.groupData();
       this.table.renderRows();
-      // todo сервер
     });
   }
 
   deleteElem(elem: FinanceElem): void {
+    this.financeService.deleteFinanceElem(elem.id);
     const deletedElemIndex = this.finances.findIndex((d: FinanceElem) => d === elem);
     this.finances.splice(deletedElemIndex, 1);
     this.groupData();
     this.table.renderRows();
-    // todo сервер
   }
 
   applyDateFilters(): void {

@@ -59,7 +59,7 @@
   </mat-form-field>
   </div>
 
-  <mat-form-field *ngIf="!isPeriodicityActivity">
+  <mat-form-field>
     <mat-label>Дата ближайшего выполнения</mat-label>
     <input matInput readonly formControlName="processing_date" [matDatepicker]="dp" [min]="this.minProcessingDate" >
     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
@@ -136,10 +136,10 @@
 
   <mat-form-field *ngIf="isLesson">
     <mat-label>Тип учебного занятия</mat-label>
-    <mat-select formControlName="lessonType">
+    <mat-select formControlName="type">
       <mat-option *ngFor="let type of lessonsType" [value]="type">{{type}}</mat-option>
     </mat-select>
-    <mat-error *ngIf="addUpdateForm.get('lessonType').hasError('required')">
+    <mat-error *ngIf="addUpdateForm.get('type').hasError('required')">
       Поле обязательно для заполнения
     </mat-error>
   </mat-form-field>

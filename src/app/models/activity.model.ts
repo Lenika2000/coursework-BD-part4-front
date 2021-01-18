@@ -15,14 +15,14 @@ export interface Activity {
   description?: string;
   room?: string;
   teacher?: string;
-  type?: LessonType;
+  type?: string;
   shoppingList?: ShoppingList;
 }
 
 export interface ServerActivity {
   id?: number;
   description?: string;
-  type?: LessonType;
+  type?: string;
   room?: string;
   teacher?: string;
   shopping_list_id?: number;
