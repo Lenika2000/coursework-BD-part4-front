@@ -26,8 +26,7 @@ export class ActivitiesComponent implements OnInit {
   endDate: Date = new Date();
 
   constructor( private dialog: MatDialog,
-               private activitiesService: ActivitiesService,
-               private periodService: PeriodService) { }
+               private activitiesService: ActivitiesService) { }
 
   public ngOnInit(): void {
     this.endDate.setMonth(this.startDate.getMonth() + 1);
@@ -36,30 +35,7 @@ export class ActivitiesComponent implements OnInit {
 
   getActivities(): void {
     this.activitiesService.getActivities(this.startDate, this.endDate).subscribe( (activities: ServerActivity[]) => {
-       this.activities = this.filteredTableData =  this.prepareActivityData(activities);
-    });
-  }
-
-  // todo не хватает полей
-  prepareActivityData(activities: ServerActivity[]): Activity[] {
-    return activities.map(entry => {
-      return {
-        id: entry.id,
-        start_time: new Date(entry.start_time),
-        end_time: new Date(entry.end_time),
-        processing_date: new Date(entry.processing_date),
-        duration: getCorrectTime(entry.duration),
-        period: getCorrectPeriod(entry.period, this.periodService),
-        format: entry.format,
-        stress_points: entry.stress_points,
-        location: getLocation(entry.location_id),
-        activity_type: changeActivityTypeFromServer(entry.activity_type),
-        description: entry.description,
-        room: entry.room,
-        teacher: entry.teacher,
-        type: entry.type,
-        shoppingList: getShoppingList(entry.shopping_list_id),
-      };
+       this.activities = this.filteredTableData =  prepareActivityData(activities, false);
     });
   }
 
@@ -153,6 +129,30 @@ export class ActivitiesComponent implements OnInit {
   }
 }
 
+// todo не хватает полей
+export function prepareActivityData(activities: ServerActivity[], isPrepareSchedule: boolean): Activity[] {
+  return activities.map(entry => {
+    return {
+      id: entry.id,
+      start_time: new Date(entry.start_time),
+      end_time: (isPrepareSchedule) ? getEndTimeForSchedule(entry.start_time, entry.duration) : new Date(entry.end_time),
+      processing_date: new Date(entry.processing_date),
+      duration: getCorrectTime(entry.duration),
+      period: getCorrectPeriod(entry.period),
+      format: entry.format,
+      stress_points: entry.stress_points,
+      location: getLocation(entry.location_id),
+      activity_type: changeActivityTypeFromServer(entry.activity_type),
+      description: entry.description,
+      room: entry.room,
+      teacher: entry.teacher,
+      type: entry.type,
+      completed: entry.completed === 'выполнено',
+      shoppingList: getShoppingList(entry.shopping_list_id),
+    };
+  });
+}
+
 export function getAdditionalInfo(index: number, activities: any[]): string {
   const hoverActivity = activities[index];
   switch (hoverActivity.activity_type) {
@@ -169,11 +169,19 @@ export function getAdditionalInfo(index: number, activities: any[]): string {
   }
 }
 
-export function getCorrectPeriod(period: number, periodMapService: PeriodService): string {
+export function getCorrectPeriod(period: number): string {
   if (period === null) {
     return 'Без повтора';
   }
-  return periodMapService.getPeriodMapFromServer().get(period);
+  return PeriodService.getPeriodMapFromServer().get(period);
+}
+
+export  function getEndTimeForSchedule(startTime: Date, seconds: number): Date {
+  const endTime = new Date(startTime);
+  const hours = seconds / 60 / 60;
+  const min = (seconds - 60 * 60 * hours) / 60;
+  endTime.setHours(endTime.getHours() + hours, endTime.getMinutes() + min);
+  return endTime;
 }
 
 export  function getCorrectTime(seconds: number): string {

@@ -11,7 +11,7 @@ export interface Activity {
   stress_points: number;
   location: Location;
   activity_type: ActivityType;
-  isDone?: boolean;
+  completed?: boolean;
   description?: string;
   room?: string;
   teacher?: string;
@@ -34,6 +34,7 @@ export interface ServerActivity {
   format: FormatType;
   stress_points: number;
   activity_type: string;
+  completed?: string;
   location_id: number;
 }
 

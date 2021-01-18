@@ -13,7 +13,7 @@
   font-weight: bold;
   text-transform: uppercase;
   color: rgb(42, 88, 133);
-  margin-bottom: 49px;
+  /*margin-bottom: 49px;*/
 }
 
 ::ng-deep .mat-tooltip  {

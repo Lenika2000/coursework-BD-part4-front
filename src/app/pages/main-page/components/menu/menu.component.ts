@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Stress, StressPointsService} from '../../../../services/stress-points.service';
+import {ScheduleService} from '../../../../services/schedule.service';
 
 
 @Component({
@@ -15,10 +16,17 @@ export class MenuComponent implements OnInit {
   currentStressLevel = 500;
   login = 'Lena';
 
-  constructor(private  stressPointsService: StressPointsService) {}
+  constructor(private  stressPointsService: StressPointsService, private scheduleService: ScheduleService) {}
 
   ngOnInit(): void {
     this.login = JSON.parse(localStorage.getItem('part4.currentUser'));
+    this.scheduleService.updateStressLvlSubject.subscribe(() => {
+      this.getStressPoints();
+    });
+    this.getStressPoints();
+  }
+
+  getStressPoints(): void {
     this.stressPointsService.getStressPoint().subscribe((stress: Stress) => {
       this.currentStressLevel = stress.current_stress;
     });

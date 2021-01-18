@@ -12,13 +12,12 @@ import {addZeros} from '../pages/main-page/components/activities/add-update-acti
 export class ActivitiesService {
 
   periodMap = new Map<string, number>();
-  constructor(private readonly http: HttpClient, private authService: AuthService,
-              private periodService: PeriodService) {
-    this.periodMap = this.periodService.getPeriodMap();
+  constructor(private readonly http: HttpClient, private authService: AuthService) {
+    this.periodMap = PeriodService.getPeriodMap();
   }
 
   getActivities(startTime: Date, endTime: Date ): Observable<any> {
-    return this.http.get(this.authService.getUrl() + `/activities?start_time=${startTime.toISOString()}&endTime=${endTime.toISOString()}`, { headers: this.authService.getHeaders()});
+    return this.http.get(this.authService.getUrl() + `/activities?start_time=${startTime.toISOString().substr(0, startTime.toISOString().length - 2)}&endTime=${endTime.toISOString().substr(0, endTime.toISOString().length - 2)}`, { headers: this.authService.getHeaders()});
   }
 
   addActivity(addedActivity: Activity): Observable<any> {
@@ -44,7 +43,7 @@ export class ActivitiesService {
       end_time: activity.end_time.toISOString(),
       processing_date: `${activity.processing_date.getFullYear()}-${addZeros((activity.processing_date.getMonth() + 1).toString(), 2)}-${ addZeros(activity.processing_date.getDate().toString(), 2)}`, // дата ближайшего выполнения
       duration: getSeconds(activity.duration), // продолжительность
-      period: getPeriod(activity.period, this.periodService), // разница в днях между выполнениями активности
+      period: getPeriod(activity.period), // разница в днях между выполнениями активности
       format: activity.format,
       stress_points: activity.stress_points,
       location_id: activity.location,
@@ -58,8 +57,8 @@ export class ActivitiesService {
   }
 }
 
-export function getPeriod(period: string, periodMapService: PeriodService): number {
-  return periodMapService.getPeriodMap().get(period);
+export function getPeriod(period: string): number {
+  return PeriodService.getPeriodMap().get(period);
 }
 
 export function getSeconds(time: string): number {
