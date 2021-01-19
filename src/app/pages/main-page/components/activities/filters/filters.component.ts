@@ -32,7 +32,6 @@ export class FiltersComponent implements OnInit {
       end: new FormControl(endDate)
     });
 
-    // todo переименовать название фильтра
     // this.campaignEndDate = new FormGroup({
     //   start: new FormControl(new Date(year, month, 15)),
     //   end: new FormControl(new Date(year, month, 19))

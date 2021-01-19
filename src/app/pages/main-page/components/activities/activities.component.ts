@@ -129,7 +129,6 @@ export class ActivitiesComponent implements OnInit {
   }
 }
 
-// todo не хватает полей
 export function prepareActivityData(activities: ServerActivity[], isPrepareSchedule: boolean): Activity[] {
   return activities.map(entry => {
     return {
@@ -165,7 +164,7 @@ export function getAdditionalInfo(index: number, activities: any[]): string {
     case 'Другое':
       return `Описание - ${hoverActivity.description}`;
     case 'Поход в магазин':
-      return `Название списка покупок - ${hoverActivity.shoppingList.name}`;
+      return `Название списка покупок - ${hoverActivity.shoppingList?.name}`;
   }
 }
 

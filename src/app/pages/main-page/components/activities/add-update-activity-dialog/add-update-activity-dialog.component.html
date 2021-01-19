@@ -61,7 +61,7 @@
 
   <mat-form-field>
     <mat-label>Дата ближайшего выполнения</mat-label>
-    <input matInput readonly formControlName="processing_date" [matDatepicker]="dp" [min]="this.minProcessingDate" >
+    <input matInput readonly formControlName="processing_date" [matDatepicker]="dp" [min]="(data.isAddOperation) ? this.minProcessingDate : minUpdateProcessingDate" >
     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker #dp></mat-datepicker>
     <mat-error *ngIf="addUpdateForm.get('duration').hasError('required')">

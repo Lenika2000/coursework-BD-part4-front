@@ -38,31 +38,6 @@ export interface ServerActivity {
   location_id: number;
 }
 
-export interface Lesson extends Activity{
-  room: string;
-  teacher: string;
-  lessonType: LessonType;
-}
-
-export interface Sport extends Activity{
-  sportType: string;
-}
-
-export interface Other extends Activity{
-  description: string;
-}
-
-// todo
-export interface Shopping extends Activity {
-  shopListName: string;
-  shoppingListID?: number;
-}
-
-// todo
-export interface Meeting extends Activity{
-  human?: string;
-}
-
 export interface Location {
   id?: number;
   name: string;

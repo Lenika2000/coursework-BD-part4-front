@@ -27,6 +27,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
   public shoppingLists: ShoppingList[] = [];
   public locations: Location[] = [];
   minProcessingDate = new Date();
+  minUpdateProcessingDate = new Date();
   maxDate = new Date();
   minDate = new Date();
   isPeriodicityActivity = false;
@@ -69,7 +70,6 @@ export class AddUpdateActivityDialogComponent implements OnInit {
       format: [this.data.activity.format],
       stress_points: [this.data.activity.stress_points, {validators: [Validators.required, Validators.pattern('^(-|\\+)?(0|[1-9]\\d*)')]}],
       location: [this.data.activity.location.name, {validators: [Validators.required]}],
-      isDone: [],
       activity_type: [this.data.activity.activity_type, {validators: [Validators.required]}],
       room: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Учеба') !== 0) ? '' : this.data.activity.room, {validators: [Validators.required]}],
       teacher: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Учеба') !== 0) ? '' : this.data.activity.teacher, {validators: [Validators.required]}],
@@ -77,7 +77,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
       sportType: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Спорт') !== 0) ? '' : this.data.activity.type, {validators: [Validators.required]}],
       description: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Другое') !== 0) ? '' : this.data.activity.description, {validators: [Validators.required]}],
       humanName: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Встреча') !== 0) ? '' : this.data.activity.humanName, {validators: [Validators.required]}],
-      shoppingList: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Поход в магазин') !== 0) ? '' : this.data.activity.shoppingList.name, {validators: [Validators.required]}],
+      shoppingList: [(this.data.isAddOperation || this.data.activity.activity_type.localeCompare('Поход в магазин') !== 0) ? '' : this.data.activity.shoppingList?.name, {validators: [Validators.required]}],
     }, {validator: ValidateStartTimepicker});
     this.locations = JSON.parse(localStorage.getItem('part4.locations'));
     this.shoppingLists = JSON.parse(localStorage.getItem('part4.shopping.lists'));
@@ -87,6 +87,7 @@ export class AddUpdateActivityDialogComponent implements OnInit {
     if (!this.data.isAddOperation) {
       this.cleanVariables();
       this.setActivityTypeSettings(this.addUpdateForm.get('activity_type').value);
+      console.log(this.addUpdateForm.value);
     }
   }
 
