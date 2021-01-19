@@ -97,9 +97,7 @@ export class ProductListsComponent implements OnInit {
   }
 
   updateProductApproved(product: Product): void {
-    this.selectedProduct = product;
-    this.selectedProduct.shopping_list_id = this.selectedShoppingList.id;
-    this.shoppingService.updateProduct(this.selectedProduct).subscribe(() => {
+    this.shoppingService.completeProduct(product.id).subscribe(() => {
       this.financeService.setBalanceSubject.next();
       this.table.renderRows();
     });
@@ -109,8 +107,8 @@ export class ProductListsComponent implements OnInit {
     const dialogConfirmConfigRef = this.openAddUpdateDialog(true, undefined);
     dialogConfirmConfigRef.componentInstance.productAdd.subscribe((addedProduct: Product) => {
       addedProduct.shopping_list_id = this.selectedShoppingList.id;
-      this.shoppingService.addProduct(addedProduct).subscribe((productId: number) => {
-        addedProduct.id = productId;
+      this.shoppingService.addProduct(addedProduct).subscribe((answer) => {
+        addedProduct.id = answer.id;
         this.selectedShoppingList.products.push(addedProduct);
         this.table.renderRows();
       });

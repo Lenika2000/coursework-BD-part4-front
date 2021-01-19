@@ -44,9 +44,20 @@ export class ShoppingService {
 
   updateProduct(product: Product): Observable<any> {
     product.deadline.toISOString();
-    const updatedProduct = JSON.parse(JSON.stringify(product));
-    updatedProduct.approved = updatedProduct.approved ? 'подтвержден' : 'не подтвержден';
-    return this.http.put(this.authService.getUrl() + `/products/${updatedProduct.id}`, updatedProduct,
+    const updatedProduct = {
+      name: product.name,
+      amount: product.amount,
+      price: product.price,
+      deadline: product.deadline,
+      shopping_list_id: product.shopping_list_id,
+      approved: product.approved ? 'подтвержден' : 'не подтвержден'
+    };
+    return this.http.put(this.authService.getUrl() + `/products/${product.id}`, updatedProduct,
+      { headers: this.authService.getHeaders()});
+  }
+
+  completeProduct(productId: number) {
+    return this.http.post(this.authService.getUrl() + `/products/${productId}/complete`, '',
       { headers: this.authService.getHeaders()});
   }
 
